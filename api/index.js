@@ -12,10 +12,12 @@ app.use(express.json())
 const etudiantsRoute = require("./routes/etudiants");
 const evenementsRoute = require("./routes/evenements");
 const professeursRoute = require("./routes/professeurs")
+const creneauxRoute = require("./routes/creneaux")
 
-app.use("/etudiants", etudiantsRoute)
-app.use("/evenements", evenementsRoute)
-app.use("/professeurs", professeursRoute)
+app.use("/api/etudiants", etudiantsRoute)
+app.use("/api/evenements", evenementsRoute)
+app.use("/api/professeurs", professeursRoute)
+app.use("/api/creneaux", creneauxRoute)
 
 
 // Connect to DB
