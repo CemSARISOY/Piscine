@@ -20,15 +20,6 @@ app.use("/api/professeurs", professeursRoute)
 app.use("/api/creneaux", creneauxRoute)
 
 
-// Connect to DB
-mongoose.connect(process.env.DB_CONNECTION,
-    { useUnifiedTopology: true, useNewUrlParser:true },
-    (err) => {
-        if (err) console.log("Unable to connect to DB");
-        else console.log("Connected to DB");
-    }
-);
-
 // Server
 const port = process.env.PORT || 3000
 app.listen(port, () => {
