@@ -138,4 +138,7 @@ CREATE TABLE public."Participier"
 
 ALTER TABLE public."Participier"
     OWNER to postgres;
-	
+
+INSERT INTO public."Promo" ("anneePromo") VALUES (2020),(2019),(2018);
+
+INSERT INTO public."Professeurs" ("nomProf", "prenomProf") VALUES ('Berry', 'Vincent'), ('Bourdon', 'Isabelle'), ('Buisson-Lopez', 'Lysiane'), ('Castelltort', 'Arnaud'), ('Chapellier', 'Philippe'), ('Fiorio', 'Christophe'), ('Guerrini', 'Eléonora'), ('Laurent', 'Anne'), ('Pacitti', 'Esther'), ('Stratulat', 'Tibériu'), ('Tibermacine', 'Chouki'), ('Toulemonde', 'Gwladys'), ('Villaret', 'Anne-Laure');
