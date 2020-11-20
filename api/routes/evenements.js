@@ -2,7 +2,8 @@
 // Imports
 const express = require("express");
 const router = express.Router();
-// const Evenements = require("../models/Evenements");
+const pool = require("../db");
+
 
 
 module.exports = router;
