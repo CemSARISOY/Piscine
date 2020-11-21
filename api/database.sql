@@ -9,7 +9,7 @@ ALTER TABLE public."Promo"
 
 CREATE TABLE public."Etudiants"
 (
-    "numEtudiant" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
+    "numEtudiant" integer NOT NULL,
     "nomEtudiant" VARCHAR(30),
     "prenomEtudiant" VARCHAR(30),
     "mailEtudiant" VARCHAR(64),
