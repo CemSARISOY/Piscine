@@ -10,10 +10,10 @@ ALTER TABLE public."Promo"
 CREATE TABLE public."Etudiants"
 (
     "numEtudiant" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
-    "nomEtudiant" character(255),
-    "prenomEtudiant" character(255),
-    "mailEtudiant" character(255),
-    "mdpEtudiant" character(255),
+    "nomEtudiant" VARCHAR(30),
+    "prenomEtudiant" VARCHAR(30),
+    "mailEtudiant" VARCHAR(64),
+    "mdpEtudiant" VARCHAR(255),
     "promoEtudiant" integer,
     PRIMARY KEY ("numEtudiant"),
     CONSTRAINT fk_promo FOREIGN KEY ("promoEtudiant")
@@ -29,8 +29,8 @@ ALTER TABLE public."Etudiants"
 CREATE TABLE public."Professeurs"
 (
     "idProf" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
-    "nomProf" character(255),
-    "prenomProf" character(255),
+    "nomProf" VARCHAR(30),
+    "prenomProf" VARCHAR(30),
     PRIMARY KEY ("idProf")
 );
 
@@ -41,9 +41,9 @@ CREATE TABLE public."Groupe"
 (
     "idGroupe" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
     "tuteurGroupe" integer,
-    "nomTutEnt" character(255),
-    "prenomTutEnt" character(255),
-    "nomEntreprise" character(255),
+    "nomTutEnt" VARCHAR(30),
+    "prenomTutEnt" VARCHAR(30),
+    "nomEntreprise" VARCHAR(64),
     PRIMARY KEY ("idGroupe"),
     CONSTRAINT fk_tuteur FOREIGN KEY ("tuteurGroupe")
         REFERENCES public."Professeurs" ("idProf") MATCH SIMPLE
@@ -79,7 +79,7 @@ CREATE TABLE public."Evenement"
 (
     "numEvenement" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
     promo integer,
-    "nomEvenement" character(255),
+    "nomEvenement" VARCHAR(64),
     "dateDebut" date,
     duree integer,
     "dateLimiteRes" date,
@@ -100,7 +100,7 @@ CREATE TABLE public."Creneau"
     "idCreneau" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
     date date,
     "heureDebut" time without time zone,
-    salle character(10),
+    salle VARCHAR(10),
     "idGroupe" integer,
     "idEvent" integer,
     PRIMARY KEY ("idCreneau"),
