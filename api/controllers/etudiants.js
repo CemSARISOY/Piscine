@@ -1,4 +1,5 @@
 const pool = require("../db");
+const bcrypt = require("bcrypt")
 
 
 exports.getAllEtudiant = async (req, res) => {
@@ -29,7 +30,7 @@ exports.getOneEtudiant = async (req, res) => {
 
 exports.createEtudiant = async (req, res) => {
     try{
-        cryptedPassword = req.body.mdpEtudiant // TODO
+        cryptedPassword = await bcrypt.hash(req.body.mdpEtudiant, 10)
         const result = await pool.query(`INSERT INTO public."Etudiants" 
                                         ("numEtudiant","nomEtudiant","prenomEtudiant","mailEtudiant","mdpEtudiant","promoEtudiant")
                                         VALUES (
