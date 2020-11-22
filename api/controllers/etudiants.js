@@ -84,3 +84,21 @@ exports.updateEtudiant = async (req, res) => {
         res.json({message : err.message});
     }
 };
+
+exports.login = async (req, res) =>{
+    try{
+        const etudiant = await pool.query(`SELECT * FROM public."Etudiants" WHERE "numEtudiant" = ${ req.body.numEtudiant }`);
+        if(etudiant.rowCount == 1){
+            const result = await bcrypt.compare(req.body.mdpEtudiant, etudiant.rows[0].mdpEtudiant);
+            if(result){
+                res.json({numEtudiant: req.body.numEtudiant, token: "TOKENTODO"});
+            }else{
+                res.json({message: "Mot de passe incorrect"});
+            }
+        }else{
+            res.json({message : "Aucun étudiant inscrit avec ce numéro"});
+        }
+    }catch(err){
+        res.json({message : err.message});
+    }
+}

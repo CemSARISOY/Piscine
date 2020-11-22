@@ -10,6 +10,7 @@ router.get("/:id", etudiantCtrl.getOneEtudiant);
 router.post("/", etudiantCtrl.createEtudiant);
 router.delete("/:id", etudiantCtrl.deleteEtudiant);
 router.put("/:id", etudiantCtrl.updateEtudiant);
+router.post("/login", etudiantCtrl.login);
 
 
 module.exports = router;
