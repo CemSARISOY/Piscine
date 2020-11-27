@@ -67,7 +67,7 @@ exports.deleteEtudiant = async (req, res) => {
 
 exports.updateEtudiant = async (req, res) => {
     try{
-        cryptedPassword = req.body.mdpEtudiant // TODO
+        cryptedPassword = await bcrypt.hash(req.body.mdpEtudiant, 10)
         const result = await pool.query(`UPDATE public."Etudiants" 
                                         SET "nomEtudiant" = '${req.body.nomEtudiant}', 
                                         "prenomEtudiant" = '${req.body.prenomEtudiant}',
