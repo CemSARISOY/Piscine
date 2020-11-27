@@ -28,7 +28,7 @@ ALTER TABLE public."Etudiants"
 	
 CREATE TABLE public."Professeurs"
 (
-    "idProf" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
+    "idProf" SERIAL,
     "nomProf" VARCHAR(30),
     "prenomProf" VARCHAR(30),
     PRIMARY KEY ("idProf")
@@ -39,7 +39,7 @@ ALTER TABLE public."Professeurs"
 	
 CREATE TABLE public."Groupe"
 (
-    "idGroupe" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
+    "idGroupe" SERIAL,
     "tuteurGroupe" integer,
     "nomTutEnt" VARCHAR(30),
     "prenomTutEnt" VARCHAR(30),
@@ -77,7 +77,7 @@ ALTER TABLE public."Composer"
 	
 CREATE TABLE public."Evenement"
 (
-    "numEvenement" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
+    "numEvenement" SERIAL,
     promo integer,
     "nomEvenement" VARCHAR(64),
     "dateDebut" date,
@@ -97,7 +97,7 @@ ALTER TABLE public."Evenement"
 	
 CREATE TABLE public."Creneau"
 (
-    "idCreneau" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
+    "idCreneau" SERIAL,
     date date,
     "heureDebut" time without time zone,
     salle VARCHAR(10),
