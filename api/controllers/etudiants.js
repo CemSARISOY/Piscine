@@ -5,12 +5,12 @@ exports.getAllEtudiant = async (req, res) => {
     try{
         const etudiants = await Etudiants.selectAll()
         if(etudiants.rowCount > 0){
-            res.json(etudiants.rows);
+            res.status(200).json(etudiants.rows);
         }else{
-            res.json({message : "Il n'existe aucun étudiant"});
+            res.status(404).json({message : "Il n'existe aucun étudiant"});
         }
     }catch(err){
-        res.json({message : err.message});
+        res.status(500).json({message : err.message});
     }
 };
 
@@ -18,12 +18,12 @@ exports.getOneEtudiant = async (req, res) => {
     try{
         const etudiant = await Etudiants.select(req.params.id)
         if(etudiant.rowCount == 1){
-            res.json(etudiant.rows[0])
+            res.status(200).json(etudiant.rows[0])
         }else{
-            res.json({message : "Il n'existe aucun étudiant avec ce numéro"});
+            res.status(404).json({message : "Il n'existe aucun étudiant avec ce numéro"});
         }
     }catch(err){
-        res.json({message : err.message});
+        res.status(500).json({message : err.message});
     }
 };
 
@@ -33,13 +33,13 @@ exports.createEtudiant = async (req, res) => {
         data.mdpEtudiant = await bcrypt.hash(data.mdpEtudiant, 10)
         const result = await Etudiants.create(data);
         if(result.rowCount == 1){
-            res.json(result.rows[0])
+            res.status(201).json(result.rows[0])
         }else{
-            res.json({message : "Erreur de création"});
+            res.status(404).json({message : "Erreur de création"});
         }
         
     }catch(err){
-        res.json({message : err.message});
+        res.status(500).json({message : err.message});
     }
 };
 
@@ -47,12 +47,12 @@ exports.deleteEtudiant = async (req, res) => {
     try{
         const result = await Etudiants.delete(req.params.id);
         if(result.rowCount == 1){
-            res.json(result.rows[0]);
+            res.status(200).json(result.rows[0]);
         }else{
-            res.json({message : "Erreur de suppression"});
+            res.status(400).json({message : "Erreur de suppression"});
         }
     }catch(err){
-        res.json({message : err.message});
+        res.status(500).json({message : err.message});
     }
 };
 
@@ -68,12 +68,12 @@ exports.updateEtudiant = async (req, res) => {
         data.mdpEtudiant = await bcrypt.hash(data.mdpEtudiant, 10)
         const result = await Etudiants.update(data);
         if(result.rowCount == 1){
-            res.json(result.rows[0])
+            res.status(200).json(result.rows[0])
         }else{
-            res.json({message : "Erreur de modification"});
+            res.status(400).json({message : "Erreur de modification"});
         }
     }catch(err){
-        res.json({message : err.message});
+        res.status(500).json({message : err.message});
     }
 };
 
@@ -83,14 +83,14 @@ exports.login = async (req, res) =>{
         if(etudiant.rowCount == 1){
             const result = await bcrypt.compare(req.body.mdpEtudiant, etudiant.rows[0].mdpEtudiant);
             if(result){
-                res.json({numEtudiant: req.body.numEtudiant, token: "TOKENTODO"});
+                res.status(200).json({numEtudiant: req.body.numEtudiant, token: "TOKENTODO"});
             }else{
-                res.json({message: "Mot de passe incorrect"});
+                res.status(401).json({message: "Mot de passe incorrect"});
             }
         }else{
-            res.json({message : "Aucun étudiant inscrit avec ce numéro"});
+            res.status(404).json({message : "Aucun étudiant inscrit avec ce numéro"});
         }
     }catch(err){
-        res.json({message : err.message});
+        res.status(500).json({message : err.message});
     }
 }
