@@ -1,10 +1,9 @@
-const pool = require("../db");
-const bcrypt = require("bcrypt")
-
+const bcrypt = require("bcrypt");
+const Etudiants = require("../model/etudiantsModel");
 
 exports.getAllEtudiant = async (req, res) => {
     try{
-        const etudiants = await pool.query(`SELECT * FROM public."Etudiants"`);
+        const etudiants = await Etudiants.selectAll()
         if(etudiants.rowCount > 0){
             res.json(etudiants.rows);
         }else{
@@ -17,7 +16,7 @@ exports.getAllEtudiant = async (req, res) => {
 
 exports.getOneEtudiant = async (req, res) => {
     try{
-        const etudiant = await pool.query(`SELECT * FROM public."Etudiants" WHERE "numEtudiant" = ${ req.params.id }`);
+        const etudiant = await Etudiants.select(req.params.id)
         if(etudiant.rowCount == 1){
             res.json(etudiant.rows[0])
         }else{
@@ -30,17 +29,9 @@ exports.getOneEtudiant = async (req, res) => {
 
 exports.createEtudiant = async (req, res) => {
     try{
-        cryptedPassword = await bcrypt.hash(req.body.mdpEtudiant, 10)
-        const result = await pool.query(`INSERT INTO public."Etudiants" 
-                                        ("numEtudiant","nomEtudiant","prenomEtudiant","mailEtudiant","mdpEtudiant","promoEtudiant")
-                                        VALUES (
-                                            ${req.body.numEtudiant},
-                                            '${req.body.nomEtudiant}',
-                                            '${req.body.prenomEtudiant}',
-                                            '${req.body.mailEtudiant}',
-                                            '${cryptedPassword}',
-                                            ${req.body.promoEtudiant}) RETURNING * `);
-        
+        let data = req.body;
+        data.mdpEtudiant = await bcrypt.hash(data.mdpEtudiant, 10)
+        const result = await Etudiants.create(data);
         if(result.rowCount == 1){
             res.json(result.rows[0])
         }else{
@@ -54,7 +45,7 @@ exports.createEtudiant = async (req, res) => {
 
 exports.deleteEtudiant = async (req, res) => {
     try{
-        const result = await pool.query(`DELETE FROM public."Etudiants" WHERE "numEtudiant" = ${ req.params.id } RETURNING *`);
+        const result = await Etudiants.delete(req.params.id);
         if(result.rowCount == 1){
             res.json(result.rows[0]);
         }else{
@@ -67,14 +58,15 @@ exports.deleteEtudiant = async (req, res) => {
 
 exports.updateEtudiant = async (req, res) => {
     try{
-        cryptedPassword = await bcrypt.hash(req.body.mdpEtudiant, 10)
-        const result = await pool.query(`UPDATE public."Etudiants" 
-                                        SET "nomEtudiant" = '${req.body.nomEtudiant}', 
-                                        "prenomEtudiant" = '${req.body.prenomEtudiant}',
-                                        "mailEtudiant" = '${req.body.mailEtudiant}',
-                                        "mdpEtudiant" = '${cryptedPassword}',
-                                        "promoEtudiant" = ${req.body.promoEtudiant} 
-                                        WHERE "numEtudiant" = ${ req.params.id } RETURNING *`);
+        const foo = await Etudiants.select(req.params.id);
+        let data = foo.rows[0]
+        for(var key in data){
+            if(req.body.hasOwnProperty(key)){
+                data[key] = req.body[key]
+            }
+        }
+        data.mdpEtudiant = await bcrypt.hash(data.mdpEtudiant, 10)
+        const result = await Etudiants.update(data);
         if(result.rowCount == 1){
             res.json(result.rows[0])
         }else{
@@ -87,7 +79,7 @@ exports.updateEtudiant = async (req, res) => {
 
 exports.login = async (req, res) =>{
     try{
-        const etudiant = await pool.query(`SELECT * FROM public."Etudiants" WHERE "numEtudiant" = ${ req.body.numEtudiant }`);
+        const etudiant = await Etudiants.select(req.body.numEtudiant);
         if(etudiant.rowCount == 1){
             const result = await bcrypt.compare(req.body.mdpEtudiant, etudiant.rows[0].mdpEtudiant);
             if(result){
