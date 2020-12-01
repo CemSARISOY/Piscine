@@ -2,14 +2,15 @@
 // Imports
 const express = require("express");
 const router = express.Router();
+const auth = require('../middleware/auth');
 
 const etudiantCtrl = require("../controllers/etudiants");
 
-router.get("/", etudiantCtrl.getAllEtudiant);
-router.get("/:id", etudiantCtrl.getOneEtudiant);
+router.get("/", auth, etudiantCtrl.getAllEtudiant);
+router.get("/:id", auth, etudiantCtrl.getOneEtudiant);
 router.post("/", etudiantCtrl.createEtudiant);
-router.delete("/:id", etudiantCtrl.deleteEtudiant);
-router.put("/:id", etudiantCtrl.updateEtudiant);
+router.delete("/:id", auth, etudiantCtrl.deleteEtudiant);
+router.put("/:id", auth, etudiantCtrl.updateEtudiant);
 router.post("/login", etudiantCtrl.login);
 
 

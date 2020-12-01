@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const Etudiants = require("../model/etudiantsModel");
 
 exports.getAllEtudiant = async (req, res) => {
@@ -83,7 +84,13 @@ exports.login = async (req, res) =>{
         if(etudiant.rowCount == 1){
             const result = await bcrypt.compare(req.body.mdpEtudiant, etudiant.rows[0].mdpEtudiant);
             if(result){
-                res.status(200).json({numEtudiant: req.body.numEtudiant, token: "TOKENTODO"});
+                res.status(200).json({
+                    numEtudiant: req.body.numEtudiant, 
+                    token: jwt.sign(
+                    { userId: req.body.numEtudiant },
+                    process.env.RANDOMSECRETTOKEN,
+                    { expiresIn: '20h' }
+                )});
             }else{
                 res.status(401).json({message: "Mot de passe incorrect"});
             }
