@@ -96,4 +96,18 @@ exports.login = async (req, res) =>{
     }catch(err){
         res.status(500).json({message : err.message});
     }
+};
+
+exports.getEtudiantsInPromo = async (req, res) => {
+    try{
+        const etudiants = await Etudiants.selectByPromo(req.params.promo);
+        if(etudiants.rowCount > 0){
+            res.status(200).json(etudiants.rows);
+        }else{
+            res.status(404).json({message: "Aucun étudiant dans cette promo"});
+        }
+
+    }catch(err){
+        res.status(500).json({message : err.message});
+    }
 }
