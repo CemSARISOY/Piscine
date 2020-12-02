@@ -20,14 +20,14 @@ Etudiants.delete = async (id) => {
     return await pool.query(`DELETE FROM "Etudiants" WHERE "numEtudiant" = ${ id } RETURNING *`);
 };
 
-Etudiants.update = async (data) => {
-    return await pool.query(`UPDATE public."Etudiants" 
-                                        SET "nomEtudiant" = $2, 
-                                        "prenomEtudiant" = $3,
-                                        "mailEtudiant" = $4,
-                                        "mdpEtudiant" = $5,
-                                        "promoEtudiant" = $6 
-                                        WHERE "numEtudiant" = $1 RETURNING *`, [data.numEtudiant, data.nomEtudiant, data.prenomEtudiant, data.mailEtudiant, data.mdpEtudiant, data.promoEtudiant]);
+Etudiants.update = async (data, id) => {
+    let query = `UPDATE "Etudiants" SET `;
+    for(var key in data){
+        query = query + "\"" + key + "\" = '" + data[key] + "', "
+    }
+    query = query.slice(0, -2);
+    query = query + ` WHERE "numEtudiant" = ${id} RETURNING *;`
+    return await pool.query(query);
 }
 
 

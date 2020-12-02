@@ -59,15 +59,11 @@ exports.deleteEtudiant = async (req, res) => {
 
 exports.updateEtudiant = async (req, res) => {
     try{
-        const foo = await Etudiants.select(req.params.id);
-        let data = foo.rows[0]
-        for(var key in data){
-            if(req.body.hasOwnProperty(key)){
-                data[key] = req.body[key]
-            }
+        let data = req.body
+        if(data.hasOwnProperty("mdpEtudiant")){
+            data.mdpEtudiant = await bcrypt.hash(data.mdpEtudiant, 10)
         }
-        data.mdpEtudiant = await bcrypt.hash(data.mdpEtudiant, 10)
-        const result = await Etudiants.update(data);
+        const result = await Etudiants.update(data, req.params.id);
         if(result.rowCount == 1){
             res.status(200).json(result.rows[0])
         }else{
