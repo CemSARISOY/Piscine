@@ -28,7 +28,11 @@ Etudiants.update = async (data, id) => {
     query = query.slice(0, -2);
     query = query + ` WHERE "numEtudiant" = ${id} RETURNING *;`
     return await pool.query(query);
-}
+};
+
+Etudiants.selectByPromo = async(promo) => {
+    return await pool.query(`SELECT * FROM "Etudiants" WHERE "promoEtudiant" = ${promo}`);
+};
 
 
 module.exports = Etudiants;
