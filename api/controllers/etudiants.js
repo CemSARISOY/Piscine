@@ -77,16 +77,15 @@ exports.updateEtudiant = async (req, res) => {
 exports.login = async (req, res) =>{
     try{
         const etudiant = await Etudiants.select(req.body.numEtudiant);
-        if(etudiant.rowCount == 1){
+        if(etudiant.rowCount === 1){
             const result = await bcrypt.compare(req.body.mdpEtudiant, etudiant.rows[0].mdpEtudiant);
             if(result){
-                res.status(200).json({
-                    numEtudiant: req.body.numEtudiant, 
-                    token: jwt.sign(
-                    { userId: req.body.numEtudiant },
+                const accessToken = jwt.sign(
+                    { userId: req.body.numEtudiant, isAdmin: etudiant.rows[0].numEtudiant === 1 },
                     process.env.RANDOMSECRETTOKEN,
-                    { expiresIn: '20h' }
-                )});
+                    { expiresIn: '30min' });
+                res.cookie('sessionCookie', accessToken, {httpOnly: true});
+                res.status(200).json({success: true});
             }else{
                 res.status(401).json({message: "Mot de passe incorrect"});
             }
@@ -97,6 +96,7 @@ exports.login = async (req, res) =>{
         res.status(500).json({message : err.message});
     }
 };
+
 
 exports.getEtudiantsInPromo = async (req, res) => {
     try{

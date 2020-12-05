@@ -1,11 +1,13 @@
 
 // Imports
 const express = require('express');
+const cookieParser = require('cookie-parser')
 require('dotenv/config');
 const app = express();
 
 // Middlewares
-app.use(express.json())
+app.use(express.json());
+app.use(cookieParser());
 
 // Import routes
 const etudiantsRoute = require("./routes/etudiants");
