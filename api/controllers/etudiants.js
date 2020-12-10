@@ -80,11 +80,10 @@ exports.login = async (req, res) =>{
         if(etudiant.rowCount === 1){
             const result = await bcrypt.compare(req.body.mdpEtudiant, etudiant.rows[0].mdpEtudiant);
             if(result){
-                const accessToken = jwt.sign(
-                    { userId: req.body.numEtudiant, isAdmin: etudiant.rows[0].numEtudiant === 1 },
-                    process.env.RANDOMSECRETTOKEN,
-                    { expiresIn: '30min' });
-                res.cookie('sessionCookie', accessToken, {httpOnly: true});
+                req.session.connected = true
+                if(etudiant.rows[0].numEtudiant === 1){
+                    req.session.isAdmin = true
+                }
                 res.status(200).json({success: true});
             }else{
                 res.status(401).json({message: "Mot de passe incorrect"});
@@ -109,5 +108,16 @@ exports.getEtudiantsInPromo = async (req, res) => {
 
     }catch(err){
         res.status(500).json({message : err.message});
+    }
+}
+
+exports.session = (req, res) => {
+    if(req.session.connected){
+        if(req.session.isAdmin){
+            res.json({result: true, isAdmin: true});
+        }
+        res.json({result: true});
+    }else{
+        res.json({result: false});
     }
 }
