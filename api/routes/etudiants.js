@@ -9,7 +9,7 @@ const etudiantCtrl = require("../controllers/etudiants");
 
 router.post("/", etudiantCtrl.createEtudiant);
 router.post("/login", etudiantCtrl.login);
-router.post("/session", etudiantCtrl.session);
+router.get("/session", etudiantCtrl.session);
 
 router.get("/", auth, etudiantCtrl.getAllEtudiant);
 router.get("/:id", auth, etudiantCtrl.getOneEtudiant);
