@@ -8,7 +8,13 @@ const app = express();
 
 // Middlewares
 app.use(express.json());
-app.use(cors());
+
+const corsSettings= {
+    origin:true,
+    credentials: true
+};
+app.use(cors(corsSettings));
+
 app.use(session({
     secret: 'test',
     resave: false,
