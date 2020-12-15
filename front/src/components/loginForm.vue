@@ -1,6 +1,6 @@
 <template>
     <div class="form">
-        <b-form @submit="onSubmit">
+        <b-form @submit.prevent="onSubmit">
             <b-form-group
                 id="input-group-1"
                 label="Numéro étudiant:"
@@ -33,6 +33,9 @@
 </template>
 
 <script>
+import axios from 'axios'
+import { mapState } from 'vuex'
+
   export default {
     data() {
       return {
@@ -43,9 +46,25 @@
       }
     },
     methods: {
-      onSubmit(evt) {
-        evt.preventDefault()
-        alert(JSON.stringify(this.form))
+      onSubmit() {
+        axios.post("http://localhost:3000/api/etudiants/login", {
+          numEtudiant: this.form.numEtu,
+          mdpEtudiant: this.form.password} ,
+          {withCredentials:true}
+          ).then( result => {
+            this.$store.commit("CONNECT", result.data.success);
+            this.$router.push("/")
+        }).catch( error => {
+          console.log("erreur : ", error);
+        })
+      }
+    },
+    computed: {
+      ...mapState(['connected'])
+    },
+    mounted() {
+      if(this.connected){
+        this.$router.push("/")
       }
     }
   }

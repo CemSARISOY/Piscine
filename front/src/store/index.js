@@ -6,8 +6,12 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
+        connected: false
     },
     mutations: {
+        CONNECT(state, payload){
+            state.connected = payload
+        }
     },
     actions: {
     },
