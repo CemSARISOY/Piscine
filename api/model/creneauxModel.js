@@ -6,6 +6,10 @@ Creneaux.selectAll = async () => {
     return await pool.query(`SELECT * FROM "Creneau"`);
 };
 
+Creneaux.selectOne = async (idCreneau) => {
+    return await pool.query(`SELECT * FROM "Creneau" WHERE "idCreneau" = ${ idCreneau }`);
+};
+
 Creneaux.selectByEvent = async (idEvent) => {
     return await pool.query(`SELECT * FROM "Creneau" WHERE "idEvent" = ${ idEvent }`);
 };

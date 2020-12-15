@@ -10,8 +10,10 @@ const creneauxCtrl = require("../controllers/creneaux");
 
 //Récupérer tous les créneaux
 router.get("/", admin, creneauxCtrl.getAllCreneaux);
+//Récupérer un créneau
+router.get("/:idCreneau", admin, creneauxCtrl.getCreneau)
 //Récupérer les créneaux d'un évènement
-router.get("/:idEvenement", creneauxCtrl.getByEvent);
+router.get("/evenements/:idEvenement", creneauxCtrl.getByEvent);
 //Créer un créneau selon l'évènement
 router.post("/:idCreneau", admin, creneauxCtrl.createCreneaux);
 //Supprimer un créneau

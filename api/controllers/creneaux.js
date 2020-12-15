@@ -13,6 +13,19 @@ exports.getAllCreneaux = async (req, res) => {
     }
 };
 
+exports.getCreneau = async (req, res) => {
+    try{
+        const creneaux = await Creneaux.selectOne(req.params.idCreneau)
+        if(creneaux.rowCount > 0){
+            res.status(200).json(creneauxs.rows);
+        }else{
+            res.status(404).json({message : "Il n'existe aucun créneau"});
+        }
+    }catch(err){
+        res.status(500).json({message : err.message});
+    }
+};
+
 exports.getByEvent = async (req, res) => {
     try{
         const creneaux = await Creneaux.selectByEvent(req.params.idEvenement)
