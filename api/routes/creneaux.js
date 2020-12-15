@@ -11,17 +11,17 @@ const creneauxCtrl = require("../controllers/creneaux");
 //Récupérer tous les créneaux
 router.get("/", admin, creneauxCtrl.getAllCreneaux);
 //Récupérer les créneaux d'un évènement
-router.get("/evenements/:idEvenement/creneaux", creneauxCtrl.getByEvent);
+router.get("/:idEvenement", creneauxCtrl.getByEvent);
 //Créer un créneau selon l'évènement
-router.post("/evenements/:idEvenement/create", admin, creneauxCtrl.createCreneaux);
+router.post("/:idCreneau", admin, creneauxCtrl.createCreneaux);
 //Supprimer un créneau
-router.delete("/evenements/:idEvenement/creneaux/:idCreneau", admin, creneauxCtrl.deleteCreneaux);
+router.delete("/:idCreneau", admin, creneauxCtrl.deleteCreneaux);
 //Met à jour un créneau
-router.put("/evenements/:idEvenement/creneaux/:idCreneau", admin, creneauxCtrl.updateCreneaux);
+router.put("/:idCreneau", admin, creneauxCtrl.updateCreneaux);
 
 //Réservation de créneaux, met à jour idGroupe
-router.put("/evenements/:idEvenement/creneaux/:idCreneau/reserver", creneauxCtrl.reserverCreneaux);
+router.put("/:idCreneau/reserver", creneauxCtrl.reserverCreneaux);
 //Annuler réservation, enlève l'idGroupe
-router.put("/evenements/:idEvenement/creneaux/:idCreneau/annulerreservation", creneauxCtrl.annulerReservationCreneaux);
+router.put("/:idCreneau/annulerreservation", creneauxCtrl.annulerReservationCreneaux);
 
 module.exports = router;
