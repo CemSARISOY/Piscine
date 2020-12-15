@@ -22,6 +22,6 @@ router.put("/:idCreneau", admin, creneauxCtrl.updateCreneaux);
 //Réservation de créneaux, met à jour idGroupe
 router.put("/:idCreneau/reserver", creneauxCtrl.reserverCreneaux);
 //Annuler réservation, enlève l'idGroupe
-router.put("/:idCreneau/annulerreservation", creneauxCtrl.annulerReservationCreneaux);
+router.put("/:idCreneau/annulerReservation", creneauxCtrl.annulerReservationCreneaux);
 
 module.exports = router;
