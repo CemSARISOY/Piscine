@@ -6,22 +6,34 @@ const Professeurs = {};
 
 //création
 Professeurs.create = async (data) => {
-    return await pool.query(`INSERT INTO "Prof" 
-    ("idprof","nomprof","prenomprof")
-    VALUES ($1,$2,$3) RETURNING * `, [data.idprof, data.nomprof, data.prenomprof])
+    return await pool.query(`INSERT INTO "Professeurs" 
+    ("idProf","nomProf","prenomProf")
+    VALUES ($1,$2,$3) RETURNING * `, [data.idProf, data.nomProf, data.prenomProf])
 };
 
 //selection d'un professeur depuis son id 
 Professeurs.select = async (id) => {
-    return await pool.query(`SELECT * FROM "Prof" WHERE "idprof" = ${ id }`);
+    return await pool.query(`SELECT * FROM "Professeurs" WHERE "idProf" = ${ id }`);
 };
 
 //selection de tous les profs
 Professeurs.selectAll = async () => {
-    return await pool.query(`SELECT * FROM "Prof"`);
+    return await pool.query(`SELECT * FROM "Professeurs"`);
 };
+
+//update 
+Professeurs.update = async (id, data) => {
+    return await pool.query(`UPDATE public."Professeurs" 
+                                        SET "nomProf" = $2, 
+                                        "prenomProf" = $3
+                                        WHERE "idProf" = ${ id }`,[id,data.nomProf, data.prenomProf]);
+};
+
 
 //supprime professeur
 Professeurs.delete = async (id) => {
-    return await pool.query(`DELETE FROM "Prof" WHERE "idprof" = ${ id } RETURNING *`);
+    return await pool.query(`DELETE FROM "Professeurs" WHERE "idProf" = ${ id } RETURNING *`);
 };
+
+
+module.exports = Professeurs;

@@ -1,4 +1,4 @@
-const bcrypt = require("bcrypt"); //Pour hash les mdp
+//const bcrypt = require("bcrypt"); //Pour hash les mdp
 const Professeurs = require("../model/professeursModel");
 
 //CRUD
@@ -6,7 +6,6 @@ const Professeurs = require("../model/professeursModel");
 exports.createProfesseur = async (req, res) => {
     try{
         let data = req.body;
-        data.mdpProfesseur = await bcrypt.hash(data.mdpProfesseur, 10)
         const result = await Professeurs.create(data);
         if(result.rowCount == 1){
             res.status(201).json(result.rows[0])
@@ -50,6 +49,20 @@ exports.getAllProf = async (req, res) => {
     }
 };
 
+//update prof //id
+exports.updateProfesseur = async (req, res) =>{
+    try{
+        let data = req.body;
+        const result = await Professeurs.update(req.params.id, data);
+        if(result.rowCount == 1){
+            ;
+        }else{
+            res.status(404).json({message : "Impossible de modifier un prof inexistant"});
+        }
+    }catch(err){
+        res.status(500).json({message : err.message});
+    }
+}
 
 //supprime prof
 exports.deleteProfesseur = async (req, res) => {
