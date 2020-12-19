@@ -24,9 +24,9 @@ const routes = [
         component: () => import(/* webpackChunkName: "about" */ '../views/Login.vue')
     },
     {
-        path: '/disconnect',
-        name: 'Disconnect',
-        component: () => import('../views/Disconnect.vue')
+        path: '/logout',
+        name: 'Logout',
+        component: () => import('../views/Logout.vue')
 
     }
 ]
