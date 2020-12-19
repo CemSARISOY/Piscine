@@ -34,40 +34,33 @@
 
 <script>
 import axios from 'axios'
-import { mapState } from 'vuex'
 
-  export default {
-    data() {
-      return {
-        form: {
-          numEtu: '',
-          password: '',
-        },
-      }
-    },
-    methods: {
-      onSubmit() {
-        axios.post("http://localhost:3000/api/etudiants/login", {
-          numEtudiant: this.form.numEtu,
-          mdpEtudiant: this.form.password} ,
-          {withCredentials:true}
-          ).then( result => {
-            this.$store.commit("CONNECT", result.data.success);
-            this.$router.push("/")
-        }).catch( error => {
-          console.log("erreur : ", error);
-        })
-      }
-    },
-    computed: {
-      ...mapState(['connected'])
-    },
-    mounted() {
-      if(this.connected){
-        this.$router.push("/")
-      }
+
+
+export default {
+  data() {
+    return {
+      form: {
+        numEtu: '',
+        password: '',
+      },
+    }
+  },
+  methods: {
+    onSubmit() {
+      axios.post("http://localhost:3000/api/etudiants/login", {
+        numEtudiant: this.form.numEtu,
+        mdpEtudiant: this.form.password} ,
+        {withCredentials:true}
+        ).then( result => {
+          this.$store.commit("CONNECT", result.data.success);
+          this.$router.push("/")
+      }).catch( error => {
+        console.log("erreur : ", error);
+      })
     }
   }
+}
 </script>
 
 <style scoped>

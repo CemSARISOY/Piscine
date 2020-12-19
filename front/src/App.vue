@@ -2,7 +2,6 @@
     <div id="app">
         <menuComponent />
         <router-view/>
-        <footerComponent/>
     </div>
 </template>
 <script>
@@ -10,7 +9,7 @@ import menuComponent from "@/components/menu";
 export default {
     name: "App",
     components: {
-        menuComponent
+        menuComponent,
     }
 }
 </script>
