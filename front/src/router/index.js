@@ -6,6 +6,11 @@ Vue.use(VueRouter)
 
 const routes = [
     {
+        path: '*',
+        name: 'Not Found',
+        component: () => import( '../views/Error404.vue')
+    },
+    {
         path: '/',
         name: 'Home',
         component: Home
