@@ -121,3 +121,9 @@ exports.session = (req, res) => {
         res.json({result: false});
     }
 }
+
+exports.logout = (req, res) => {
+    req.session.destroy(function() {
+        res.clearCookie("connect.sid", {httpOnly: true}).status(200).send("Cookie deleted");
+    });
+}

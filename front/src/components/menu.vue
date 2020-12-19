@@ -25,7 +25,7 @@
                             <em>Mon Compte</em>
                         </template>
                         <b-dropdown-item router-link to="/profile" >Profil</b-dropdown-item>
-                        <b-dropdown-item router-link to="/disconnect">Se déconnecter</b-dropdown-item>
+                        <b-dropdown-item router-link to="/logout">Se déconnecter</b-dropdown-item>
                     </b-nav-item-dropdown>
                     <b-nav-item v-else router-link to="/login">Se connecter</b-nav-item>
                 </b-navbar-nav>

@@ -11,6 +11,7 @@ router.post("/", etudiantCtrl.createEtudiant);
 router.post("/login", etudiantCtrl.login);
 router.get("/session", etudiantCtrl.session);
 
+router.get("/logout", auth, etudiantCtrl.logout);
 router.get("/", auth, etudiantCtrl.getAllEtudiant);
 router.get("/:id", auth, etudiantCtrl.getOneEtudiant);
 router.delete("/:id", auth, etudiantCtrl.deleteEtudiant);
