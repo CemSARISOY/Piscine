@@ -9,21 +9,17 @@ import store from '../store'
 
 export default {
     methods: {
-        disconnect(){
-            
-        }
     },
     computed: {
         ...mapState(['connected'])
     },
     mounted() {
         if(this.connected){
-            axios.post("http://localhost:3000/api/etudiants/logout", {withCredentials:true})
+            axios.post("http://localhost:3000/api/etudiants/logout", {}, {withCredentials:true})
             .then( () => {
-                store.commit("CONNECT", false)
+                store.dispatch("disconnect")
             });
         }
-        this.$router.push("/")
     }
 }
 </script>
