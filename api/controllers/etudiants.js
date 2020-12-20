@@ -114,7 +114,6 @@ exports.verifyToken = (req, res) => {
             cookies = req.headers.cookie.split('=');
             const decodedToken = jwt.verify(cookies[1], process.env.RANDOMSECRETTOKEN)
             const userId = decodedToken.userId
-            console.log(decodedToken)
             if(userId){
                 newToken = jwt.sign( { userId: decodedToken.userId, isAdmin: decodedToken.isAdmin}, process.env.RANDOMSECRETTOKEN, {expiresIn: '5m'});
                 res.cookie('jwtAuth', newToken, {maxAge:'300000', httpOnly:true}).status(200).json({success: true, userId: userId, isAdmin: userId==1})

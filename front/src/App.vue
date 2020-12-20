@@ -13,7 +13,7 @@ export default {
     components: {
         menuComponent,
     },
-    beforeMount(){
+    beforeCreate(){
         axios.get("http://localhost:3000/api/etudiants/token", {withCredentials:true})
         .then( result => {
             if(result.data.success){
