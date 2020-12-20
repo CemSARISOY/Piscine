@@ -14,7 +14,7 @@ export default {
         menuComponent,
     },
     beforeCreate(){
-        axios.get("http://localhost:3000/api/etudiants/token", {withCredentials:true})
+        axios.post("http://localhost:3000/api/etudiants/token", {withCredentials:true})
         .then( result => {
             if(result.data.success){
                 store.commit("CONNECT", result.data.success)

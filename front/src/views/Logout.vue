@@ -18,7 +18,7 @@ export default {
     },
     mounted() {
         if(this.connected){
-            axios.get("http://localhost:3000/api/etudiants/logout", {withCredentials:true})
+            axios.post("http://localhost:3000/api/etudiants/logout", {withCredentials:true})
             .then( () => {
                 store.commit("CONNECT", false)
             });
