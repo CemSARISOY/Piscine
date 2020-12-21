@@ -7,16 +7,25 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        connected: null
+        connected: null,
+        userId: 0,
+        isAdmin: false
     },
     getters: {
         authenticated : state => {
             return state.connected
+        },
+        userInfo : state => {
+            return { numEtudiant: state.userId, isAdmin: state.isAdmin }
         }
     },
     mutations: {
         CONNECT(state, payload){
             state.connected = payload
+        },
+        SET_USER(state, payload){
+            state.userId = payload.userId
+            state.isAdmin = payload.isAdmin
         }
     },
     actions: {
@@ -26,6 +35,7 @@ export default new Vuex.Store({
                 .then( result => {
                     if(result.data.success){
                         context.commit("CONNECT", result.data.success)
+                        context.commit("SET_USER", {userId: result.data.userId, isAdmin: result.data.isAdmin })
                         resolve(result.data.success)
                     }
                 }).catch( () => {

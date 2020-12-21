@@ -12,8 +12,7 @@
                     <b-nav-item v-if="this.$route.path == '/reserve' "> Réservation</b-nav-item>
                     <b-nav-item v-if="this.$route.path == '/profile' "> Profil</b-nav-item>
                     <b-nav-item v-if="this.$route.path == '/login' "> Connexion</b-nav-item>
-                    
-
+                    <b-nav-item v-if="this.$route.path == '/signup' "> Inscription</b-nav-item>
                 </b-navbar-nav>
 
                 <!-- Right aligned nav items -->
@@ -27,7 +26,10 @@
                         <b-dropdown-item router-link to="/profile" >Profil</b-dropdown-item>
                         <b-dropdown-item router-link to="/logout">Se déconnecter</b-dropdown-item>
                     </b-nav-item-dropdown>
-                    <b-nav-item v-else router-link to="/login">Se connecter</b-nav-item>
+                    <b-navbar-nav v-else>
+                        <b-nav-item router-link to="/login">Se connecter</b-nav-item>
+                        <b-nav-item router-link to="/signup">S'inscrire</b-nav-item>
+                    </b-navbar-nav>
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>

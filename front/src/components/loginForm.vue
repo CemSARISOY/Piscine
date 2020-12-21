@@ -27,6 +27,9 @@
 
 
         <b-button type="submit" variant="primary">Se connecter</b-button>
+        <p>
+          Pas encore inscrit ? <a href="/signup"> Cliquez ici </a>
+        </p>
         </b-form>
 
     </div>

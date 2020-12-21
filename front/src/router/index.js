@@ -29,7 +29,11 @@ const routes = [
         name: 'Logout',
         component: () => import('../views/Logout.vue')
 
-    }
+    },
+    {
+        path: '/signup',
+        name: 'Signup',
+    },
 ]
 
 
@@ -43,7 +47,7 @@ router.beforeEach( async (to, from, next) => {
     if(store.getters.authenticated == null){
         await store.dispatch("verifyToken")
     }
-    if(to.path !== '/login'){
+    if(to.path !== '/login' && to.path !== '/signup'){
         if(!store.getters.authenticated){
             next("/login")
         }else{
