@@ -27,6 +27,9 @@
 
 
         <b-button type="submit" variant="primary">Se connecter</b-button>
+        <p>
+          Pas encore inscrit ? <a href="/signup"> Cliquez ici </a>
+        </p>
         </b-form>
 
     </div>
@@ -34,40 +37,33 @@
 
 <script>
 import axios from 'axios'
-import { mapState } from 'vuex'
 
-  export default {
-    data() {
-      return {
-        form: {
-          numEtu: '',
-          password: '',
-        },
-      }
-    },
-    methods: {
-      onSubmit() {
-        axios.post("http://localhost:3000/api/etudiants/login", {
-          numEtudiant: this.form.numEtu,
-          mdpEtudiant: this.form.password} ,
-          {withCredentials:true}
-          ).then( result => {
-            this.$store.commit("CONNECT", result.data.success);
-            this.$router.push("/")
-        }).catch( error => {
-          console.log("erreur : ", error);
-        })
-      }
-    },
-    computed: {
-      ...mapState(['connected'])
-    },
-    mounted() {
-      if(this.connected){
-        this.$router.push("/")
-      }
+
+
+export default {
+  data() {
+    return {
+      form: {
+        numEtu: '',
+        password: '',
+      },
+    }
+  },
+  methods: {
+    onSubmit() {
+      axios.post("http://localhost:3000/api/etudiants/login", {
+        numEtudiant: this.form.numEtu,
+        mdpEtudiant: this.form.password} ,
+        {withCredentials:true}
+        ).then( result => {
+          this.$store.commit("CONNECT", result.data.success);
+          this.$router.push("/")
+      }).catch( error => {
+        console.log("erreur : ", error);
+      })
     }
   }
+}
 </script>
 
 <style scoped>

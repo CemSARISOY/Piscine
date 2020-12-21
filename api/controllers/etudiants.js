@@ -80,11 +80,8 @@ exports.login = async (req, res) =>{
         if(etudiant.rowCount === 1){
             const result = await bcrypt.compare(req.body.mdpEtudiant, etudiant.rows[0].mdpEtudiant);
             if(result){
-                req.session.connected = true
-                if(etudiant.rows[0].numEtudiant === 1){
-                    req.session.isAdmin = true
-                }
-                res.status(200).json({success: true});
+                token = jwt.sign( { userId: etudiant.rows[0].numEtudiant, isAdmin: etudiant.rows[0].numEtudiant == 1}, process.env.RANDOMSECRETTOKEN, {expiresIn: '5m'});
+                res.cookie('jwtAuth', token, {maxAge:'300000', httpOnly:true}).status(200).json({success: true});
             }else{
                 res.status(401).json({message: "Mot de passe incorrect"});
             }
@@ -111,13 +108,26 @@ exports.getEtudiantsInPromo = async (req, res) => {
     }
 }
 
-exports.session = (req, res) => {
-    if(req.session.connected){
-        if(req.session.isAdmin){
-            res.json({result: true, isAdmin: true});
+exports.verifyToken = (req, res) => {
+    try{
+        if(req.headers.cookie){
+            cookies = req.headers.cookie.split('=');
+            const decodedToken = jwt.verify(cookies[1], process.env.RANDOMSECRETTOKEN)
+            const userId = decodedToken.userId
+            if(userId){
+                newToken = jwt.sign( { userId: decodedToken.userId, isAdmin: decodedToken.isAdmin}, process.env.RANDOMSECRETTOKEN, {expiresIn: '5m'});
+                res.cookie('jwtAuth', newToken, {maxAge:'300000', httpOnly:true}).status(200).json({success: true, userId: userId, isAdmin: userId==1})
+            }else{
+                res.status(401).json({success: false})
+            }
+        }else{
+            res.status(401).json({success: false})
         }
-        res.json({result: true});
-    }else{
-        res.json({result: false});
+    }catch(err){
+        res.status(500).json({message: err.message})
     }
+}
+
+exports.logout = (req, res) => {
+    res.clearCookie("jwtAuth", {httpOnly: true}).status(200).send("Cookie deleted");
 }
