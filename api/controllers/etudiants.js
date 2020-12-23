@@ -36,7 +36,7 @@ exports.createEtudiant = async (req, res) => {
         if(result.rowCount == 1){
             res.status(201).json(result.rows[0])
         }else{
-            res.status(404).json({message : "Erreur de création"});
+            res.status(400).json({message : "Erreur de création"});
         }
         
     }catch(err){
@@ -50,7 +50,7 @@ exports.deleteEtudiant = async (req, res) => {
         if(result.rowCount == 1){
             res.status(200).json(result.rows[0]);
         }else{
-            res.status(400).json({message : "Erreur de suppression"});
+            res.status(404).json({message : "Erreur de suppression"});
         }
     }catch(err){
         res.status(500).json({message : err.message});
