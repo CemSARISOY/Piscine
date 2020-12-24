@@ -7,8 +7,8 @@ const Professeurs = {};
 //création
 Professeurs.create = async (data) => {
     return await pool.query(`INSERT INTO "Professeurs" 
-    ("idProf","nomProf","prenomProf")
-    VALUES ($1,$2,$3) RETURNING * `, [data.idProf, data.nomProf, data.prenomProf])
+    ("nomProf","prenomProf")
+    VALUES ($1,$2) RETURNING * `, [data.nomProf, data.prenomProf])
 };
 
 //selection d'un professeur depuis son id 
