@@ -2,7 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import store from '../store'
-
+import MyAccount from '../views/MyAccount.vue'
+import SignUp from '../views/SignUp.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -33,7 +34,13 @@ const routes = [
     {
         path: '/signup',
         name: 'Signup',
+        component: SignUp
     },
+    {
+        path: '/myaccount',
+        name: 'MyAccount',
+        component: MyAccount
+    }
 ]
 
 
@@ -47,7 +54,7 @@ router.beforeEach( async (to, from, next) => {
     if(store.getters.authenticated == null){
         await store.dispatch("verifyToken")
     }
-    if(to.path !== '/login' && to.path !== '/signup'){
+    if(to.path !== '/login' && to.path !== '/signup' && to.path !== '/myaccount'){
         if(!store.getters.authenticated){
             next("/login")
         }else{
