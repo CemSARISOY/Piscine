@@ -28,7 +28,7 @@ ALTER TABLE public."Etudiants"
 	
 CREATE TABLE public."Professeurs"
 (
-    "idProf" SERIAL,
+    "idProf" SERIAL NOT NULL,
     "nomProf" VARCHAR(30),
     "prenomProf" VARCHAR(30),
     PRIMARY KEY ("idProf")

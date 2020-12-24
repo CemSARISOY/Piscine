@@ -24,9 +24,9 @@ Professeurs.selectAll = async () => {
 //update 
 Professeurs.update = async (id, data) => {
     return await pool.query(`UPDATE public."Professeurs" 
-                                        SET "nomProf" = $2, 
-                                        "prenomProf" = $3
-                                        WHERE "idProf" = ${ id }`,[id,data.nomProf, data.prenomProf]);
+                                        SET "nomProf" = $1, 
+                                        "prenomProf" = $2
+                                        WHERE "idProf" = ${ id } RETURNING *`,[data.nomProf, data.prenomProf]); 
 };
 
 

@@ -55,7 +55,7 @@ exports.updateProfesseur = async (req, res) =>{
         let data = req.body;
         const result = await Professeurs.update(req.params.id, data);
         if(result.rowCount == 1){
-            ;
+            res.status(200).json(result.rows[0]);
         }else{
             res.status(404).json({message : "Impossible de modifier un prof inexistant"});
         }
