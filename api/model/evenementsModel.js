@@ -30,12 +30,10 @@ Evenements.create = async (data) => {
             };
             const creneau = await pool.query(`INSERT INTO "Creneau" ("date","heureDebut","salle","idEvent") VALUES($1,$2,$3,$4) RETURNING *`
             , [creneauxData.date, creneauxData.heure, creneauxData.salle, creneauxData.idEvent]);
-            console.log("passed2")
 
             if(creneau.rowCount == 0) throw "Erreur création du créneau";
 
             const estJury = await pool.query(`INSERT INTO "Participer" ("idProf","idCreneau") VALUES ($1, $2) RETURNING *`, [creneauxData.jury, creneau.rows[0].idCreneau])
-            console.log("passed3")
             if(estJury.rowCount == 0) throw "Erreur affectation du jury";
         }
 

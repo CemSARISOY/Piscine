@@ -49,7 +49,6 @@ exports.createEvent = async (req, res) => {
     try{
         let data = req.body;
         const event = await Evenements.create(data);
-        console.log(event);
         if(event.rowCount > 0){
             res.status(201).json(event.rows[0]);
         }else{
