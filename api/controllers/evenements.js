@@ -36,8 +36,12 @@ exports.getOneEvent = async (req, res) => {
         dateLimiteRes: timestamp
         dureeCreneau: 1:30:00
         nbCreneaux: Int
-        jurys: []
-        salles : []
+        creneaux : [{
+                    date : timestamp
+                    heure: 23:59:59
+                    salle: varchar
+                    jury: integer
+                    }]
     }
 
 */
@@ -45,6 +49,7 @@ exports.createEvent = async (req, res) => {
     try{
         let data = req.body;
         const event = await Evenements.create(data);
+        console.log(event);
         if(event.rowCount > 0){
             res.status(201).json(event.rows[0]);
         }else{
@@ -69,5 +74,15 @@ exports.deleteEvent = async (req, res) => {
 }
 
 exports.updateEvent = async (req, res) => {
-    res.status(500).json({message: "Not yet implemented"});
+    try{
+        let data = req.body
+        const result = await Evenements.update(data, req.params.id);
+        if(result.rowCount == 1){
+            res.status(200).json(result.rows[0])
+        }else{
+            res.status(400).json({message : "Erreur de modification"});
+        }
+    }catch(err){
+        res.status(500).json({message : err.message});
+    }
 }
