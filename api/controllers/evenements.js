@@ -76,7 +76,7 @@ exports.updateEvent = async (req, res) => {
     try{
         let data = req.body
         const result = await Evenements.update(data, req.params.id);
-        if(result.rowCount == 1){
+        if(result.rowCount > 0){
             res.status(200).json(result.rows[0])
         }else{
             res.status(400).json({message : "Erreur de modification"});

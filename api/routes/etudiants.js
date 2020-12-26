@@ -15,6 +15,7 @@ router.get("/", auth.isAuth, etudiantCtrl.getAllEtudiant);
 router.get("/:id", auth.isAuth, etudiantCtrl.getOneEtudiant);
 router.delete("/:id", auth.isAuth, etudiantCtrl.deleteEtudiant);
 router.put("/:id", auth.isAuth, etudiantCtrl.updateEtudiant);
+router.get("/:id/evenements", etudiantCtrl.getEvent);
 
 router.get("/promo/:promo", auth.isAdmin, etudiantCtrl.getEtudiantsInPromo);
 

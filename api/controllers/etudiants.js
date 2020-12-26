@@ -108,6 +108,20 @@ exports.getEtudiantsInPromo = async (req, res) => {
     }
 }
 
+exports.getEvent = async (req, res) => {
+    try{
+        const result = await Etudiants.selectEvent(req.params.id);
+        if(result.rowCount > 0){
+            res.status(200).json(result.rows)
+        }else{
+            res.status(404).json({message: "Aucun événement lié à cet étudiant"})
+        }
+    }catch(err){
+        res.status(500).json({message: err.message});
+    }
+}
+
+
 exports.verifyToken = (req, res) => {
     try{
         if(req.headers.cookie){
