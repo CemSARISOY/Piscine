@@ -119,7 +119,7 @@ CREATE TABLE public."Creneau"
 ALTER TABLE public."Creneau"
     OWNER to postgres;
 	
-CREATE TABLE public."Participier"
+CREATE TABLE public."Participer"
 (
     "idProf" integer NOT NULL,
     "idCreneau" integer NOT NULL,
