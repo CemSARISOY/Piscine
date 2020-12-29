@@ -17,7 +17,7 @@ Creneaux.selectByEvent = async (idEvent) => {
 Creneaux.create = async (data) => {
     return await pool.query(`INSERT INTO "Creneau" 
     ("idCreneau","date","heureDebut","salle","idGroupe","idEvent")
-    VALUES ($1,$2,$3,$4,$5,$6) RETURNING * `, [data.idCreneau, data.date, data.heureDebut, data.salle, 0, data.idEvent])
+    VALUES ($1,$2,$3,$4,$5,$6) RETURNING * `, [data.date, data.heureDebut, data.salle, 0, data.idEvent])
 };
 
 Creneaux.delete = async (id) => {
@@ -34,13 +34,13 @@ Creneaux.update = async (data, id) => {
     return await pool.query(query);
 };
 
-Creneaux.reserver = async(id) => {
-    return await pool.query(`UPDATE "Creneau" SET "idGroupe" = 50 WHERE "idCreneau" = ${id}`);
-};
+// Creneaux.reserver = async(id) => {
+//     return await pool.query(`UPDATE "Creneau" SET "idGroupe" = 50 WHERE "idCreneau" = ${id}`);
+// };
 
-Creneaux.annulerRes = async(id) => {
-    return await pool.query(`UPDATE "Creneau" SET "idGroupe" = 0 WHERE "idCreneau" = ${id}`);
-};
+// Creneaux.annulerRes = async(id) => {
+//     return await pool.query(`UPDATE "Creneau" SET "idGroupe" = 0 WHERE "idCreneau" = ${id}`);
+// };
 
 
 module.exports = Creneaux;

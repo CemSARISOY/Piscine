@@ -4,7 +4,7 @@ exports.getAllCreneaux = async (req, res) => {
     try{
         const creneaux = await Creneaux.selectAll()
         if(creneaux.rowCount > 0){
-            res.status(200).json(creneauxs.rows);
+            res.status(200).json(creneaux.rows);
         }else{
             res.status(404).json({message : "Il n'existe aucun créneau"});
         }
@@ -17,7 +17,7 @@ exports.getCreneau = async (req, res) => {
     try{
         const creneaux = await Creneaux.selectOne(req.params.idCreneau)
         if(creneaux.rowCount > 0){
-            res.status(200).json(creneauxs.rows);
+            res.status(200).json(creneaux.rows[0]);
         }else{
             res.status(404).json({message : "Il n'existe aucun créneau"});
         }
