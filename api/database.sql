@@ -28,7 +28,7 @@ ALTER TABLE public."Etudiants"
 	
 CREATE TABLE public."Professeurs"
 (
-    "idProf" SERIAL,
+    "idProf" SERIAL NOT NULL,
     "nomProf" VARCHAR(30),
     "prenomProf" VARCHAR(30),
     PRIMARY KEY ("idProf")
@@ -119,7 +119,7 @@ CREATE TABLE public."Creneau"
 ALTER TABLE public."Creneau"
     OWNER to postgres;
 	
-CREATE TABLE public."Participier"
+CREATE TABLE public."Participer"
 (
     "idProf" integer NOT NULL,
     "idCreneau" integer NOT NULL,
