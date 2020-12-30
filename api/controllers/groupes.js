@@ -68,3 +68,16 @@ exports.updateGroupe = async (req, res) => {
     }
 };
 
+exports.findEtudiants = async (req,res) => {
+    try{
+        const groupe = await Groupe.findEtudiants(req.params.id)
+        if(groupe.rowCount > 0){
+            res.status(200).json(groupe.rows[0])
+        }else{
+            res.status(404).json({message : "Il n'existe pas d'etudiants dans ce groupe"});
+        }
+    }catch(err){
+        res.status(500).json({message : err.message});
+    }
+}
+
