@@ -27,10 +27,10 @@ Groupe.create = async (data) => {
 
     const estEtudiant = await pool.query(`INSERT INTO "Composer" ("numEtudiant","idGroupe") VALUES ($1, $2) RETURNING *`, [etudiantsData.numEtudiant,groupe.idGroupe])
     if(estEtudiant.rowCount == 0) throw "Erreur lors de l'affectation des etudiants"
-
+    }
     await pool.query("COMMIT");    
     return groupe
-    }
+    
     }catch(err){
         await pool.query("ROLLBACK");
         throw err;

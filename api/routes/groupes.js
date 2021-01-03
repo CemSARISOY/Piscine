@@ -18,6 +18,6 @@ router.put("/:id", groupes.updateGroupe)
 router.delete("/:id", groupes.deleteGroupe)
 
 //Recupere les etudiants d'un groupe avec son id
-router.get("/groupe/:id", groupes.findEtudiants)
+router.get("/:id/etudiants", groupes.findEtudiants)
 
 module.exports = router;
