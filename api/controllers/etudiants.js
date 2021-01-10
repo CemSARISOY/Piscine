@@ -80,8 +80,8 @@ exports.login = async (req, res) =>{
         if(etudiant.rowCount === 1){
             const result = await bcrypt.compare(req.body.mdpEtudiant, etudiant.rows[0].mdpEtudiant);
             if(result){
-                token = jwt.sign( { userId: etudiant.rows[0].numEtudiant, isAdmin: etudiant.rows[0].numEtudiant == 1}, process.env.RANDOMSECRETTOKEN, {expiresIn: '5m'});
-                res.cookie('jwtAuth', token, {maxAge:'300000', httpOnly:true}).status(200).json({success: true});
+                token = jwt.sign( { userId: etudiant.rows[0].numEtudiant, isAdmin: etudiant.rows[0].numEtudiant == 1}, process.env.RANDOMSECRETTOKEN, {expiresIn: '60m'});
+                res.cookie('jwtAuth', token, {maxAge:'3600000', httpOnly:true}).status(200).json({success: true, userId: req.body.numEtudiant, isAdmin: req.body.numEtudiant==1});
             }else{
                 res.status(401).json({message: "Mot de passe incorrect"});
             }
@@ -129,8 +129,8 @@ exports.verifyToken = (req, res) => {
             const decodedToken = jwt.verify(cookies[1], process.env.RANDOMSECRETTOKEN)
             const userId = decodedToken.userId
             if(userId){
-                newToken = jwt.sign( { userId: decodedToken.userId, isAdmin: decodedToken.isAdmin}, process.env.RANDOMSECRETTOKEN, {expiresIn: '5m'});
-                res.cookie('jwtAuth', newToken, {maxAge:'300000', httpOnly:true}).status(200).json({success: true, userId: userId, isAdmin: userId==1})
+                newToken = jwt.sign( { userId: decodedToken.userId, isAdmin: decodedToken.isAdmin}, process.env.RANDOMSECRETTOKEN, {expiresIn: '60m'});
+                res.cookie('jwtAuth', newToken, {maxAge:'3600000', httpOnly:true}).status(200).json({success: true, userId: userId, isAdmin: userId==1})
             }else{
                 res.status(401).json({success: false})
             }

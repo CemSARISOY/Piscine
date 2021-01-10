@@ -26,6 +26,11 @@ export default new Vuex.Store({
         SET_USER(state, payload){
             state.userId = payload.userId
             state.isAdmin = payload.isAdmin
+        },
+        RESET(state){
+            state.connected = null
+            state.userId = 0
+            state.isAdmin = false
         }
     },
     actions: {
@@ -46,6 +51,7 @@ export default new Vuex.Store({
         },
         disconnect(context){
             context.commit("CONNECT", false)
+            context.commit("RESET");
             router.push("/login")
         }
     },

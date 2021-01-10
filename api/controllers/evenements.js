@@ -35,7 +35,6 @@ exports.getOneEvent = async (req, res) => {
         duree: Int
         dateLimiteRes: timestamp
         dureeCreneau: 1:30:00
-        nbCreneaux: Int
         creneaux : [{
                     date : timestamp
                     heure: 23:59:59
