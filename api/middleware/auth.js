@@ -17,7 +17,7 @@ exports.isAuth = (req, res, next) => {
 
 exports.isAdmin = (req, res, next) => {
     try{
-        this.isAuth();
+        cookies = req.headers.cookie.split('=');
         const decodedToken = jwt.verify(cookies[1], process.env.RANDOMSECRETTOKEN)
         const isAdmin = decodedToken.isAdmin
         if(isAdmin){
