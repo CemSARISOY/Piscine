@@ -18,8 +18,8 @@ export default new Vuex.Store({
         },
         userInfo : state => {
             return { numEtudiant: state.userId, isAdmin: state.isAdmin }
-        },
-        EVENTS: state => state.events
+        }
+        //EVENTS: state => state.events
     },
     mutations: {
         CONNECT(state, payload){
