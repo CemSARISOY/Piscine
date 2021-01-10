@@ -34,7 +34,7 @@
           initialView: 'dayGridMonth',
           dateClick: this.handleDateClick,
           events: [
-            "EVENTS"
+            //"EVENTS"
             //{ title: 'event 1', date: '2021-01-05'}, //display: 'background' },
             //{ title: 'event 2', date: '2021-01-07'}//display: 'background' }
           ],
@@ -49,22 +49,31 @@
         //this.calendarOptions.weekends = !this.calendarOptions.weekends // toggle the boolean!
       //},
       handleDateClick: function(arg) {
-        alert('Vous avez cliqué sur ' + arg.dateStr)
+        let entree = prompt("Saisissez la salle du créneau") //cf boostrap
+        if (entree){
+            axios.post("http://localhost:3000/api/creneaux/",{date:arg.date.toLocaleDateString(), heureDebut:arg.date.toLocaleTimeString(), salle:entree, idEvent:this.$route.params.id}, {withCredentials: true
+              }).then(function(){
+                  console.log("Creneau crée !")
+              }).catch(function(){
+                  console.log("Erreur de création")
+              })
+        }
       }
     },
     async mounted(){
         try{
-            const responses = await axios.get("http://localhost:3000/api/creneaux/evenements", {withCredentials: true
-              }).then( result => {
-              this.$store.commit({event: response.data});
-              console.log({calendarEvents: response.data})
-              })
+            const result = await axios.get("http://localhost:3000/api/creneaux/evenements/"+this.$route.params.id, {withCredentials: true
+              });
             for(let i=0; i<result.data.length;i++){
-                let option = {
-                  title: result.data[i].nomEvent, 
-                  date: result.data[i].heureDebut + " " + result.data[i].prenomProf}
-                this.events.juryOptions.push(option)
+                let creneau = {
+                  title: result.data[i].idCreneau, 
+                  date: result.data[i].date}
+                console.log(creneau)
+                this.calendarOptions.events.push(creneau)
+
             }
+            console.log(result)
+            console.log(this.calendarOptions.events)
         }catch(err){
             console.log(err)
         }
