@@ -136,7 +136,7 @@ CREATE TABLE public."Participer"
         NOT VALID
 );
 
-ALTER TABLE public."Participier"
+ALTER TABLE public."Participer"
     OWNER to postgres;
 
 INSERT INTO public."Promo" ("anneePromo") VALUES (2020),(2019),(2018);

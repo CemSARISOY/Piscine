@@ -53,7 +53,7 @@ Evenements.delete = async (id) => {
 
 
 Evenements.update = async (data, id) => {
-    let query = `UPDATE "Evenements" SET `;
+    let query = `UPDATE "Evenement" SET `;
     for(var key in data){
         query = query + "\"" + key + "\" = '" + data[key] + "', "
     }
