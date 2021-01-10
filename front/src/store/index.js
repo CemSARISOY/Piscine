@@ -9,7 +9,8 @@ export default new Vuex.Store({
     state: {
         connected: null,
         userId: 0,
-        isAdmin: false
+        isAdmin: false,
+        events: []
     },
     getters: {
         authenticated : state => {
@@ -17,7 +18,8 @@ export default new Vuex.Store({
         },
         userInfo : state => {
             return { numEtudiant: state.userId, isAdmin: state.isAdmin }
-        }
+        },
+        EVENTS: state => state.events
     },
     mutations: {
         CONNECT(state, payload){

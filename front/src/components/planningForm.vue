@@ -34,8 +34,9 @@
           initialView: 'dayGridMonth',
           dateClick: this.handleDateClick,
           events: [
-            { title: 'event 1', date: '2021-01-05'}, //display: 'background' },
-            { title: 'event 2', date: '2021-01-07'}//display: 'background' }
+            "EVENTS"
+            //{ title: 'event 1', date: '2021-01-05'}, //display: 'background' },
+            //{ title: 'event 2', date: '2021-01-07'}//display: 'background' }
           ],
           weekends: false, // initial value as you want it or not 
           selectable: true,//initial value for selecting or not 
@@ -50,6 +51,23 @@
       handleDateClick: function(arg) {
         alert('Vous avez cliqué sur ' + arg.dateStr)
       }
+    },
+    async mounted(){
+        try{
+            const responses = await axios.get("http://localhost:3000/api/creneaux/evenements", {withCredentials: true
+              }).then( result => {
+              this.$store.commit({event: response.data});
+              console.log({calendarEvents: response.data})
+              })
+            for(let i=0; i<result.data.length;i++){
+                let option = {
+                  title: result.data[i].nomEvent, 
+                  date: result.data[i].heureDebut + " " + result.data[i].prenomProf}
+                this.events.juryOptions.push(option)
+            }
+        }catch(err){
+            console.log(err)
+        }
     }
   }
 </script>
