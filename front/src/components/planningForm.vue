@@ -32,7 +32,8 @@
             right: 'prev next today'
           },
           initialView: 'dayGridMonth',
-          dateClick: this.handleDateClick,
+          dateClick: this.dateClick,
+          eventClick: this.handleEventClick,
           events: [
             //"EVENTS"
             //{ title: 'event 1', date: '2021-01-05'}, //display: 'background' },
@@ -48,16 +49,25 @@
       //toggleWeekends: function() {
         //this.calendarOptions.weekends = !this.calendarOptions.weekends // toggle the boolean!
       //},
-      handleDateClick: function(arg) {
+      dateClick: function(arg) {
         let entree = prompt("Saisissez la salle du créneau") //cf boostrap
         if (entree){
             axios.post("http://localhost:3000/api/creneaux/",{date:arg.date.toLocaleDateString(), heureDebut:arg.date.toLocaleTimeString(), salle:entree, idEvent:this.$route.params.id}, {withCredentials: true
-              }).then(function(){
+              }).then(response =>{
+                  let creneau = {
+                  title: response.idCreneau, 
+                  date:arg.date.toLocaleDateString()}
                   console.log("Creneau crée !")
+                  this.calendarOptions.events.push(creneau)
+                  console.log(this)
+                  this.$router.go()
               }).catch(function(){
                   console.log("Erreur de création")
               })
         }
+      },
+      handleEventClick: function(){
+          alert("test")
       }
     },
     async mounted(){
@@ -81,49 +91,3 @@
   }
 </script>
 
-<style lang='css'>
-h2 {
-  margin: 0;
-  font-size: 16px;
-}
-ul {
-  margin: 0;
-  padding: 0 0 0 1.5em;
-}
-li {
-  margin: 1.5em 0;
-  padding: 0;
-}
-b { /* used for event dates/times */
-  margin-right: 3px;
-}
-.demo-app {
-  display: flex;
-  min-height: 100%;
-  font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-  font-size: 14px;
-}
-.demo-app-sidebar {
-  width: 300px;
-  line-height: 1.5;
-  background: #eaf9ff;
-  border-right: 1px solid #d3e2e8;
-}
-.demo-app-sidebar-section {
-  padding: 2em;
-}
-.demo-app-main {
-  flex-grow: 1;
-  padding: 3em;
-}
-.fc { /* the calendar root */
-  max-width: 1100px;
-  margin: 0 auto;
-  color: blue;
-}
-:root {
-  --fc-border-color: darkblue;
-  --fc-daygrid-event-dot-width: 5px;
-  
-}
-</style>

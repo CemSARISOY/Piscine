@@ -1,15 +1,29 @@
 <template>
   <div class=planning>
-    <!--h1>planning</h1-->
+    <h1> {{nomEvent}}</h1>
     <planning-form />
   </div>
 </template>
 <script>
 
+import axios from 'axios'
 import PlanningForm from '../components/planningForm.vue'
 export default {
   components:{
     PlanningForm
-  }
+  },
+  async mounted(){
+        try{
+            const result = await axios.get("http://localhost:3000/api/evenements/"+this.$route.params.id, {withCredentials: true
+              });
+                this.nomEvent = result.data.nomEvenement
+        }catch(err){
+            console.log(err)
+        }
+    }, data(){
+        return{
+            nomEvent:""
+        }
+    }
 }
 </script>

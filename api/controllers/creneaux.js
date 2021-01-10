@@ -29,7 +29,7 @@ exports.getCreneau = async (req, res) => {
 exports.getByEvent = async (req, res) => {
     try{
         const creneaux = await Creneaux.selectByEvent(req.params.idEvenement)
-        if(creneaux.rowCount == 1){
+        if(creneaux.rowCount > 0){
             res.status(200).json(creneaux.rows)
         }else{
             res.status(404).json({message : "Il n'existe aucun créneau sur cet évènement"});
