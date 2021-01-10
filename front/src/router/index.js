@@ -37,6 +37,11 @@ const routes = [
         name: 'Signup',
     },
     {
+        path: '/planning/:id', 
+        name: 'Planning',
+        component: () => import('../views/Planning.vue')
+
+    },
         path: "/event/create",
         name: 'Creation event',
         component: () => import('../views/CreateEvent.vue'),

@@ -16,8 +16,8 @@ Creneaux.selectByEvent = async (idEvent) => {
 
 Creneaux.create = async (data) => {
     return await pool.query(`INSERT INTO "Creneau" 
-    ("idCreneau","date","heureDebut","salle","idGroupe","idEvent")
-    VALUES ($1,$2,$3,$4,$5,$6) RETURNING * `, [data.date, data.heureDebut, data.salle, 0, data.idEvent])
+    ("date","heureDebut","salle","idEvent")
+    VALUES ($1,$2,$3,$4) RETURNING * `, [data.date, data.heureDebut, data.salle, data.idEvent])
 };
 
 Creneaux.delete = async (id) => {
