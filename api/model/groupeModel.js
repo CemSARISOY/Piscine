@@ -52,7 +52,7 @@ Groupe.update = async (data, id) => {
 };
 
 Groupe.findEtudiants = async (id) => {
-    return await pool.query(`SELECT * FROM "Etudiants" JOIN "Composer" WHERE "idGroupe" = ${ id } RETURNING *`);
+    return await pool.query(`SELECT * FROM "Etudiants" JOIN "Composer" ON "Etudiants"."numEtudiant" = "Composer"."numEtudiant" WHERE "idGroupe" = ${ id } RETURNING *`);
 }
 
 module.exports = Groupe;

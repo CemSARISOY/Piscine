@@ -1,4 +1,3 @@
-//const bcrypt = require("bcrypt"); //Pour hash les mdp
 const Professeurs = require("../model/professeursModel");
 
 //CRUD
@@ -7,10 +6,10 @@ exports.createProfesseur = async (req, res) => {
     try{
         let data = req.body;
         const result = await Professeurs.create(data);
-        if(result.rowCount == 1){
+        if(result.rowCount > 0){
             res.status(201).json(result.rows[0])
         }else{
-            res.status(404).json({message : "Erreur de création"});
+            res.status(400).json({message : "Erreur de création"});
         }
         
     }catch(err){
@@ -24,7 +23,7 @@ exports.createProfesseur = async (req, res) => {
 exports.getOneProfesseur = async (req, res) => {
     try{
         const professeur = await Professeurs.select(req.params.id)
-        if(professeur.rowCount == 1){
+        if(professeur.rowCount > 0){
             res.status(200).json(professeur.rows[0])
         }else{
             res.status(404).json({message : "Il n'existe aucun professeur avec cet id"});
@@ -35,7 +34,7 @@ exports.getOneProfesseur = async (req, res) => {
 };
 
 
-//recupère de tous les profs
+//recupère tous les profs
 exports.getAllProf = async (req, res) => {
     try{
         const professeurs = await Professeurs.selectAll()
@@ -54,10 +53,10 @@ exports.updateProfesseur = async (req, res) =>{
     try{
         let data = req.body;
         const result = await Professeurs.update(req.params.id, data);
-        if(result.rowCount == 1){
+        if(result.rowCount > 0){
             res.status(200).json(result.rows[0]);
         }else{
-            res.status(404).json({message : "Impossible de modifier un prof inexistant"});
+            res.status(400).json({message : "Erreur de modification"});
         }
     }catch(err){
         res.status(500).json({message : err.message});
@@ -68,10 +67,10 @@ exports.updateProfesseur = async (req, res) =>{
 exports.deleteProfesseur = async (req, res) => {
     try{
         const result = await Professeurs.delete(req.params.id);
-        if(result.rowCount == 1){
+        if(result.rowCount > 0){
             res.status(200).json(result.rows[0]);
         }else{
-            res.status(400).json({message : "Erreur de suppression"});
+            res.status(404).json({message : "Erreur de suppression"});
         }
     }catch(err){
         res.status(500).json({message : err.message});
