@@ -68,28 +68,14 @@ exports.updateCreneaux = async (req, res) => {
     }
 };
 
-exports.reserverCreneaux = async (req, res) => {
+exports.getJurys = async (req, res) => {
     try{
         let data = req.body;
-        const result = await Creneaux.reserver(req.params.idCreneau);
-        if(result.rowCount == 1){
-            res.status(200).json(result.rows[0])
+        const result = await Creneaux.selectJurys(data, req.params.idCreneau);
+        if(result.rowCount > 0){
+            res.status(200).json(result.rows)
         }else{
-            res.status(400).json({message : "Erreur de réservation du créneau"});
-        }
-    }catch(err){
-        res.status(500).json({message : err.message});
-    }
-};
-
-exports.annulerReservationCreneaux = async (req, res) => {
-    try{
-        let data = req.body;
-        const result = await Creneaux.annulerRes(req.params.idCreneau);
-        if(result.rowCount == 1){
-            res.status(200).json(result.rows[0])
-        }else{
-            res.status(400).json({message : "Erreur d'annulation du créneau"});
+            res.status(400).json({message : "Erreur de modification du créneau"});
         }
     }catch(err){
         res.status(500).json({message : err.message});

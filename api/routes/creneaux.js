@@ -17,10 +17,7 @@ router.post("/", auth.isAuth, auth.isAdmin, creneauxCtrl.createCreneaux);
 router.delete("/:idCreneau", auth.isAuth, auth.isAdmin, creneauxCtrl.deleteCreneaux);
 //Met à jour un créneau
 router.put("/:idCreneau", auth.isAuth, auth.isAdmin, creneauxCtrl.updateCreneaux);
-
-//Réservation de créneaux, met à jour idGroupe
-//router.put("/:idCreneau/reserver", creneauxCtrl.reserverCreneaux);
-//Annuler réservation, enlève l'idGroupe
-//router.put("/:idCreneau/annulerReservation", creneauxCtrl.annulerReservationCreneaux);
+//Récupérer les jurys du créneau
+router.get("/:idCreneau/jurys", creneauxCtrl.getJurys)
 
 module.exports = router;

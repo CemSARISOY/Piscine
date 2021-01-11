@@ -30,13 +30,8 @@ Creneaux.update = async (data, id) => {
     return await pool.query(query);
 };
 
-// Creneaux.reserver = async(id) => {
-//     return await pool.query(`UPDATE "Creneau" SET "idGroupe" = 50 WHERE "idCreneau" = ${id}`);
-// };
-
-// Creneaux.annulerRes = async(id) => {
-//     return await pool.query(`UPDATE "Creneau" SET "idGroupe" = 0 WHERE "idCreneau" = ${id}`);
-// };
-
+Creneaux.selectJurys = async (id) => {
+    return await pool.query(`SELECT "Professeurs"."idProf", "nomProf", "prenomProf" FROM "Professeurs" JOIN "Participer" ON "Professeurs"."idProf" = "Participer"."idProf" WHERE "idCreneau" = ${id}`)
+}
 
 module.exports = Creneaux;
