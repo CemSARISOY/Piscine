@@ -50,26 +50,30 @@
         //this.calendarOptions.weekends = !this.calendarOptions.weekends // toggle the boolean!
       //},
       dateClick: function(arg) {
-        let entree = prompt("Saisissez la salle du créneau") //cf boostrap
-        if (entree){
-            axios.post("http://localhost:3000/api/creneaux/",{date:arg.date.toLocaleDateString(), heureDebut:arg.date.toLocaleTimeString(), salle:entree, idEvent:this.$route.params.id}, {withCredentials: true
-              }).then(response =>{
-                  let creneau = {
-                  title: response.idCreneau, 
-                  date:arg.date.toLocaleDateString()}
-                  console.log("Creneau crée !")
-                  this.calendarOptions.events.push(creneau)
-                  console.log(this)
-                  this.$router.go()
-              }).catch(function(){
-                  console.log("Erreur de création")
-              })
+         if(store.getters.userInfo.isAdmin){
+            let entree = prompt("Saisissez la salle du créneau") //cf boostrap
+            if (entree){
+                axios.post("http://localhost:3000/api/creneaux/",{date:arg.date.toLocaleDateString(), heureDebut:arg.date.toLocaleTimeString(), salle:entree, idEvent:this.$route.params.id}, {withCredentials: true
+                }).then(response =>{
+                    let creneau = {
+                    title: response.idCreneau, 
+                    date:arg.date.toLocaleDateString()}
+                    console.log("Creneau crée !")
+                    this.calendarOptions.events.push(creneau)
+                    console.log(this)
+                    this.$router.go()
+                }).catch(function(){
+                    console.log("Erreur de création")
+                })
+            }
         }
       },
-      handleEventClick: function(){
-          alert("test")
+      handleEventClick: function(){ 
+          if(store.getters.userInfo.isAdmin){
+            alert("test") 
+          }
       }
-    },
+    }, 
     async mounted(){
         try{
             const result = await axios.get("http://localhost:3000/api/creneaux/evenements/"+this.$route.params.id, {withCredentials: true
