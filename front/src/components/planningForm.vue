@@ -53,7 +53,7 @@
          if(store.getters.userInfo.isAdmin){
             let entree = prompt("Saisissez la salle du créneau") //cf boostrap
             if (entree){
-                axios.post("http://localhost:3000/api/creneaux/",{date:arg.date.toLocaleDateString(), heureDebut:arg.date.toLocaleTimeString(), salle:entree, idEvent:this.$route.params.id}, {withCredentials: true
+                axios.post("http://localhost:3000/api/evenements/creneaux/",{date:arg.date.toLocaleDateString(), heureDebut:arg.date.toLocaleTimeString(), salle:entree, idEvent:this.$route.params.id}, {withCredentials: true
                 }).then(response =>{
                     let creneau = {
                     title: response.idCreneau, 
@@ -76,7 +76,7 @@
     }, 
     async mounted(){
         try{
-            const result = await axios.get("http://localhost:3000/api/creneaux/evenements/"+this.$route.params.id, {withCredentials: true
+            const result = await axios.get("http://localhost:3000/api/evenements/"+this.$route.params.id+"/creneaux", {withCredentials: true
               });
             for(let i=0; i<result.data.length;i++){
                 let creneau = {
