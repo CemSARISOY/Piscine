@@ -13,10 +13,10 @@ exports.isAuth = (req, res, next) => {
                 next();
             }
         }else{
-            throw "Non authentifié"
+            throw 'Non authentifié'
         }
     }catch(err){
-        res.status(401).json({message : err.message})
+        res.status(401).json({message : err})
     }
 }
 
@@ -31,6 +31,6 @@ exports.isAdmin = (req, res, next) => {
             res.status(403).json({message: "Accès interdit"})
         }
     }catch(err){
-        res.status(403).json({message : err.message})
+        res.status(403).json({message : err})
     }
 }
