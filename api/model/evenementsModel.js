@@ -10,6 +10,10 @@ Evenements.select = async (id) => {
     return await pool.query(`SELECT * FROM "Evenement" WHERE "numEvenement" = ${id}`);
 };
 
+Evenements.getCreneaux = async (id) => {
+    return await pool.query(`SELECT * FROM "Creneau" WHERE "idEvent" = ${ id }`);
+};
+
 // On créé l'evenement et les créneaux associés et on affecte les jurys
 Evenements.create = async (data) => {
     try{
