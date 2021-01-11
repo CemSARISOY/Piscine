@@ -30,10 +30,10 @@ exports.createCreneaux = async (req, res) => {
     try{
         let data = req.body;
         const result = await Creneaux.create(data);
-        if(result.rowCount == 1){
+        if(result.rowCount > 0){
             res.status(201).json(result.rows[0])
         }else{
-            res.status(404).json({message : "Erreur de création de créneau"});
+            res.status(400).json({message : "Erreur de création de créneau"});
         }
         
     }catch(err){
@@ -44,10 +44,10 @@ exports.createCreneaux = async (req, res) => {
 exports.deleteCreneaux = async (req, res) => {
     try{
         const result = await Creneaux.delete(req.params.idCreneau);
-        if(result.rowCount == 1){
+        if(result.rowCount > 0){
             res.status(200).json(result.rows[0]);
         }else{
-            res.status(400).json({message : "Erreur de suppression de créneau"});
+            res.status(404).json({message : "Erreur de suppression de créneau"});
         }
     }catch(err){
         res.status(500).json({message : err.message});
@@ -58,7 +58,7 @@ exports.updateCreneaux = async (req, res) => {
     try{
         let data = req.body;
         const result = await Creneaux.update(data, req.params.idCreneau);
-        if(result.rowCount == 1){
+        if(result.rowCount > 0){
             res.status(200).json(result.rows[0])
         }else{
             res.status(400).json({message : "Erreur de modification du créneau"});
@@ -75,7 +75,7 @@ exports.getJurys = async (req, res) => {
         if(result.rowCount > 0){
             res.status(200).json(result.rows)
         }else{
-            res.status(400).json({message : "Erreur de modification du créneau"});
+            res.status(404).json({message : "Ce créneau ne possède aucun jury ou le créneau n'existe pas"});
         }
     }catch(err){
         res.status(500).json({message : err.message});
