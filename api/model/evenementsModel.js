@@ -10,6 +10,10 @@ Evenements.select = async (id) => {
     return await pool.query(`SELECT * FROM "Evenement" WHERE "numEvenement" = ${id}`);
 };
 
+Evenements.getCreneaux = async (id) => {
+    return await pool.query(`SELECT * FROM "Creneau" WHERE "idEvent" = ${ id }`);
+};
+
 // On créé l'evenement et les créneaux associés et on affecte les jurys
 Evenements.create = async (data) => {
     try{
@@ -53,7 +57,7 @@ Evenements.delete = async (id) => {
 
 
 Evenements.update = async (data, id) => {
-    let query = `UPDATE "Evenements" SET `;
+    let query = `UPDATE "Evenement" SET `;
     for(var key in data){
         query = query + "\"" + key + "\" = '" + data[key] + "', "
     }

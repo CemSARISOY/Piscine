@@ -18,4 +18,8 @@ Promos.selectAll = async () => {
     return await pool.query(`SELECT * FROM "Promo"`);
 };
 
+Promos.selectByPromo = async(promo) => {
+    return await pool.query(`SELECT * FROM "Etudiants" WHERE "promoEtudiant" = ${promo}`);
+};
+
 module.exports = Promos;
