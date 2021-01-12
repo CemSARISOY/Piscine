@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-//import store from '../store'
+import store from '../store'
 
 Vue.use(VueRouter)
 
@@ -31,18 +31,28 @@ const routes = [
 
     },
     {
-        path: '/signup',
-        name: 'Signup',
-    },
-    {
-        path: '/eventinfo',
+        path: '/eventinfo/:id',
         name: 'EventInfo',
-        component: () => import('../components/eventInfoForm')
+        component: () => import('../components/eventInfoForm'),
+        /*params: {
+            idEvent: id,
+        }*/
     },
     {
         path: '/creneaux',
         name: 'DisplayCreneaux',
         component: () => import('../components/infoCreneau')
+    },
+
+    {
+        path: '/signup',
+        name: 'Signup',
+        component: () => import('../components/SignUpForm')
+    },
+    {
+        path: '/myaccount',
+        name: 'MyAccount',
+        component: () => import('../components/MyAccountForm')
     },
 ]
 
@@ -53,7 +63,7 @@ const router = new VueRouter({
     routes
 })
 
-/*router.beforeEach( async (to, from, next) => {
+router.beforeEach( async (to, from, next) => {
     if(store.getters.authenticated == null){
         await store.dispatch("verifyToken")
     }
@@ -66,7 +76,7 @@ const router = new VueRouter({
     }else{
         next();
     }
-});*/
+});
 
 
 export default router

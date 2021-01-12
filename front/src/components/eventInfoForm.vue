@@ -68,6 +68,7 @@
         <b-button type="submit" variant="primary">Modifier</b-button>
         <b-button type="button" v-on:click="goToPlanning" variant="secondary">Voir planning</b-button>
         <b-button type="button" v-on:click="deleteEvent" variant="danger">Supprimer</b-button>
+        <b-button type="button" v-on:click="getEventData" variant="danger">get</b-button>
         </b-form>
         <br>
         <p id='txtError'></p>
@@ -101,21 +102,24 @@
       
       },
       getEventData(){
-          if(this.event.numberReserved=="0" || this.event.numberReserved==undefined/*this.$store.getters.authenticated*/){
+          /*if(this.$store.getters.authenticated){*/
             //var etudiantInfo = JSON.parse(this.$store.getters.userInfo)
             var url1 = "http://localhost:3000/api/evenements/"
-            var eventDB = JSON.parse(axios.get(url1.concat("0")))
+            url1 = url1.concat(this.$route.params.id)
+            console.log(url1)
+            var eventDB = JSON.parse(axios.get(url1))
+            console.log(eventDB);
             this.event.nameEvent=eventDB.nomEvenement
             this.event.numberReserved="0"
             this.event.durationEvent=eventDB.duree
             this.event.start=eventDB.dateDebut
             this.event.end="01/01/1999"
             this.event.lastDate=eventDB.dateLimiteRes
-          }
+          //}
       },
       modifEvent(){
-        if(/*this.store.getters.authenticated*/this.event.numberReserved=="0" || this.event.numberReserved==undefined){
-            axios.put("http://localhost:3000/api/evenements/".concat("0"),
+        if(this.$store.getters.authenticated){
+            axios.put("http://localhost:3000/api/evenements/".concat(this.$route.params.id),
             {
             "nomEvenement" : this.event.nameEvent,
             "duree" :this.event.durationEvent,
