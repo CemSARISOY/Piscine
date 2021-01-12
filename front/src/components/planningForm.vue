@@ -1,5 +1,10 @@
 <template>
     <div>
+        <b-button v-b-modal.modal-1>Launch demo modal</b-button>
+
+        <b-modal id="modal-1" title="BootstrapVue">
+        <p class="my-4">Hello from modal!</p>
+        </b-modal>
         <!--button @click="toggleWeekends">Afficher Week-end</button--> 
         <FullCalendar :options="calendarOptions" />
     </div>
@@ -9,12 +14,16 @@
 <script src='fullcalendar/core/locales/fr'></script>
 
 <script>
+
+  import 'bootstrap/dist/css/bootstrap.css';
+  //import '@fortawesome/fontawesome-free/css/all.css'; // needs additional webpack config!
   import initialLocaleCode from '@fullcalendar/core/locales/fr'
 
   import FullCalendar from '@fullcalendar/vue'
   import dayGridPlugin from '@fullcalendar/daygrid'
   import timeGridPlugin from '@fullcalendar/timegrid'
   import interactionPlugin from '@fullcalendar/interaction'
+  import bootstrapPlugin from '@fullcalendar/bootstrap';
   //import listPlugin from '@fullcalendar/list'
 
   import axios from 'axios'
@@ -25,7 +34,8 @@
     data() {
       return {
         calendarOptions: {
-          plugins: [ dayGridPlugin, timeGridPlugin, interactionPlugin], // listPlugin
+          plugins: [ dayGridPlugin, timeGridPlugin, interactionPlugin, bootstrapPlugin], // listPlugin
+          themeSystem: 'bootstrap',
           headerToolbar: {
             left:'dayGridMonth,timeGridWeek,timeGridDay' ,
             center:'title',
@@ -50,7 +60,7 @@
         //this.calendarOptions.weekends = !this.calendarOptions.weekends // toggle the boolean!
       //},
       dateClick: function(arg) {
-         if(store.getters.userInfo.isAdmin){
+         if(this.$store.getters.userInfo.isAdmin){
             let entree = prompt("Saisissez la salle du créneau") //cf boostrap
             if (entree){
                 axios.post("http://localhost:3000/api/evenements/creneaux/",{date:arg.date.toLocaleDateString(), heureDebut:arg.date.toLocaleTimeString(), salle:entree, idEvent:this.$route.params.id}, {withCredentials: true
