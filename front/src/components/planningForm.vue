@@ -1,10 +1,10 @@
 <template>
-    <div>
-        <b-button v-b-modal.modal-1>Launch demo modal</b-button>
+    <div class="center-div">
+        <!--<b-button v-b-modal.modal-1>Launch demo modal</b-button>
 
         <b-modal id="modal-1" title="BootstrapVue">
         <p class="my-4">Hello from modal!</p>
-        </b-modal>
+        </b-modal>-->
         <!--button @click="toggleWeekends">Afficher Week-end</button--> 
         <FullCalendar :options="calendarOptions" />
     </div>
@@ -35,13 +35,13 @@
       return {
         calendarOptions: {
           plugins: [ dayGridPlugin, timeGridPlugin, interactionPlugin, bootstrapPlugin], // listPlugin
-          themeSystem: 'bootstrap',
+          themeSystem: 'bootstrap4',
           headerToolbar: {
-            left:'dayGridMonth,timeGridWeek,timeGridDay' ,
+            left:'timeGridWeek,timeGridDay' ,//dayGridMonth,
             center:'title',
             right: 'prev next today'
           },
-          initialView: 'dayGridMonth',
+          initialView: 'timeGridWeek',
           dateClick: this.dateClick,
           eventClick: this.handleEventClick,
           events: [
@@ -105,3 +105,17 @@
   }
 </script>
 
+<style scoped>
+  @import 'https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/cosmo/bootstrap.min.css';
+</style>
+
+<style >
+  .center-div
+{
+  width: 60%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto 
+}
+
+</style>
