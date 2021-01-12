@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import store from '../store'
+//import store from '../store'
 
 Vue.use(VueRouter)
 
@@ -47,7 +47,17 @@ const routes = [
         name: 'Creation event',
         component: () => import('../views/CreateEvent.vue'),
         meta: {requiresAuth: true, requiresAdmin: true}
-    }
+    },
+    {
+        path: '/eventinfo',
+        name: 'EventInfo',
+        component: () => import('../components/eventInfoForm')
+    },
+    {
+        path: '/creneaux',
+        name: 'DisplayCreneaux',
+        component: () => import('../components/infoCreneau')
+    },
 ]
 
 
@@ -57,7 +67,7 @@ const router = new VueRouter({
     routes
 })
 
-router.beforeEach( async (to, from, next) => {
+/*router.beforeEach( async (to, from, next) => {
     if(store.getters.authenticated == null){
         await store.dispatch("verifyToken")
     }
@@ -78,7 +88,7 @@ router.beforeEach( async (to, from, next) => {
     }else{
         next();
     }
-});
+});*/
 
 
 export default router
