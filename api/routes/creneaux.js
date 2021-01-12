@@ -4,26 +4,20 @@ const express = require("express");
 const router = express.Router();
 const pool = require("../db");
 const auth = require('../middleware/auth');
-const admin = require('../middleware/admin');
 
 const creneauxCtrl = require("../controllers/creneaux");
 
 //Récupérer tous les créneaux
-router.get("/", admin, creneauxCtrl.getAllCreneaux);
+router.get("/", auth.isAuth, creneauxCtrl.getAllCreneaux);
 //Récupérer un créneau
-router.get("/:idCreneau", admin, creneauxCtrl.getCreneau)
-//Récupérer les créneaux d'un évènement
-router.get("/evenements/:idEvenement", creneauxCtrl.getByEvent);
+router.get("/:idCreneau", auth.isAuth, creneauxCtrl.getCreneau)
 //Créer un créneau selon l'évènement
-router.post("/", admin, creneauxCtrl.createCreneaux);
+router.post("/", auth.isAuth, auth.isAdmin, creneauxCtrl.createCreneaux);
 //Supprimer un créneau
-router.delete("/:idCreneau", admin, creneauxCtrl.deleteCreneaux);
+router.delete("/:idCreneau", auth.isAuth, auth.isAdmin, creneauxCtrl.deleteCreneaux);
 //Met à jour un créneau
-router.put("/:idCreneau", admin, creneauxCtrl.updateCreneaux);
-
-//Réservation de créneaux, met à jour idGroupe
-//router.put("/:idCreneau/reserver", creneauxCtrl.reserverCreneaux);
-//Annuler réservation, enlève l'idGroupe
-//router.put("/:idCreneau/annulerReservation", creneauxCtrl.annulerReservationCreneaux);
+router.put("/:idCreneau", auth.isAuth, auth.isAdmin, creneauxCtrl.updateCreneaux);
+//Récupérer les jurys du créneau
+router.get("/:idCreneau/jurys", creneauxCtrl.getJurys)
 
 module.exports = router;
