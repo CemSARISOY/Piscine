@@ -30,9 +30,6 @@ Etudiants.update = async (data, id) => {
     return await pool.query(query);
 };
 
-Etudiants.selectByPromo = async(promo) => {
-    return await pool.query(`SELECT * FROM "Etudiants" WHERE "promoEtudiant" = ${promo}`);
-};
 
 Etudiants.selectEvent = async (id) => {
     const promo = await pool.query(`SELECT "promoEtudiant" FROM "Etudiants" WHERE "numEtudiant"= ${id}`);

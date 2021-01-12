@@ -9,7 +9,8 @@ export default new Vuex.Store({
     state: {
         connected: null,
         userId: 0,
-        isAdmin: false
+        isAdmin: false,
+        events: []
     },
     getters: {
         authenticated : state => {
@@ -18,6 +19,7 @@ export default new Vuex.Store({
         userInfo : state => {
             return { numEtudiant: state.userId, isAdmin: state.isAdmin }
         }
+        //EVENTS: state => state.events
     },
     mutations: {
         CONNECT(state, payload){
@@ -26,6 +28,11 @@ export default new Vuex.Store({
         SET_USER(state, payload){
             state.userId = payload.userId
             state.isAdmin = payload.isAdmin
+        },
+        RESET(state){
+            state.connected = null
+            state.userId = 0
+            state.isAdmin = false
         }
     },
     actions: {
@@ -46,6 +53,7 @@ export default new Vuex.Store({
         },
         disconnect(context){
             context.commit("CONNECT", false)
+            context.commit("RESET");
             router.push("/login")
         }
     },

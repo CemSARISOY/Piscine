@@ -35,7 +35,6 @@ exports.getOneEvent = async (req, res) => {
         duree: Int
         dateLimiteRes: timestamp
         dureeCreneau: 1:30:00
-        nbCreneaux: Int
         creneaux : [{
                     date : timestamp
                     heure: 23:59:59
@@ -85,3 +84,16 @@ exports.updateEvent = async (req, res) => {
         res.status(500).json({message : err.message});
     }
 }
+
+exports.getCreneaux = async (req, res) => {
+    try{
+        const creneaux = await Evenements.getCreneaux(req.params.id)
+        if(creneaux.rowCount > 0){
+            res.status(200).json(creneaux.rows)
+        }else{
+            res.status(404).json({message : "Il n'existe aucun créneau sur cet évènement"});
+        }
+    }catch(err){
+        res.status(500).json({message : err.message});
+    }
+};
