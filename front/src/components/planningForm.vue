@@ -99,6 +99,7 @@
             right: 'prev next today'
           },
           initialView: 'timeGridWeek',
+          selectable: true,
           dateClick: this.dateClick,
           eventClick: this.handleEventClick,
           events: [
@@ -139,23 +140,20 @@
           return
         }
         // Push the name to submitted names
-        this.submittedSalle.push(this.salle)
+        //this.submittedSalle.push(this.salle)
         //this.submittedJury.push(this.jury)
         // Hide the modal manually
         this.$nextTick(() => {
           this.$bvModal.hide('modal-prevent-closing')
         })
       },
-      // dateClick: function(info) {
-
-      //   this.$bvModal.show('modal-prevent-closing')
-
-      // },
       dateClick: function(arg) {
          if(this.$store.getters.userInfo.isAdmin){
+            //console.log("connected")
             let entree = this.$bvModal.show('modal-prevent-closing') 
             if (entree){
-                axios.post("http://localhost:3000/api/evenements/creneaux/",{date:arg.date.toLocaleDateString(), heureDebut:arg.date.toLocaleTimeString(), salle:entree, idEvent:this.$route.params.id}, {withCredentials: true
+                //recuperer jury dans la bdd 
+                axios.post("http://localhost:3000/api/evenements/:id/creneaux/",{date:arg.date.toLocaleDateString(), heureDebut:arg.date.toLocaleTimeString(), salle:entree, idEvent:this.$route.params.id}, {withCredentials: true
                 }).then(response =>{
                     let creneau = {
                     title: response.idCreneau, 
