@@ -114,10 +114,12 @@
                 this.event.numberReserved=res.data.length
               });
 
-              this.event.durationEvent=eventDB.duree
+              this.event.durationEvent=eventDB.dureeCreneau.split(':')[0]+"h"+eventDB.dureeCreneau.split(':')[1]
               const dateDebut = new Date(eventDB.dateDebut)
               this.event.start= dateDebut.getFullYear().toString() + '-' + (dateDebut.getMonth() + 1).toString().padStart(2,0) + '-' + dateDebut.getDate().toString().padStart(2,0);
-              this.event.end=""
+
+              const dateFin = new Date(dateDebut.setDate(dateDebut.getDate()+eventDB.duree))
+              this.event.end= dateFin.getFullYear().toString() + '-' + (dateFin.getMonth() + 1).toString().padStart(2,0) + '-' + dateFin.getDate().toString().padStart(2,0);
 
               const lastDate = new Date(eventDB.dateLimiteRes)
               this.event.lastDate= lastDate.getFullYear().toString() + '-' + (lastDate.getMonth() + 1).toString().padStart(2,0) + '-' + lastDate.getDate().toString().padStart(2,0);
@@ -130,7 +132,8 @@
           axios.put(url1,
             {
               "nomEvenement" : this.event.nameEvent,
-              "duree" :this.event.durationEvent,
+              "dureeCreneau" :this.event.durationEvent,
+              "duree" : "",
               "dateDebut" :this.event.start,
               "dateLimiteRes" :this.event.lastDate,
               "promo" : 2020
