@@ -100,7 +100,7 @@ exports.setJurys = async (req, res) => {
         const data = req.body.jurys
         const result = await Creneaux.setJurys(req.params.idCreneau, data)
         if(result.rowCount > 0){
-            result.status(201).json(result.rows)
+            res.status(201).json(result.rows)
         }else{
             res.status(400).json({message : "Erreur d'affectation de jury"})
         }
