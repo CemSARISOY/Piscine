@@ -14,6 +14,7 @@
                     <b-nav-item v-if="this.$route.path == '/login' "> Connexion</b-nav-item>
                     <b-nav-item v-if="this.$route.path == '/signup' "> Inscription</b-nav-item>
                     <b-nav-item router-link to="/promos" v-if="isAdmin">Liste des étudiants</b-nav-item>
+                    <b-nav-item router-link to="/professeurs" v-if="isAdmin">Liste des professeurs</b-nav-item>
                 </b-navbar-nav>
 
                 <!-- Right aligned nav items -->
