@@ -57,10 +57,10 @@
             <b-form-group id="input-group-4" label="ID event : " label-for="input-id-event">
                 <b-form-input
                 id="input-id-event"
-                type="date"
+                type="text"
                 v-model="creneau.idEvent"
                 required
-                placeholder=""
+                placeholder="0"
                 ></b-form-input>
             </b-form-group>
 
@@ -99,21 +99,26 @@
       
       },
       getCreneauData(){
-          if(this.creneau.numberReserved=="0" || this.creneau.numberReserved==undefined/*this.$store.getters.authenticated*/){
+          if(this.$store.getters.authenticated){
             //var etudiantInfo = JSON.parse(this.$store.getters.userInfo)
             var url1 = "http://localhost:3000/api/creneaux/"
-            var creneauDB = JSON.parse(JSON.stringify(axios.get(url1.concat("1"))))
-            this.creneau.idCreneau=creneauDB.idCreneau
-            this.creneau.dateCreneau=creneauDB.date
-            this.creneau.heureDebut=creneauDB.heureDebut
-            this.creneau.salle=creneauDB.salle
-            this.creneau.idGroupe=creneauDB.idGroupe
-            this.creneau.idEvent=creneauDB.idEvent
+            axios.get(url1.concat(this.$route.params.id)).then((res) => {
+              let data = res.data
+              this.creneau.idCreneau=data.idCreneau
+
+              const date = new Date(data.date)
+              this.creneau.dateCreneau= date.getFullYear().toString() + '-' + (date.getMonth() + 1).toString().padStart(2,0) + '-' + date.getDate().toString().padStart(2,0);
+
+              this.creneau.heureDebut=data.heureDebut
+              this.creneau.salleCreneau=data.salle
+              this.creneau.idGroupe=data.idGroupe
+              this.creneau.idEvent=data.idEvent
+            });
           }
       },
-      modifEvent(){
-        if(/*this.store.getters.authenticated*/this.creneau.numberReserved=="0" || this.creneau.numberReserved==undefined){
-            axios.put("http://localhost:3000/api/creneau/x".concat("1"),
+      modifCreneau(){
+        if(this.store.getters.authenticated){
+            axios.put("http://localhost:3000/api/creneaux/".concat(this.$route.params.id),
             {
             "idCreneau" : this.creneau.idCreneau,
             "date" :this.creneau.date,

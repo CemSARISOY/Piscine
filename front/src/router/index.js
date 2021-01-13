@@ -53,7 +53,7 @@ const routes = [
         }*/
     },
     {
-        path: '/creneaux',
+        path: '/creneaux/:id',
         name: 'DisplayCreneaux',
         component: () => import('../components/infoCreneau')
     },

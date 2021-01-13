@@ -68,7 +68,6 @@
         <b-button type="button" v-on:click="modifEvent" variant="primary">Modifier</b-button>
         <b-button type="button" v-on:click="goToPlanning" variant="secondary">Voir planning</b-button>
         <b-button type="button" v-on:click="deleteEvent" variant="danger">Supprimer</b-button>
-        <b-button type="button" v-on:click="getEventData" variant="danger">get</b-button>
         </b-form>
         <br>
         <p id='txtError'></p>
