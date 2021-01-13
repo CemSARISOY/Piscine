@@ -25,24 +25,25 @@
                 id="salle-input"
                 v-model="salle"
                 :state="salleState"
+                placeholder="Entrer le numéro de la salle"
                 required
               >
               </b-form-input>
             </b-form-group>
-            <b-form-group
-              label="Nom jury n°1"
+            <label for="promo-selector">Sélectionner les jurys</label>
+            <!--b-form-group
+              label="Nom jury(s)"
               label-for="jury-input"
-              invalid-feedback="Un nom est requis !"
+              invalid-feedback="Un jury est requis !"
               :state="juryState"
-            >
-              <b-form-input
-                id="jury-input"
-                v-model="jury"
-                :state="juryState"
-                required
+            -->
+              <b-form-select 
+                v-model="form.jurySelected" 
+                :options="form.juryOptions" 
+                multiple :select-size="4"
               >
-              </b-form-input>
-            </b-form-group>
+              </b-form-select>
+            <!--/b-form-group-->
           </form>
         </b-modal>
         <FullCalendar :options="calendarOptions" />
@@ -53,15 +54,7 @@
 <script src='fullcalendar/core/locales/fr'></script>
 
 <script>
-  //import { ModalPlugin } from 'bootstrap-vue'
-  //Vue.use(ModalPlugin)
-  //import { VBModal } from 'bootstrap-vue'
-// Note: Vue automatically prefixes the directive name with 'v-'
-  //Vue.directive('b-modal', VBModal)
-  //import { BModal } from 'bootstrap-vue'
-  //Vue.component('b-modal', BModal)
   import 'bootstrap/dist/css/bootstrap.css';
-  //import '@fortawesome/fontawesome-free/css/all.css'; // needs additional webpack config!
   import initialLocaleCode from '@fullcalendar/core/locales/fr'
 
   import FullCalendar from '@fullcalendar/vue'
@@ -78,6 +71,10 @@
     },
     data() {
       return {
+        form:{
+                juryOptions: [],
+                jurySelected:[]
+            },
         show: false,
         variants: ['primary', 'secondary', 'success', 'warning', 'danger', 'info', 'light', 'dark'],
         headerBgVariant: 'dark',
@@ -88,11 +85,11 @@
         footerTextVariant: 'dark',
         modalShow: false,
         salle: '',
-        jury: '',
+        //jury: '',
         salleState: null,
-        juryState: null,
+        //juryState: null,
         submittedSalle: [],
-        submittedJury: [],
+        //submittedJury: [],
         calendarOptions: {
           plugins: [ dayGridPlugin, timeGridPlugin, interactionPlugin, bootstrapPlugin], // listPlugin
           themeSystem: 'bootstrap4',
@@ -121,14 +118,14 @@
       checkFormValidity() {
         const valid = this.$refs.form.checkValidity()
         this.salleState = valid
-        this.juryState = valid
+        //this.juryState = valid
         return valid
       },
       resetModal() {
         this.salle = ''
         this.salleState = null
-        this.jury = ''
-        this.juryState = null
+        //this.jury = ''
+        //this.juryState = null
       },
       handleOk(bvModalEvt) {
         // Prevent modal from closing
@@ -143,41 +140,43 @@
         }
         // Push the name to submitted names
         this.submittedSalle.push(this.salle)
-        this.submittedJury.push(this.jury)
+        //this.submittedJury.push(this.jury)
         // Hide the modal manually
         this.$nextTick(() => {
           this.$bvModal.hide('modal-prevent-closing')
         })
       },
-      dateClick: function(info) {
-        this.$bvModal.show('modal-prevent-closing')
+      // dateClick: function(info) {
 
-      },
-      // dateClick: function(arg) {
-      //    if(this.$store.getters.userInfo.isAdmin){
-      //       //let entree = prompt("Saisissez la salle du créneau") //cf boostrap
-      //       if (entree){
-      //           axios.post("http://localhost:3000/api/evenements/creneaux/",{date:arg.date.toLocaleDateString(), heureDebut:arg.date.toLocaleTimeString(), salle:entree, idEvent:this.$route.params.id}, {withCredentials: true
-      //           }).then(response =>{
-      //               let creneau = {
-      //               title: response.idCreneau, 
-      //               date:arg.date.toLocaleDateString()}
-      //               console.log("Creneau crée !")
-      //               this.calendarOptions.events.push(creneau)
-      //               console.log(this)
-      //               this.$router.go()
-      //           }).catch(function(){
-      //               console.log("Erreur de création")
-      //           })
-      //       }
-      //   }
+      //   this.$bvModal.show('modal-prevent-closing')
+
       // },
+      dateClick: function(arg) {
+         if(this.$store.getters.userInfo.isAdmin){
+            let entree = this.$bvModal.show('modal-prevent-closing') 
+            if (entree){
+                axios.post("http://localhost:3000/api/evenements/creneaux/",{date:arg.date.toLocaleDateString(), heureDebut:arg.date.toLocaleTimeString(), salle:entree, idEvent:this.$route.params.id}, {withCredentials: true
+                }).then(response =>{
+                    let creneau = {
+                    title: response.idCreneau, 
+                    date:arg.date.toLocaleDateString()}
+                    console.log("Creneau crée !")
+                    this.calendarOptions.events.push(creneau)
+                    console.log(this)
+                    this.$router.go()
+                }).catch(function(){
+                    console.log("Erreur de création")
+                })
+            }
+        }
+      },
       handleEventClick: function(){ 
           if(store.getters.userInfo.isAdmin){
             alert("test") 
           }
       }
     }, 
+    //get creneaux
     async mounted(){
         try{
             const result = await axios.get("http://localhost:3000/api/evenements/"+this.$route.params.id+"/creneaux", {withCredentials: true
@@ -192,6 +191,18 @@
             }
             console.log(result)
             console.log(this.calendarOptions.events)
+        }catch(err){
+            console.log(err)
+        }
+    },
+    //get prof 
+    async mounted(){
+        try{
+            let result = await axios.get("http://localhost:3000/api/professeurs", {withCredentials: true})
+            for(let i=0; i<result.data.length;i++){
+                let option = {value: result.data[i].idProf, text: result.data[i].nomProf + " " + result.data[i].prenomProf}
+                this.form.juryOptions.push(option)
+            }
         }catch(err){
             console.log(err)
         }
