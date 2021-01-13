@@ -130,3 +130,61 @@ exports.verifyToken = (req, res) => {
 exports.logout = (req, res) => {
     res.clearCookie("jwtAuth", {httpOnly: true}).status(200).send("Cookie deleted");
 }
+
+
+exports.pswd = async (req, res) => {
+    try{
+        const etudiant = await Etudiants.select(req.body.userId)
+        if(etudiant.rowCount == 1){
+            
+            // Si le mail correspond a celui entré avec l'id
+            if(etudiant.mailEtudiant == req.body.mailEtudiant){
+                //on génere un mdp aléatoire ici je commence par constante
+                let newmdp = "CemMeCarryLeCul"
+                
+                    let data = {mdpEtudiant : newmdp}
+
+                    data.mdpEtudiant = await bcrypt.hash(data.mdpEtudiant, 10)
+                    
+                    const result = await Etudiants.update(data, req.body.numEtudiant);
+                    if(result.rowCount == 1){
+                        res.status(200).json(result.rows[0])
+                    }else{
+                        res.status(400).json({message : "Erreur de modification"});
+                    }
+            }
+            else{
+                
+                res.status(404).json({message:"L'adresse mail ne correspond pas a celle écrite"})
+            }
+        }else{
+            res.status(404).json({message : "Il n'existe aucun étudiant avec ce numéro"});
+        }
+    }catch(err){
+        res.status(500).json({message : err.message});
+    }
+};
+
+
+
+// try{
+//     const emailToken = jwt.sign(
+//     {
+//         userId 
+//     },
+//     EMAIL_SECRET,
+//     {
+//         expireIn: '1d',
+//     },
+//     (err, emailToken)=>{
+//         const url = `http://localhost:8080/confirmation/${emailToken}`;
+
+//         await transporter.sendMail({
+//             to: args.email,
+//             subject: 'Confirm Email',
+//             html: `Cliquez ici pour confirmer votre mail: <a href="${url}">${url}</a>`
+//         });
+//     }catch(e){
+
+//     }  
+// )
