@@ -1,88 +1,46 @@
 <template>
-  <div class="test"></div>
-  <!-- <div class="form">
-        <b-form @submit="onSubmit">
-
-            <b-form-group id="input-group-2" label="Creneau sélectionné : " label-for="input-id-creneau">
-                <b-form-input
-                id="input-id-creneau"
-                type="text"
-                v-model="creneau.idCreneau"
-                required
-                placeholder="Id du creneau"
-                ></b-form-input>
-            </b-form-group>
-            
-            <b-form-group id="input-group-3" label="Date creneau : " label-for="input-date-creneau">
-                <b-form-input
-                id="input-date-creneau"
-                type="date"
-                v-model="creneau.dateCreneau"
-                required
-                placeholder="XX/XX/XX"
-                ></b-form-input>
-            </b-form-group>
-
-            
-            
-            <b-form-group id="input-group-4" label="Heure debut : " label-for="input-heure-debut">
-                <b-form-input
-                id="input-heure-debut"
-                type="text"
-                v-model="creneau.heureDebut"
-                required
-                placeholder="heure début"
-                ></b-form-input>
-            </b-form-group>
-
-            <b-form-group id="input-group-4" label="Salle pour le créneau : " label-for="input-salle">
-                <b-form-input
-                id="input-salle"
-                type="text"
-                v-model="creneau.salleCreneau"
-                required
-                placeholder="Salle"
-                ></b-form-input>
-            </b-form-group>
-
-            <b-form-group id="input-group-4" label="ID du groupe : " label-for="input-id-groupe">
-                <b-form-input
-                id="input-id-groupe"
-                type="text"
-                v-model="creneau.idGroupe"
-                required
-                placeholder="id groupe"
-                ></b-form-input>
-            </b-form-group>
-            
-            <b-form-group id="input-group-4" label="ID event : " label-for="input-id-event">
-                <b-form-input
-                id="input-id-event"
-                type="text"
-                v-model="creneau.idEvent"
-                required
-                placeholder="0"
-                ></b-form-input>
-            </b-form-group>
-
-
-          <b-button type="submit" variant="primary">Modifier</b-button>
-        </b-form>
-        <br>
-        <p id='txtError'></p>
-
-    </div> -->
+    <div>
+        <!--button @click="toggleWeekends">Afficher Week-end</button--> 
+        <FullCalendar :options="calendarOptions" />
+    </div>
 </template>
 
+
+<script src='fullcalendar/core/locales/fr'></script>
+
 <script>
-  
+  import initialLocaleCode from '@fullcalendar/core/locales/fr'
+
+  import FullCalendar from '@fullcalendar/vue'
+  import dayGridPlugin from '@fullcalendar/daygrid'
+  import timeGridPlugin from '@fullcalendar/timegrid'
+  import interactionPlugin from '@fullcalendar/interaction'
+  //import listPlugin from '@fullcalendar/list' 
+
+
   import axios from 'axios'
   export default {
+    components: {
+      FullCalendar // make the <FullCalendar> tag available
+    },
     data() {
       return {
-        creneaux: [
-        ],
-        
+        calendarOptions: {
+          plugins: [ dayGridPlugin, timeGridPlugin, interactionPlugin], // listPlugin
+          headerToolbar: {
+            left:'dayGridMonth,timeGridWeek,timeGridDay' ,
+            center:'title',
+            right: 'prev next today'
+          },
+          initialView: 'dayGridMonth',
+          dateClick: this.dateClick,
+          eventClick: this.handleEventClick,
+          events: [
+          ],
+          weekends: false, // initial value as you want it or not 
+          selectable: true,//initial value for selecting or not 
+          locale: initialLocaleCode
+        }
       }
     },
     methods: {
@@ -93,33 +51,30 @@
       
       },
       getCreneauData(){
-          if(this.$store.getters.authenticated){
+          /*if(this.$store.getters.authenticated){
             //var etudiantInfo = JSON.parse(this.$store.getters.userInfo)
-            var url1 = "http://localhost:3000/api/creneaux/"
-            axios.get(url1).then((res) => {
+            try{
+              var url1 = "http://localhost:3000/api/creneaux/"
+              axios.get(url1).then((res) => {
               for(let i=0; i<res.data.length;i++){
-                axios.get("http://localhost:3000/api/evenements/"+res.data[i].idEvent).then((resultat)=>{
-                  this.creneaux[i]={
-                  id:res.data[i].idCreneau,
-                  heure:res.data[i].heureDebut,
-                  title: resultat.data.nomEvenement,
-                }
+                let creneau={}
+                await axios.get("http://localhost:3000/api/evenements/"+res.data[i].idEvent).then((resultat)=>{
+                  creneau={
+                    id:res.data[i].idCreneau,
+                    heure:res.data[i].heureDebut,
+                    title: resultat.data.nomEvenement,
+                    date: res.data[i].date,
+                  }
+                  console.log(creneau)
                 })
-                
+                this.calendarOptions.events.push(creneau)
               }
-              // let data = res.data
-              // this.creneau.idCreneau=data.idCreneau
-
-              // const date = new Date(data.date)
-              // this.creneau.dateCreneau= date.getFullYear().toString() + '-' + (date.getMonth() + 1).toString().padStart(2,0) + '-' + date.getDate().toString().padStart(2,0);
-
-              // this.creneau.heureDebut=data.heureDebut
-              // this.creneau.salleCreneau=data.salle
-              // this.creneau.idGroupe=data.idGroupe
-              // this.creneau.idEvent=data.idEvent
+              console.log("lol"+this.calendarOptions.events)
             });
-            console.log(this.creneaux)
-          }
+            }catch(err){
+              console.log("erreur + "+err);
+            }
+          }*/
       },
       modifCreneau(){
         if(this.store.getters.authenticated){
@@ -142,8 +97,28 @@
         }
       },
     },
-    mounted(){
-        this.getCreneauData()
+    async mounted(){
+        if(this.$store.getters.authenticated){
+          //var etudiantInfo = JSON.parse(this.$store.getters.userInfo)
+          try{
+            const url1 = "http://localhost:3000/api/creneaux/"
+            let res = await axios.get(url1)
+            for(let i=0; i<res.data.length;i++){
+              let getTitle = await axios.get("http://localhost:3000/api/evenements/"+res.data[i].idEvent)
+              let dateHeure = new Date(res.data[i].date).setHours(res.data[i].heureDebut.split(':')[0], res.data[i].heureDebut.split(':')[1], res.data[i].heureDebut.split(':')[2])
+              console.log(res.data[i].heureDebut)
+              let creneau={
+                id:res.data[i].idCreneau,
+                title: getTitle.data.nomEvenement,
+                date: dateHeure,
+              }
+              this.calendarOptions.events.push(creneau)
+            }
+            console.log("lol"+JSON.stringify(this.calendarOptions.events))
+          }catch(err){
+            console.log("erreur + "+err);
+          }
+        }
     }
   }
 </script>
