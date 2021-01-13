@@ -28,8 +28,10 @@
 
         <b-button type="submit" variant="primary">Se connecter</b-button>
         <p>
-          Pas encore inscrit ? <a href="/signup"> Cliquez ici </a>
+          Pas encore inscrit ? <a href="/signup"> Cliquez ici </a><br>
+        <a href="/forgotpassword"> mot de passe oublié</a>
         </p>
+        
         </b-form>
 
     </div>
