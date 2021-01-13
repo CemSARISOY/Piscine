@@ -4,6 +4,12 @@
             <b-card>
                 <b-tabs content-class="mt-3">
                     <b-tab title="IG3" active>
+                        <b-pagination
+                        v-model="currentPage[0]"
+                        :total-rows="rows(0)"
+                        :per-page="perPage"
+                        aria-controls="my-table"
+                        ></b-pagination>
                         <b-table striped hover :items="IG3" :fields="fields" show-empty :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" responsive="sm">
                             <template #cell(Suppression)="row">
                                 <b-button @click="suppression(row.item.numEtudiant)">
@@ -17,6 +23,12 @@
                     </b-tab>
                     
                     <b-tab title="IG4">
+                        <b-pagination
+                        v-model="currentPage[1]"
+                        :total-rows="rows(1)"
+                        :per-page="perPage"
+                        aria-controls="my-table"
+                        ></b-pagination>
                         <b-table striped hover :items="IG4" :fields="fields" show-empty>
                             <template #cell(Suppression)="row">
                                 <b-button @click="suppression(row.item.numEtudiant)">
@@ -30,6 +42,12 @@
                     </b-tab>
 
                     <b-tab title="IG5">
+                        <b-pagination
+                        v-model="currentPage[2]"
+                        :total-rows="rows(2)"
+                        :per-page="perPage"
+                        aria-controls="my-table"
+                        ></b-pagination>
                         <b-table striped hover :items="IG5" :fields="fields" show-empty>
                             <template #cell(Suppression)="row">
                                 <b-button @click="suppression(row.item.numEtudiant)">
@@ -52,7 +70,7 @@ export default {
     data(){
         return{
             perPage: 6,
-            currentPage: 1,
+            currentPage: [1,1,1],
             sortBy: '',
             sortDesc: '',
             fields: [{key:'numEtudiant', sortable: true}, {key:'nomEtudiant', sortable: true}, {key:'prenomEtudiant', sortable: true}, {key:'Suppression', sortable: false}],
@@ -98,6 +116,15 @@ export default {
                 variant: 'danger',
                 autoHideDelay: 5000,
             })
+        },
+        rows(int){
+            if(int == 0){
+                return this.IG3.length
+            }else if(int == 1){
+                return this.IG4.length
+            }else{
+                return this.IG5.length
+            }
         }
     }
 }
