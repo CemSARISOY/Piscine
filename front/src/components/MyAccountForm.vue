@@ -92,10 +92,17 @@
       getUserData(){
           if(this.$store.getters.authenticated){
 
-              var etudiantInfo = JSON.parse(this.$store.getters.userInfo)
-              var url1 = "http://localhost:3000/"
-              var etudiant = JSON.parse(axios.get(url1.concat(etudiantInfo.numEtudiant)))
+              var etudiantInfo = this.$store.getters.userInfo
+              var url1 = "http://localhost:3000/etudiants/"
+              var etudiant = axios.get(url1.concat(etudiantInfo.numEtudiant))
+              .then((response)=>{
+                console.log(response)
+              })
+              .catch((error)=>{
+                console.log(error)
+              })
               this.form.numEtu = etudiant.numEtudiant
+              this.form.prenom = etudiant.prenomEtudiant
               this.form.nom = etudiant.nomEtudiant
               this.form.email = etudiant.mailEtudiant
               this.prenom = etudiant.prenomEtudiant
