@@ -80,11 +80,9 @@
                   title: result.data[i].idCreneau,
                   date: creneauDate.getFullYear().toString() + '-' + (creneauDate.getMonth() + 1).toString().padStart(2,0) + '-' + creneauDate.getDate().toString().padStart(2,0),
                 }
-                console.log("creneau"+JSON.stringify(creneau))
                 this.calendarOptions.events.push(creneau)
 
             }
-            console.log(this.calendarOptions.events)
         }catch(err){
             console.log(err)
         }

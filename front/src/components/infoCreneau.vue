@@ -1,5 +1,6 @@
 <template>
-    <div class="form">
+  <div class="test"></div>
+  <!-- <div class="form">
         <b-form @submit="onSubmit">
 
             <b-form-group id="input-group-2" label="Creneau sélectionné : " label-for="input-id-creneau">
@@ -70,7 +71,7 @@
         <br>
         <p id='txtError'></p>
 
-    </div>
+    </div> -->
 </template>
 
 <script>
@@ -79,15 +80,8 @@
   export default {
     data() {
       return {
-        creneau: {
-          
-          idCreneau:"",
-          dateCreneau:"",
-          heureDebut:"",
-          salleCreneau:"",
-          idGroupe:"",
-          idEvent:"",
-        },
+        creneaux: [
+        ],
         
       }
     },
@@ -102,18 +96,29 @@
           if(this.$store.getters.authenticated){
             //var etudiantInfo = JSON.parse(this.$store.getters.userInfo)
             var url1 = "http://localhost:3000/api/creneaux/"
-            axios.get(url1.concat(this.$route.params.id)).then((res) => {
-              let data = res.data
-              this.creneau.idCreneau=data.idCreneau
+            axios.get(url1).then((res) => {
+              for(let i=0; i<res.data.length;i++){
+                axios.get("http://localhost:3000/api/evenements/"+res.data[i].idEvent).then((resultat)=>{
+                  this.creneaux[i]={
+                  id:res.data[i].idCreneau,
+                  heure:res.data[i].heureDebut,
+                  title: resultat.data.nomEvenement,
+                }
+                })
+                
+              }
+              // let data = res.data
+              // this.creneau.idCreneau=data.idCreneau
 
-              const date = new Date(data.date)
-              this.creneau.dateCreneau= date.getFullYear().toString() + '-' + (date.getMonth() + 1).toString().padStart(2,0) + '-' + date.getDate().toString().padStart(2,0);
+              // const date = new Date(data.date)
+              // this.creneau.dateCreneau= date.getFullYear().toString() + '-' + (date.getMonth() + 1).toString().padStart(2,0) + '-' + date.getDate().toString().padStart(2,0);
 
-              this.creneau.heureDebut=data.heureDebut
-              this.creneau.salleCreneau=data.salle
-              this.creneau.idGroupe=data.idGroupe
-              this.creneau.idEvent=data.idEvent
+              // this.creneau.heureDebut=data.heureDebut
+              // this.creneau.salleCreneau=data.salle
+              // this.creneau.idGroupe=data.idGroupe
+              // this.creneau.idEvent=data.idEvent
             });
+            console.log(this.creneaux)
           }
       },
       modifCreneau(){
