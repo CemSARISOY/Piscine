@@ -78,12 +78,10 @@
       },
       modifCreneau(info){
         if(this.$store.getters.authenticated){
-          //alert(JSON.stringify(info.event))
           const url1 = "http://localhost:3000/api/creneaux/"+info.event.id
           axios.get(url1).then((res)=>{
-            //alert(JSON.stringify(res.data))
             let dateToFormat = new Date(res.data.date)
-            if(res.data.idGroupe==0){
+            if(res.data.idGroupe==null){
               var confirmation = confirm(
                 "Date du créneau :\n" + dateToFormat.getDate()+"/"+(dateToFormat.getMonth()+1)+"/"+dateToFormat.getFullYear()+"\n"+
                 "Heure de début :\n" + res.data.heureDebut +"\n"+
@@ -118,10 +116,10 @@
         if(this.$store.getters.authenticated){
           //var etudiantInfo = JSON.parse(this.$store.getters.userInfo)
           try{
-            const url1 = "http://localhost:3000/api/creneaux/"
+            const url1 = "http://localhost:3000/api/evenements/"+this.$route.params.id+"/creneaux/"
             let res = await axios.get(url1)
             for(let i=0; i<res.data.length;i++){
-              let getTitle = await axios.get("http://localhost:3000/api/evenements/"+res.data[i].idEvent)
+              let getTitle = await axios.get("http://localhost:3000/api/evenements/"+this.$route.params.id)
               let dateHeure = new Date(res.data[i].date).setHours(res.data[i].heureDebut.split(':')[0], res.data[i].heureDebut.split(':')[1], res.data[i].heureDebut.split(':')[2])
               let creneau={
                 id:res.data[i].idCreneau,
