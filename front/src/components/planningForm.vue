@@ -16,19 +16,39 @@
         >
           <form ref="form" @submit.stop.prevent="handleSubmit">
             <b-time
+              v-model="value"
               id="ex-disabled-readonly"
-              :disabled="disabled"
-              :readonly="readonly"
-              show-seconds 
               locale="fr"
-            ></b-time>
+            >
+              <div class="d-flex" dir="ltr">
+                <b-button
+                  size="sm"
+                  variant="outline-danger"
+                  v-if="value"
+                  @click="clearTime"
+                >
+                  Effacer
+                </b-button>
+                <b-button 
+                  size="sm"
+                  variant="outline-primary"
+                  class="ml-auto"
+                  @click="setNow"
+                >
+                  Heure actuelle
+                </b-button>
+              </div>
+            
+            
+            </b-time>
+            
             <b-form-group
               label="N° salle"
               label-for="salle-input"
               invalid-feedback="Une salle est requise !"
               :state="salleState"
             >
-              <b-form-input
+              <b-form-input ref="my-modal"
                 id="salle-input"
                 v-model="salle"
                 :state="salleState"
@@ -37,7 +57,7 @@
               >
               </b-form-input>
             </b-form-group>
-            <label for="promo-selector">Sélectionner les jurys</label>
+            <label for="promo-selector">Sélectionner le(s) professeur(s)</label>
             <!--b-form-group
               label="Nom jury(s)"
               label-for="jury-input"
@@ -67,7 +87,7 @@
   import FullCalendar from '@fullcalendar/vue'
   import dayGridPlugin from '@fullcalendar/daygrid'
   import timeGridPlugin from '@fullcalendar/timegrid'
-  import interactionPlugin from '@fullcalendar/interaction'
+  import interactionPlugin, { ThirdPartyDraggable } from '@fullcalendar/interaction'
   import bootstrapPlugin from '@fullcalendar/bootstrap';
   //import listPlugin from '@fullcalendar/list'
 
@@ -82,6 +102,7 @@
                 juryOptions: [],
                 jurySelected:[]
             },
+        value: null,
         show: false,
         variants: ['primary', 'secondary', 'success', 'warning', 'danger', 'info', 'light', 'dark'],
         headerBgVariant: 'info',
@@ -112,7 +133,11 @@
           eventClick: this.handleEventClick,
           events: [
             //"EVENTS"
-            //{ title: 'event 1', date: '2021-01-05'}, //display: 'background' },
+            { title: 'event 1 \n' +'Prof: Mr Berry' + 'Salle : TD015', 
+            start: '2021-01-14T12:30:00Z',
+            //end:
+            display: 'background',
+            },
             //{ title: 'event 2', date: '2021-01-07'}//display: 'background' }
           ],
           weekends: false, // initial value as you want it or not 
@@ -153,23 +178,56 @@
         // Hide the modal manually
         this.$nextTick(() => {
           this.$bvModal.hide('modal-prevent-closing')
+          console.log(this.$refs['my-modal'].value) //affiche la valeur de salle
+          console.log(this.value)
+          
         })
       },
       testClick: function(arg) {
-        this.$bvModal.show('modal-prevent-closing') 
+        if(this.$store.getters.userInfo.isAdmin){
+          this.$bvModal.show('modal-prevent-closing') 
+          //console.log(arg.date.toLocaleDateString())
+          axios.post("http://localhost:3000/api/evenements/:id/creneaux/",{date:arg.date.toLocaleDateString(), heureDebut:arg.date.toLocaleTimeString(), salle:this.value, idEvent:this.$route.params.id}, {withCredentials: true
+                }).then(response =>{
+                    console.log('bien vu')
+                    let creneau = {
+                    title: response.value, 
+                    date:arg.date.toLocaleDateString(),
+                    eventColor: 'green'}
+
+                    console.log("Creneau crée !")
+                    this.calendarOptions.events.push(creneau)
+                    console.log(this)
+                    this.$router.go()
+                }).catch(function(){
+                    console.log("Erreur de création")
+                })
+        }   
+
         //j = this.submittedJury.push(this.jury)
-        console.log(this.$bvModal)
+        //console.log(this.$refs['my-modal'].show())
       },
+      setNow() {
+        const now = new Date()
+        // Grab the HH:mm:ss part of the time string
+        this.value = now.toTimeString().slice(0, 8)
+      },
+      clearTime() {
+        this.value = ''
+      },
+
       // dateClick: function(arg) {
       //    if(this.$store.getters.userInfo.isAdmin){
       //       //console.log("connected")
-      //       let entree = this.$bvModal.show('modal-prevent-closing') 
-      //       if (entree){
+      //       //let entree = prompt("")
+      //       this.$bvModal.show('modal-prevent-closing') 
+      //       if (this.handleSubmit()){
+      //           console.log("bien vu")
       //           //recuperer jury dans la bdd 
-      //           axios.post("http://localhost:3000/api/evenements/:id/creneaux/",{date:arg.date.toLocaleDateString(), heureDebut:arg.date.toLocaleTimeString(), salle:entree, idEvent:this.$route.params.id}, {withCredentials: true
+      //           axios.post("http://localhost:3000/api/evenements/:id/creneaux/",{date:arg.date.toLocaleDateString(), heureDebut:arg.date.toLocaleTimeString(), salle:this.value, idEvent:this.$route.params.id}, {withCredentials: true
       //           }).then(response =>{
       //               let creneau = {
-      //               title: response.idCreneau, 
+      //               title: response.value, 
       //               date:arg.date.toLocaleDateString(),
       //               eventColor: 'green'}
 
@@ -198,6 +256,7 @@
                 let creneau = {
                   title: result.data[i].idCreneau, 
                   date: result.data[i].date,
+                  start: result.data[i].heureDebut,
                   eventColor: 'green'}
                 console.log(creneau)
                 this.calendarOptions.events.push(creneau)
