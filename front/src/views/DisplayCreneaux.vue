@@ -1,11 +1,12 @@
 <template>
   <div class=creneauxinfo>
     <h1>Informations</h1>
-    <event-info/>
+    <info-creneau/>
   </div>
 </template>
 <script>
 import eventInfoForm from '../components/infoCreneau'
+import InfoCreneau from '../components/infoCreneau.vue'
 export default {
   components:{
     infoCreneau

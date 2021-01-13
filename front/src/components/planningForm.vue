@@ -72,17 +72,18 @@
     },
     async mounted(){
         try{
-            const result = await axios.get("http://localhost:3000/api/creneaux/evenements/"+this.$route.params.id, {withCredentials: true
+            const result = await axios.get("http://localhost:3000/api/evenements/"+this.$route.params.id+"/creneaux", {withCredentials: true
               });
             for(let i=0; i<result.data.length;i++){
+                let creneauDate = new Date(result.data[i].date)
                 let creneau = {
-                  title: result.data[i].idCreneau, 
-                  date: result.data[i].date}
-                console.log(creneau)
+                  title: result.data[i].idCreneau,
+                  date: creneauDate.getFullYear().toString() + '-' + (creneauDate.getMonth() + 1).toString().padStart(2,0) + '-' + creneauDate.getDate().toString().padStart(2,0),
+                }
+                console.log("creneau"+JSON.stringify(creneau))
                 this.calendarOptions.events.push(creneau)
 
             }
-            console.log(result)
             console.log(this.calendarOptions.events)
         }catch(err){
             console.log(err)
