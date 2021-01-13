@@ -59,6 +59,7 @@ export default {
         {withCredentials:true}
         ).then( result => {
           this.$store.commit("CONNECT", result.data.success);
+          this.$store.commit("SET_USER", {userId: result.data.userId, isAdmin: result.data.isAdmin })
           this.$router.push("/")
       }).catch( error => {
         console.log("erreur : ", error);

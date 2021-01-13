@@ -18,7 +18,7 @@ exports.getAllEtudiant = async (req, res) => {
 exports.getOneEtudiant = async (req, res) => {
     try{
         const etudiant = await Etudiants.select(req.params.id)
-        if(etudiant.rowCount == 1){
+        if(etudiant.rowCount > 0){
             res.status(200).json(etudiant.rows[0])
         }else{
             res.status(404).json({message : "Il n'existe aucun étudiant avec ce numéro"});
@@ -33,10 +33,10 @@ exports.createEtudiant = async (req, res) => {
         let data = req.body;
         data.mdpEtudiant = await bcrypt.hash(data.mdpEtudiant, 10)
         const result = await Etudiants.create(data);
-        if(result.rowCount == 1){
+        if(result.rowCount > 0){
             res.status(201).json(result.rows[0])
         }else{
-            res.status(404).json({message : "Erreur de création"});
+            res.status(400).json({message : "Erreur de création"});
         }
         
     }catch(err){
@@ -47,10 +47,10 @@ exports.createEtudiant = async (req, res) => {
 exports.deleteEtudiant = async (req, res) => {
     try{
         const result = await Etudiants.delete(req.params.id);
-        if(result.rowCount == 1){
+        if(result.rowCount > 0){
             res.status(200).json(result.rows[0]);
         }else{
-            res.status(400).json({message : "Erreur de suppression"});
+            res.status(404).json({message : "Erreur de suppression"});
         }
     }catch(err){
         res.status(500).json({message : err.message});
@@ -64,7 +64,7 @@ exports.updateEtudiant = async (req, res) => {
             data.mdpEtudiant = await bcrypt.hash(data.mdpEtudiant, 10)
         }
         const result = await Etudiants.update(data, req.params.id);
-        if(result.rowCount == 1){
+        if(result.rowCount > 0){
             res.status(200).json(result.rows[0])
         }else{
             res.status(400).json({message : "Erreur de modification"});
@@ -80,8 +80,8 @@ exports.login = async (req, res) =>{
         if(etudiant.rowCount === 1){
             const result = await bcrypt.compare(req.body.mdpEtudiant, etudiant.rows[0].mdpEtudiant);
             if(result){
-                token = jwt.sign( { userId: etudiant.rows[0].numEtudiant, isAdmin: etudiant.rows[0].numEtudiant == 1}, process.env.RANDOMSECRETTOKEN, {expiresIn: '5m'});
-                res.cookie('jwtAuth', token, {maxAge:'300000', httpOnly:true}).status(200).json({success: true});
+                token = jwt.sign( { userId: etudiant.rows[0].numEtudiant, isAdmin: etudiant.rows[0].numEtudiant == 1}, process.env.RANDOMSECRETTOKEN, {expiresIn: '60m'});
+                res.cookie('jwtAuth', token, {maxAge:'3600000', httpOnly:true}).status(200).json({success: true, userId: req.body.numEtudiant, isAdmin: req.body.numEtudiant==1});
             }else{
                 res.status(401).json({message: "Mot de passe incorrect"});
             }
@@ -93,20 +93,19 @@ exports.login = async (req, res) =>{
     }
 };
 
-
-exports.getEtudiantsInPromo = async (req, res) => {
+exports.getEvent = async (req, res) => {
     try{
-        const etudiants = await Etudiants.selectByPromo(req.params.promo);
-        if(etudiants.rowCount > 0){
-            res.status(200).json(etudiants.rows);
+        const result = await Etudiants.selectEvent(req.params.id);
+        if(result.rowCount > 0){
+            res.status(200).json(result.rows)
         }else{
-            res.status(404).json({message: "Aucun étudiant dans cette promo"});
+            res.status(404).json({message: "Aucun événement lié à cet étudiant"})
         }
-
     }catch(err){
-        res.status(500).json({message : err.message});
+        res.status(500).json({message: err.message});
     }
 }
+
 
 exports.verifyToken = (req, res) => {
     try{
@@ -115,8 +114,8 @@ exports.verifyToken = (req, res) => {
             const decodedToken = jwt.verify(cookies[1], process.env.RANDOMSECRETTOKEN)
             const userId = decodedToken.userId
             if(userId){
-                newToken = jwt.sign( { userId: decodedToken.userId, isAdmin: decodedToken.isAdmin}, process.env.RANDOMSECRETTOKEN, {expiresIn: '5m'});
-                res.cookie('jwtAuth', newToken, {maxAge:'300000', httpOnly:true}).status(200).json({success: true, userId: userId, isAdmin: userId==1})
+                newToken = jwt.sign( { userId: decodedToken.userId, isAdmin: decodedToken.isAdmin}, process.env.RANDOMSECRETTOKEN, {expiresIn: '60m'});
+                res.cookie('jwtAuth', newToken, {maxAge:'3600000', httpOnly:true}).status(200).json({success: true, userId: userId, isAdmin: userId==1})
             }else{
                 res.status(401).json({success: false})
             }
