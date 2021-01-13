@@ -5,9 +5,13 @@
         <div class="text-center">
           <h2>Votre compte</h2>
         </div>
-        <my-account-form v-if="modif"/>
-        <my-account-infos v-else/>
-        <b-button v-if="!modif" @click="switchMod">Modifier vos informations</b-button>
+        <b-button v-if="modif === 1 || modif === 2" @click="switchMod(0)">Retour</b-button>
+        <my-account-infos v-if="modif===0"/>
+        <my-account-form v-if="modif===1"/>
+        <my-account-newmdp v-if="modif===2"/>
+        <b-button v-if="modif===0" @click="switchMod(1)">Modifier vos informations</b-button>
+        <b-button v-if="modif===0" @click="switchMod(2)">Modifier votre mot de passe</b-button>
+
       </b-card>
     </b-container>
   </div>
@@ -16,20 +20,22 @@
 
 import MyAccountForm from '../components/MyAccountForm'
 import MyAccountInfos from '../components/MyAccountInfos'
+import MyAccountNewmdp from '../components/MyAccountNewmdp'
 export default {
   data(){
     return{
-      modif: false
+      modif: 0
     }
   },
   components:{
     MyAccountForm,
-    MyAccountInfos
+    MyAccountInfos,
+    MyAccountNewmdp
 
   },
   methods:{
-    switchMod(){
-      this.modif = !this.modif
+    switchMod(mod){
+      this.modif = mod
     }
   }
 }

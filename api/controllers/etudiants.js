@@ -73,7 +73,6 @@ exports.updateEtudiant = async (req, res) => {
             delete data["mdpConfirm"]
             const result = await Etudiants.update(data, req.params.id);
             if(result.rowCount > 0){
-                console.log(true)
                 res.status(200).json(result.rows[0])
             }else{
                 res.status(400).json({message : "Erreur de modification"});
