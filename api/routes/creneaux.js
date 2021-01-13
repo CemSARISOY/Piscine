@@ -19,5 +19,8 @@ router.delete("/:idCreneau", auth.isAuth, auth.isAdmin, creneauxCtrl.deleteCrene
 router.put("/:idCreneau", auth.isAuth, auth.isAdmin, creneauxCtrl.updateCreneaux);
 //Récupérer les jurys du créneau
 router.get("/:idCreneau/jurys", creneauxCtrl.getJurys)
-
+//supprimer un Jury du créneau
+router.delete("/:idCreneau/jurys/:idProf", auth.isAuth, auth.isAdmin, creneauxCtrl.deleteJury);
+//Ajouter des jurys au créneau
+router.post("/:idCreneau/jurys", auth.isAuth, auth.isAdmin, creneauxCtrl.setJurys);
 module.exports = router;
