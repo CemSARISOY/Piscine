@@ -8,9 +8,9 @@
                         v-model="currentPage[0]"
                         :total-rows="rows(0)"
                         :per-page="perPage"
-                        aria-controls="my-table"
+                        aria-controls="tabig3"
                         ></b-pagination>
-                        <b-table striped hover :items="IG3" :fields="fields" show-empty :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" responsive="sm">
+                        <b-table id="tabig3" striped hover :items="IG3" :fields="fields" show-empty :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" responsive="sm" :per-page="perPage" :current-page="currentPage[0]">
                             <template #cell(Suppression)="row">
                                 <b-button @click="suppression(row.item.numEtudiant)">
                                     Supprimer
@@ -27,9 +27,9 @@
                         v-model="currentPage[1]"
                         :total-rows="rows(1)"
                         :per-page="perPage"
-                        aria-controls="my-table"
+                        aria-controls="tabig4"
                         ></b-pagination>
-                        <b-table striped hover :items="IG4" :fields="fields" show-empty>
+                        <b-table id="tabig4" striped hover :items="IG4" :fields="fields" show-empty :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" responsive="sm" :per-page="perPage" :current-page="currentPage[1]">
                             <template #cell(Suppression)="row">
                                 <b-button @click="suppression(row.item.numEtudiant)">
                                     Supprimer
@@ -46,9 +46,9 @@
                         v-model="currentPage[2]"
                         :total-rows="rows(2)"
                         :per-page="perPage"
-                        aria-controls="my-table"
+                        aria-controls="tabig5"
                         ></b-pagination>
-                        <b-table striped hover :items="IG5" :fields="fields" show-empty>
+                        <b-table id="tabig5" striped hover :items="IG5" :fields="fields" show-empty :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" responsive="sm" :per-page="perPage" :current-page="currentPage[2]">
                             <template #cell(Suppression)="row">
                                 <b-button @click="suppression(row.item.numEtudiant)">
                                     Supprimer
