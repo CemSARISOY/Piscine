@@ -34,7 +34,7 @@
           },
           initialView: 'dayGridMonth',
           dateClick: this.dateClick,
-          eventClick: this.handleEventClick,
+          eventClick: this.modifCreneau,
           events: [
           ],
           weekends: false, // initial value as you want it or not 
@@ -76,24 +76,41 @@
             }
           }*/
       },
-      modifCreneau(){
-        if(this.store.getters.authenticated){
-            axios.put("http://localhost:3000/api/creneaux/".concat(this.$route.params.id),
-            {
-            "idCreneau" : this.creneau.idCreneau,
-            "date" :this.creneau.date,
-            "heureDebut" :this.creneau.heureDebut,
-            "salle" :this.creneau.salle,
-            "idGroupe" : this.creneau.idGroupe,
-            "idEvent" : this.creneau.idEvent,
+      modifCreneau(info){
+        if(this.$store.getters.authenticated){
+          //alert(JSON.stringify(info.event))
+          const url1 = "http://localhost:3000/api/creneaux/"+info.event.id
+          axios.get(url1).then((res)=>{
+            //alert(JSON.stringify(res.data))
+            let dateToFormat = new Date(res.data.date)
+            if(res.data.idGroupe==0){
+              var confirmation = confirm(
+                "Date du créneau :\n" + dateToFormat.getDate()+"/"+(dateToFormat.getMonth()+1)+"/"+dateToFormat.getFullYear()+"\n"+
+                "Heure de début :\n" + res.data.heureDebut +"\n"+
+                "Salle :\n"+ res.data.salle + "\n"+
+                "Voulez-vous réserver ce créneau ?"
+              )
+              if(confirmation){
+                const numEtud = JSON.stringify(this.$store.getters.userInfo.numEtudiant)
+                const numGroup = prompt("Veuillez entrer votre numéro de groupe :")
+                if(typeof(parseInt(numGroup)) == "number"){
+                  axios.put("http://localhost:3000/api/creneaux/"+info.event.id,{
+                    idGroupe:parseInt(numGroup),
+                  }).then((res)=>{
+                    alert(JSON.stringify(res.data))
+                  })
+                }else{
+                  alert("Mauvaise entrée, veuillez réessayer.")
+                }
+              }
+            } else {
+              alert("Date du créneau :\n" + dateToFormat.getDate()+"/"+(dateToFormat.getMonth()+1)+"/"+dateToFormat.getFullYear()+"\n"+
+                "Heure de début :\n" + res.data.heureDebut +"\n"+
+                "Salle :\n"+ res.data.salle + "\n"+
+                "Réservé par le groupe "+res.data.idGroupe)
             }
-            )
-            .then(function(response){
-            console.log(response);
-            }) 
-            .catch(function(error){
-            console.log(error);
-            })
+          })
+          
         }
       },
     },
@@ -106,7 +123,6 @@
             for(let i=0; i<res.data.length;i++){
               let getTitle = await axios.get("http://localhost:3000/api/evenements/"+res.data[i].idEvent)
               let dateHeure = new Date(res.data[i].date).setHours(res.data[i].heureDebut.split(':')[0], res.data[i].heureDebut.split(':')[1], res.data[i].heureDebut.split(':')[2])
-              console.log(res.data[i].heureDebut)
               let creneau={
                 id:res.data[i].idCreneau,
                 title: getTitle.data.nomEvenement,
@@ -114,7 +130,6 @@
               }
               this.calendarOptions.events.push(creneau)
             }
-            console.log("lol"+JSON.stringify(this.calendarOptions.events))
           }catch(err){
             console.log("erreur + "+err);
           }

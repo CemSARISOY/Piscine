@@ -16,7 +16,7 @@ router.post("/", auth.isAuth, auth.isAdmin, creneauxCtrl.createCreneaux);
 //Supprimer un créneau
 router.delete("/:idCreneau", auth.isAuth, auth.isAdmin, creneauxCtrl.deleteCreneaux);
 //Met à jour un créneau
-router.put("/:idCreneau", auth.isAuth, auth.isAdmin, creneauxCtrl.updateCreneaux);
+router.put("/:idCreneau", /*auth.isAuth, auth.isAdmin,*/ creneauxCtrl.updateCreneaux);
 //Récupérer les jurys du créneau
 router.get("/:idCreneau/jurys", creneauxCtrl.getJurys)
 
