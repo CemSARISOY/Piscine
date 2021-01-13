@@ -15,6 +15,13 @@
           @ok="handleOk"
         >
           <form ref="form" @submit.stop.prevent="handleSubmit">
+            <b-time
+              id="ex-disabled-readonly"
+              :disabled="disabled"
+              :readonly="readonly"
+              show-seconds 
+              locale="fr"
+            ></b-time>
             <b-form-group
               label="N° salle"
               label-for="salle-input"
@@ -77,11 +84,11 @@
             },
         show: false,
         variants: ['primary', 'secondary', 'success', 'warning', 'danger', 'info', 'light', 'dark'],
-        headerBgVariant: 'dark',
+        headerBgVariant: 'info',
         headerTextVariant: 'light',
         bodyBgVariant: 'light',
         bodyTextVariant: 'dark',
-        footerBgVariant: 'warning',
+        footerBgVariant: 'info',
         footerTextVariant: 'dark',
         modalShow: false,
         salle: '',
@@ -99,8 +106,9 @@
             right: 'prev next today'
           },
           initialView: 'timeGridWeek',
+          allDaySlot: false,
           selectable: true,
-          dateClick: this.dateClick,
+          dateClick: this.testClick,//dateClick,
           eventClick: this.handleEventClick,
           events: [
             //"EVENTS"
@@ -147,27 +155,34 @@
           this.$bvModal.hide('modal-prevent-closing')
         })
       },
-      dateClick: function(arg) {
-         if(this.$store.getters.userInfo.isAdmin){
-            //console.log("connected")
-            let entree = this.$bvModal.show('modal-prevent-closing') 
-            if (entree){
-                //recuperer jury dans la bdd 
-                axios.post("http://localhost:3000/api/evenements/:id/creneaux/",{date:arg.date.toLocaleDateString(), heureDebut:arg.date.toLocaleTimeString(), salle:entree, idEvent:this.$route.params.id}, {withCredentials: true
-                }).then(response =>{
-                    let creneau = {
-                    title: response.idCreneau, 
-                    date:arg.date.toLocaleDateString()}
-                    console.log("Creneau crée !")
-                    this.calendarOptions.events.push(creneau)
-                    console.log(this)
-                    this.$router.go()
-                }).catch(function(){
-                    console.log("Erreur de création")
-                })
-            }
-        }
+      testClick: function(arg) {
+        this.$bvModal.show('modal-prevent-closing') 
+        //j = this.submittedJury.push(this.jury)
+        console.log(this.$bvModal)
       },
+      // dateClick: function(arg) {
+      //    if(this.$store.getters.userInfo.isAdmin){
+      //       //console.log("connected")
+      //       let entree = this.$bvModal.show('modal-prevent-closing') 
+      //       if (entree){
+      //           //recuperer jury dans la bdd 
+      //           axios.post("http://localhost:3000/api/evenements/:id/creneaux/",{date:arg.date.toLocaleDateString(), heureDebut:arg.date.toLocaleTimeString(), salle:entree, idEvent:this.$route.params.id}, {withCredentials: true
+      //           }).then(response =>{
+      //               let creneau = {
+      //               title: response.idCreneau, 
+      //               date:arg.date.toLocaleDateString(),
+      //               eventColor: 'green'}
+
+      //               console.log("Creneau crée !")
+      //               this.calendarOptions.events.push(creneau)
+      //               console.log(this)
+      //               this.$router.go()
+      //           }).catch(function(){
+      //               console.log("Erreur de création")
+      //           })
+      //       }
+      //   }
+      // },
       handleEventClick: function(){ 
           if(store.getters.userInfo.isAdmin){
             alert("test") 
@@ -182,7 +197,8 @@
             for(let i=0; i<result.data.length;i++){
                 let creneau = {
                   title: result.data[i].idCreneau, 
-                  date: result.data[i].date}
+                  date: result.data[i].date,
+                  eventColor: 'green'}
                 console.log(creneau)
                 this.calendarOptions.events.push(creneau)
 
