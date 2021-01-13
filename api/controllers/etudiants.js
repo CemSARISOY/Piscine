@@ -119,7 +119,7 @@ exports.login = async (req, res) =>{
         const etudiant = await Etudiants.select(req.body.numEtudiant);
         if(etudiant.rowCount === 1){
             const result = await bcrypt.compare(req.body.mdpEtudiant, etudiant.rows[0].mdpEtudiant);
-            if(result){
+            if(result && req.body.confirmedMail){
                 token = jwt.sign( { userId: etudiant.rows[0].numEtudiant, isAdmin: etudiant.rows[0].numEtudiant == 1}, process.env.RANDOMSECRETTOKEN, {expiresIn: '60m'});
                 res.cookie('jwtAuth', token, {maxAge:'3600000', httpOnly:true}).status(200).json({success: true, userId: req.body.numEtudiant, isAdmin: req.body.numEtudiant==1});
             }else{
