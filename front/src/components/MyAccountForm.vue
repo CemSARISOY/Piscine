@@ -90,22 +90,21 @@
       
       },
       getUserData(){
-          if(this.$store.getters.authenticated){
+        if(this.$store.getters.authenticated){
 
-              var etudiantInfo = this.$store.getters.userInfo
-              var url1 = "http://localhost:3000/etudiants/"
-              var etudiant = axios.get(url1.concat(etudiantInfo.numEtudiant))
-              .then((response)=>{
-                console.log(response)
-              })
-              .catch((error)=>{
+            var etudiantInfo = this.$store.getters.userInfo
+            axios.get("http://localhost:3000/api/etudiants/"+etudiantInfo.numEtudiant, {withCredentials:true})
+            .then((response)=>{
+                this.form.numEtu = response.data.numEtudiant
+                this.form.prenom = response.data.prenomEtudiant
+                this.form.nom = response.data.nomEtudiant
+                this.form.email = response.data.mailEtudiant
+                this.prenom = response.data.prenomEtudiant
+            })
+            .catch((error)=>{
                 console.log(error)
-              })
-              this.form.numEtu = etudiant.numEtudiant
-              this.form.prenom = etudiant.prenomEtudiant
-              this.form.nom = etudiant.nomEtudiant
-              this.form.email = etudiant.mailEtudiant
-              this.prenom = etudiant.prenomEtudiant
+            })
+              
           }
       },
       handlePassword(){
