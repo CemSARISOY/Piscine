@@ -9,11 +9,12 @@ import axios from 'axios'
 
 export default {
   data() {
+    return{}
 
   },
   methods: {
-    onSubmit() {
-      axios.post("http://localhost:3000/api/etudiants/confirmation/:token")
+    confirmMail() {
+      axios.post(`http://localhost:3000/api/etudiants/confirmation/${this.$route.params.token}`)
         .then( result => {
           console.log(result.data.success)
           this.$router.push("/")
@@ -21,7 +22,11 @@ export default {
         console.log("erreur : ", error);
       })
     }
-  }
+  },
+    mounted(){
+        
+        this.confirmMail()
+    }
 }
 </script>
 
