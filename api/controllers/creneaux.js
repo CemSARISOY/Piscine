@@ -81,3 +81,31 @@ exports.getJurys = async (req, res) => {
         res.status(500).json({message : err.message});
     }
 };
+
+exports.deleteJury = async (req, res) => {
+    try{
+        const result = await Creneaux.deleteJury(req.params.idCreneau, req.params.idProf);
+        if(result.rowCount > 0){
+            res.status(200).json(result.rows[0])
+        }else{
+            res.status(404).json({message : "Erreur de suppression"});
+        }
+    }catch(err){
+        res.status(500).json({message : err.message});
+    }
+}
+
+exports.setJurys = async (req, res) => {
+    try{
+        const data = req.body.jurys
+        const result = await Creneaux.setJurys(req.params.idCreneau, data)
+        if(result.rowCount > 0){
+            res.status(201).json(result.rows)
+        }else{
+            res.status(400).json({message : "Erreur d'affectation de jury"})
+        }
+    }catch(err){
+        res.status(500).json({message : err.message});
+    }
+
+}
