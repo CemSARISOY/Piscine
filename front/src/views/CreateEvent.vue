@@ -139,21 +139,43 @@ export default {
     },
     methods: {
         onSubmit(){
-            axios.post("http://localhost:3000/api/evenements", {
-                promo: this.form.promo,
-                nomEvenement: this.form.nomEvenement,
-                dateDebut: new Date(this.form.date).toLocaleDateString(),
-                duree: this.form.duree,
-                dateLimiteRes: new Date(this.form.dateLimiteRes).toLocaleDateString(),
-                dureeCreneau: this.form.dureeCreneau,
-                creneaux: this.creneaux
-            }, {withCredentials:true})
-            .then( () => {
-                alert("Event créé");
-                this.$router.push("/")
-            })
-            .catch( () => {
-                alert("Erreur");
+            axios.get("http://localhost:3000/api/evenements", {withCredentials:true}).then ( (response) => {
+                let canCreate = true
+                for(let i=0; i<response.data.length ; i++){
+                    if(response.data[0].promo == this.form.promo){
+                        canCreate = false
+                    }
+                }
+                if(canCreate){
+                    axios.post("http://localhost:3000/api/evenements", {
+                        promo: this.form.promo,
+                        nomEvenement: this.form.nomEvenement,
+                        dateDebut: new Date(this.form.date).toLocaleDateString(),
+                        duree: this.form.duree,
+                        dateLimiteRes: new Date(this.form.dateLimiteRes).toLocaleDateString(),
+                        dureeCreneau: this.form.dureeCreneau,
+                        creneaux: this.creneaux
+                    }, {withCredentials:true})
+                    .then( () => {
+                        alert("Event créé");
+                        this.$router.push("/")
+                    })
+                    .catch( () => {
+                        alert("Erreur");
+                    })
+                }else{
+                    this.makeToast("Cette promo possède déjà un event!")
+                }
+            }).catch( (err) => {
+                alert(err)
+            });
+            
+        },
+        makeToast(string){
+            this.$bvToast.toast(string, {
+                title: 'Erreur !',
+                variant: 'danger',
+                autoHideDelay: 5000,
             })
         }
     },
