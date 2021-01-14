@@ -44,12 +44,22 @@ export default {
       return parsed;
     },
     addparseDate(date, duree) {
-      var jour = date.substr(8, 2);
-      var jourint = parseInt(jour, 10);
-      var ajouter = jourint + duree;
+      var ajouter = new Date();
+      console.log(date);
+      console.log(duree);
+      console.log(ajouter);
+      let annee = date.substr(0, 4);
+      let mois = date.substr(5, 2);
+      let jour = date.substr(8, 2);
 
-      let parsed = ajouter + "/" + date.substr(5, 2) + "/" + date.substr(0, 4);
-      return parsed;
+      var dates = new Date(annee, mois, jour);
+      console.log(dates);
+
+      ajouter.setDate(dates.getDate() + duree);
+      console.log(ajouter);
+      var ajouterStr = ajouter.toLocaleDateString();
+
+      return ajouterStr;
     },
     getUserEvent() {
       if (this.$store.getters.authenticated) {
@@ -106,3 +116,4 @@ export default {
   margin-right: auto;
 }
 </style>
+
