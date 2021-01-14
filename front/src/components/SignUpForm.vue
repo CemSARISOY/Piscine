@@ -3,72 +3,94 @@
         <b-form @submit="onSubmit">
             <b-form-group
                 id="input-group-1"
-                label="Numéro étudiant:"
+                label="Numéro étudiant "
                 label-for="input-numEtu"
+                label-cols-sm="4"
+                label-cols-lg="3"
+                content-cols-sm
+                content-cols-lg="7"
             >
                 <b-form-input
                 id="input-numEtu"
                 v-model="form.numEtu"
-                type="text"
+                type="number"
                 required
-                placeholder="Numéro étudiant"
                 ></b-form-input>
             </b-form-group>
 
-            <b-form-group id="input-group-2" label="Nom:" label-for="input-nom">
+            <b-form-group
+            label-cols-sm="4"
+                label-cols-lg="3"
+                content-cols-sm
+                content-cols-lg="7"
+             id="input-group-2" label="Nom " label-for="input-nom">
                 <b-form-input
                 id="input-nom"
                 type="text"
                 v-model="form.nom"
                 required
-                placeholder="Nom de famille"
                 ></b-form-input>
             </b-form-group>
             
-            <b-form-group id="input-group-3" label="Prenom:" label-for="input-prenom">
+            <b-form-group label-cols-sm="4"
+                label-cols-lg="3"
+                content-cols-sm
+                content-cols-lg="7" id="input-group-3" label="Prenom:" label-for="input-prenom">
                 <b-form-input
                 id="input-prenom"
                 type="text"
                 v-model="form.prenom"
                 required
-                placeholder="Prénom"
                 ></b-form-input>
             </b-form-group>
 
             
             
-            <b-form-group id="input-group-4" label="Adresse Mail:" label-for="input-email">
+            <b-form-group label-cols-sm="4"
+                label-cols-lg="3"
+                content-cols-sm
+                content-cols-lg="7" id="input-group-4" label="Adresse Mail " label-for="input-email">
                 <b-form-input
                 id="input-email"
                 type="email"
                 v-model="form.email"
                 required
-                placeholder="Adresse Mail"
                 ></b-form-input>
             </b-form-group>
 
-            <b-form-group id="input-group-4" label="Mot de passe:" label-for="input-password">
+            <b-form-group label-cols-sm="4"
+                label-cols-lg="3"
+                content-cols-sm
+                content-cols-lg="7" id="input-group-4" label="Mot de passe " label-for="input-password">
                 <b-form-input
                 id="input-password"
                 type="password"
                 v-model="form.password"
+                :state="pwdState"
                 required
-                placeholder="Mot de passe"
                 ></b-form-input>
+                <b-form-invalid-feedback id="input-live-feedback">
+                  Le mot de passe doit être au minimum de 7 caractères
+                </b-form-invalid-feedback>
             </b-form-group>
             
-            <b-form-group id="input-group-4" label="Mot de passe:" label-for="passwordCheck">
+            <b-form-group label-cols-sm="4"
+                label-cols-lg="3"
+                content-cols-sm
+                content-cols-lg="7" id="input-group-4" label="Confirmation du mot de passe" label-for="passwordCheck">
                 <b-form-input
                 id="input-passwordCheck"
                 type="password"
                 v-model="form.passwordCheck"
+                :state="pwdCheck"
                 required
-                placeholder="Mot de passe"
                 ></b-form-input>
+                
             </b-form-group>
 
-
+        <div class="text-center">
         <b-button type="submit" variant="primary">S'inscrire</b-button>
+        </div>
         </b-form>
         <br>
         <p id='txtError'></p>
@@ -94,27 +116,24 @@
         },
       }
     },
+    computed:{
+      pwdState(){
+        return this.form.password.length > 6 ? true : false
+      },
+      pwdCheck(){
+        return this.form.password == this.form.passwordCheck && this.form.password.length > 6 ? true : false
+      }
+    },
     methods: {
       onSubmit(evt) {
         evt.preventDefault()
-        alert(JSON.stringify(this.form))
-
         this.creerCompte()
       
 
       
       },
       handlePassword(){
-        if(this.form.password != this.form.passwordCheck){
-            var element = document.getElementById('txtError')
-            element.innerHTML = "Les mots de passes ne concordent pas"
-            // var element = document.getElementById('txtError');
-            return false;
-          }
-        else{
-          return true;
-        }
-
+        return this.form.password == this.form.passwordCheck
       },
       creerCompte(){
       if(this.handlePassword()){
@@ -129,14 +148,21 @@
           "promoEtudiant" : 2020
         }
         )
-        .then((response)=>{
-          console.log(response);
+        .then(()=>{
           this.$router.push("/login")
+          
         }) 
         .catch((error)=>{
-          console.log(error);
+          this.makeToast(error.response.data.message)
         })
       }
+      },
+      makeToast(string){
+        this.$bvToast.toast(string, {
+          title: 'Erreur !',
+          variant: 'danger',
+          autoHideDelay: 5000,
+        })
       }
     }
   }
@@ -144,7 +170,7 @@
 
 <style scoped>
     .form{
-        width:50%;
+        width:70%;
         margin:auto
     }
     #txtError{

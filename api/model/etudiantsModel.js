@@ -37,4 +37,8 @@ Etudiants.selectEvent = async (id) => {
     return await pool.query(`SELECT * FROM "Evenement" WHERE "promo" = ${promo.rows[0].promoEtudiant}`);
 }
 
+Etudiants.selectGroupe = async (id) => {
+    return await pool.query(`SELECT * FROM "Composer" WHERE "numEtudiant" = ${id}`);
+}
+
 module.exports = Etudiants;

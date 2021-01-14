@@ -59,14 +59,28 @@ const routes = [
         meta: {requiresAuth: true, requiresAdmin: true}
     },
     {
-        path: '/eventinfo',
+        path: '/event/:id',
         name: 'EventInfo',
-        component: () => import('../components/eventInfoForm')
+        component: () => import('../components/eventInfoForm'),
+        /*params: {
+            idEvent: id,
+        }*/
     },
     {
-        path: '/creneaux',
+        path: '/creneaux/:id',
         name: 'DisplayCreneaux',
-        component: () => import('../components/infoCreneau')
+        component: () => import('../components/infoCreneau'),
+    },
+
+    {
+        path: '/signup',
+        name: 'Signup',
+        component: () => import('../components/SignUpForm')
+    },
+    {
+        path: '/myaccount',
+        name: 'MyAccount',
+        component: () => import('../components/MyAccountForm')
     },
     {
         path: '/forgotpassword',
@@ -79,6 +93,18 @@ const routes = [
         component: EmailConfirmation
 
     },
+    {
+        path: '/promos',
+        name : 'ListePromos',
+        component: () => import('../views/Promos.vue'),
+        meta : {requiresAuth: true, requiresAdmin: true}
+    },
+    {
+        path: '/professeurs',
+        name : 'ListeProfs',
+        component: () => import('../views/Profs.vue'),
+        meta : {requiresAuth: true, requiresAdmin: true}
+    }
 ]
 
 

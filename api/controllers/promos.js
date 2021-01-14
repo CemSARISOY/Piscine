@@ -43,7 +43,7 @@ exports.deletePromo = async (req, res) => {
 
 exports.getEtudiantsInPromo = async (req, res) => {
     try{
-        const etudiants = await Promos.selectByPromo(req.params.promo);
+        const etudiants = await Promos.selectByPromo(req.params.id);
         if(etudiants.rowCount > 0){
             res.status(200).json(etudiants.rows);
         }else{

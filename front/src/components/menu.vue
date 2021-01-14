@@ -8,11 +8,8 @@
             <b-collapse id="nav-collapse" is-nav>
                 <b-navbar-nav>
                     <b-nav-item router-link to="/">Accueil</b-nav-item>
-                    <b-nav-item v-if="this.$route.path == '/planning' "> Planning</b-nav-item>
-                    <b-nav-item v-if="this.$route.path == '/reserve' "> Réservation</b-nav-item>
-                    <b-nav-item v-if="this.$route.path == '/profile' "> Profil</b-nav-item>
-                    <b-nav-item v-if="this.$route.path == '/login' "> Connexion</b-nav-item>
-                    <b-nav-item v-if="this.$route.path == '/signup' "> Inscription</b-nav-item>
+                    <b-nav-item router-link to="/promos" v-if="isAdmin">Liste des étudiants</b-nav-item>
+                    <b-nav-item router-link to="/professeurs" v-if="isAdmin">Liste des professeurs</b-nav-item>
                 </b-navbar-nav>
 
                 <!-- Right aligned nav items -->
@@ -40,7 +37,8 @@ import { mapState } from 'vuex'
 
 export default {
     computed: {
-      ...mapState(['connected'])
+      ...mapState(['connected']),
+      ...mapState(['isAdmin'])
     }
 }
 </script>

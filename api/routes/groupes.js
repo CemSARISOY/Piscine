@@ -7,7 +7,7 @@ const groupes = require("../controllers/groupes");
 router.post("/", auth.isAuth, groupes.createGroupe);
 
 //Retrouver tout les groupes
-router.get("/", auth.isAuth, auth.isAdmin, groupes.getAllGroupe)
+router.get("/", /*auth.isAuth, auth.isAdmin,*/ groupes.getAllGroupe)
 
 //Retrouver un groupe
 router.get("/:id", auth.isAuth, groupes.getOneGroupe)
