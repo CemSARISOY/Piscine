@@ -107,9 +107,13 @@ exports.login = async (req, res) =>{
         const etudiant = await Etudiants.select(req.body.numEtudiant);
         if(etudiant.rowCount === 1){
             const result = await bcrypt.compare(req.body.mdpEtudiant, etudiant.rows[0].mdpEtudiant);
-            if(result && etudiant.rows[0].confirmedMail){
-                token = jwt.sign( { userId: etudiant.rows[0].numEtudiant, isAdmin: etudiant.rows[0].numEtudiant == 1}, process.env.RANDOMSECRETTOKEN, {expiresIn: '60m'});
-                res.cookie('jwtAuth', token, {maxAge:'3600000', httpOnly:true}).status(200).json({success: true, userId: req.body.numEtudiant, isAdmin: req.body.numEtudiant==1});
+            if(result){
+                if(etudiant.rows[0].confirmedMail){
+                    token = jwt.sign( { userId: etudiant.rows[0].numEtudiant, isAdmin: etudiant.rows[0].numEtudiant == 1}, process.env.RANDOMSECRETTOKEN, {expiresIn: '60m'});
+                    res.cookie('jwtAuth', token, {maxAge:'3600000', httpOnly:true}).status(200).json({success: true, userId: req.body.numEtudiant, isAdmin: req.body.numEtudiant==1});
+                }else{
+                    res.status(401).json({message: "Merci de confirmer votre adresse mail"})
+                }
             }else{
                 res.status(401).json({message: "Mot de passe incorrect"});
             }
