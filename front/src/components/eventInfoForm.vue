@@ -67,7 +67,7 @@
 
         <b-button type="button" v-on:click="modifEvent" v-if="isAdmin" variant="primary">Modifier</b-button>
         <b-button type="button" v-on:click="goToPlanning" variant="secondary">Voir planning</b-button>
-        <b-button type="button" v-on:click="deleteEvent" v-if="isAdmin" variant="danger">Supprimer</b-button>
+        <b-button type="button" v-on:click="deleteEvent" v-if="isAdmin  " variant="danger">Supprimer</b-button>
         </b-form>
         <br>
         <p id='txtError'></p>
@@ -156,6 +156,7 @@
           axios.delete(url1)
           .then(function(response){
             console.log(response);
+            this.$router.push("/")
           }) 
           .catch(function(error){
             console.log(error);
