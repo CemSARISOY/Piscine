@@ -65,9 +65,9 @@
             </b-form-group>
 
 
-        <b-button type="button" v-on:click="modifEvent" variant="primary">Modifier</b-button>
+        <b-button type="button" v-on:click="modifEvent" v-if="isAdmin" variant="primary">Modifier</b-button>
         <b-button type="button" v-on:click="goToPlanning" variant="secondary">Voir planning</b-button>
-        <b-button type="button" v-on:click="deleteEvent" variant="danger">Supprimer</b-button>
+        <b-button type="button" v-on:click="deleteEvent" v-if="isAdmin" variant="danger">Supprimer</b-button>
         </b-form>
         <br>
         <p id='txtError'></p>
@@ -76,9 +76,12 @@
 </template>
 
 <script>
-  
+  import { mapState } from 'vuex'
   import axios from 'axios'
   export default {
+    computed: {
+      ...mapState(['isAdmin'])
+    },
     data() {
       return {
         event: {

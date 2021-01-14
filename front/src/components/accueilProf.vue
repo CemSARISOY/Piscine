@@ -3,19 +3,19 @@
     <h4>EVENEMENTS</h4>
 
     <b-list-group>
-      <b-list-group-item href="/eventinfo">
+      <b-list-group-item router-link :to="getEventLink(0)">
         {{
         this.event.evenements[0].promo}} : {{
         this.event.evenements[0].nomEvenement}}
       </b-list-group-item>
 
-      <b-list-group-item href="/eventinfo">
+      <b-list-group-item router-link :to="getEventLink(1)">
         {{
         this.event.evenements[1].promo}} : {{
         this.event.evenements[1].nomEvenement}}
       </b-list-group-item>
 
-      <b-list-group-item href="/eventinfo">
+      <b-list-group-item router-link :to="getEventLink(2)" >
         {{
         this.event.evenements[2].promo}} : {{
         this.event.evenements[2].nomEvenement}}
@@ -40,6 +40,9 @@ export default {
     };
   },
   methods: {
+    getEventLink(int){
+      return "/event/"+this.event.evenements[int].numEvenement
+    },
     getEvents() {
       if (
         this.$store.getters.authenticated ||
