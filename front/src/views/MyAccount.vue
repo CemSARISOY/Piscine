@@ -9,8 +9,10 @@
         <my-account-infos v-if="modif===0"/>
         <my-account-form v-if="modif===1"/>
         <my-account-newmdp v-if="modif===2"/>
-        <b-button v-if="modif===0" @click="switchMod(1)">Modifier vos informations</b-button>
-        <b-button v-if="modif===0" @click="switchMod(2)">Modifier votre mot de passe</b-button>
+        <div class="mt-2 text-center">
+          <b-button class="mt-2 mr-2" v-if="modif===0" @click="switchMod(1)">Modifier vos informations</b-button>
+          <b-button class="mt-2 ml-2" v-if="modif===0" @click="switchMod(2)">Modifier votre mot de passe</b-button>
+        </div>
 
       </b-card>
     </b-container>

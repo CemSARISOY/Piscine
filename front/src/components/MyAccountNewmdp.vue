@@ -26,8 +26,12 @@
                 type="password"
                 v-model="nvMdp"
                 autocomplete="new-password"
+                :state="pwdState"
                 required
                 ></b-form-input>
+                <b-form-invalid-feedback id="input-live-feedback">
+                  Le mot de passe doit être au minimum de 7 caractères
+                </b-form-invalid-feedback>
             </b-form-group>
 
             <b-form-group id="input-group-3" 
@@ -40,6 +44,7 @@
                 type="password"
                 v-model="confirmMdp"
                 autocomplete="new-password"
+                :state="pwdCheck"
                 required
                 ></b-form-input>
             </b-form-group>
@@ -65,6 +70,14 @@
         nvMdp :"",
         confirmMdp :""
         
+      }
+    },
+    computed:{
+      pwdState(){
+        return this.nvMdp.length > 6 ? true : false
+      },
+      pwdCheck(){
+        return this.nvMdp == this.confirmMdp && this.nvMdp.length > 6 ? true : false
       }
     },
     methods: {

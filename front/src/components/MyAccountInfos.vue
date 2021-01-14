@@ -1,19 +1,37 @@
 <template>
-    <div class="form">
+    <div id="infos" class="form w-50 margin-auto text-center">
         <b-row>
-            Votre numéro étudiant : {{ numEtu }}
+            <b-col>
+                Votre numéro étudiant :
+            </b-col>
+            <b-col>
+                {{ numEtu }}
+            </b-col>
         </b-row>
         <b-row>
-            Votre nom : {{ nom }} {{ prenom }}
+            <b-col>
+                Votre nom : 
+            </b-col>
+            <b-col>
+                {{ nom }} {{ prenom }}
+            </b-col>
         </b-row>
         <b-row>
-            Votre mail : {{ email }}
+            <b-col>
+                Votre mail : 
+            </b-col>
+            <b-col>
+                {{ email }}
+            </b-col>
         </b-row>
         <b-row>
-            Votre promo : {{ promo }}
+            <b-col>
+                Votre promo :
+            </b-col>
+            <b-col>
+                {{ promo }}
+            </b-col>
         </b-row>
-
-
     </div>
 </template>
 
@@ -55,3 +73,8 @@
     }
   }
 </script>
+<style scoped>
+#infos{
+    margin:auto
+}
+</style>
