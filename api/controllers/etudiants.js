@@ -50,8 +50,8 @@ exports.createEtudiant = async (req, res) => {
                           var mailOptions = {
                             from: process.env.MailThatSend,
                             to: req.body.mailEtudiant,
-                            subject: 'Nouveau mot de passe',
-                            text: 'Activez votre compte via ce lien :' + url +'. Vous avez un délai de 1 jour pour confirmer votre compte'
+                            subject: 'Confirmation du mail',
+                            text: 'Activez votre compte via ce lien :' + url +' . Vous avez un délai de 1 jour pour confirmer votre compte'
                           };
                           
                           transporter.sendMail(mailOptions, function(error, info){
@@ -107,7 +107,7 @@ exports.login = async (req, res) =>{
         const etudiant = await Etudiants.select(req.body.numEtudiant);
         if(etudiant.rowCount === 1){
             const result = await bcrypt.compare(req.body.mdpEtudiant, etudiant.rows[0].mdpEtudiant);
-            if(result && req.body.confirmedMail){
+            if(result && etudiant.rows[0].confirmedMail){
                 token = jwt.sign( { userId: etudiant.rows[0].numEtudiant, isAdmin: etudiant.rows[0].numEtudiant == 1}, process.env.RANDOMSECRETTOKEN, {expiresIn: '60m'});
                 res.cookie('jwtAuth', token, {maxAge:'3600000', httpOnly:true}).status(200).json({success: true, userId: req.body.numEtudiant, isAdmin: req.body.numEtudiant==1});
             }else{
