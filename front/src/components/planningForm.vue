@@ -98,7 +98,7 @@
           <!--/template-->
         <!--/b-modal-->
         <b-modal ref="modal-scoped"
-          title="Voulez-vous vraiment supprimer ce creneau ?"
+          title="Voulez-vous vraiment supprimer le creneau selectionné ?"
         >
           <div class="mb-1">
             <b-button @click="showMsgBoxTwo" variant="danger">Supprimer
