@@ -1,6 +1,5 @@
 <template>
     <div class="center-div">
-      <!--b-button @click="$bvModal.show('modal-scoped')">Open Modal</b-button-->
         <b-modal
           id="modal-prevent-closing"
           ref="modal"
@@ -74,43 +73,58 @@
             <!--/b-form-group-->
           </form>
         </b-modal>
-        <b-modal ref="modal-scoped">
-          <template #modal-header="{ close }">
-            <h5>Voulez-vous vraiment supprimer ce creneau ?</h5>
-            <!-- Emulate built in modal header close button action -->
-            <b-button size="sm" variant="outline-danger" aria-label="Close" @click="close()">
-              <span aria-hidden="true">&times;</span>
-            </b-button>
-          </template>
+        <!--b-modal ref="modal-scoped"
+          title="Voulez-vous vraiment supprimer ce creneau ?"
+        >
+          </template-->
 
-          <template #default="{ hide }">
-            <p>Creneau du {{dateCreneau}} de 9h00 à 10h00</p>
-            <b-button @click="hide()" variant="danger">
-              Supprimer
+          <!--template #modal-footer="{ ok, cancel }"-->
+            <!-- Emulate built in modal footer ok and cancel button actions -->
+            <!--b-button size="sm" variant="primary" @click="ok()">
+              Modifier
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
+                <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>
+                <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z"/>
+              </svg>
+            </b-button-->
+            <!--b-button size="sm" variant="dark" @click="cancel()">
+              Annuler
+
+            </b-button-->
+            <!-- Button with custom close trigger value -->
+            <!--b-button size="sm" variant="outline-secondary" @click="hide('forget')">
+              Forget it
+            </b-button-->
+          <!--/template-->
+        <!--/b-modal-->
+        <b-modal ref="modal-scoped"
+          title="Voulez-vous vraiment supprimer ce creneau ?"
+        >
+          <div class="mb-1">
+            <b-button @click="showMsgBoxTwo" variant="danger">Supprimer
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
                 <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
               </svg>
             </b-button>
-          </template>
-
-          <template #modal-footer="{ ok, cancel }">
-            <!-- Emulate built in modal footer ok and cancel button actions -->
-            <b-button size="sm" variant="primary" @click="ok()">
+            <!--Return value: {{ String(boxTwo) }}-->
+            
+          </div>
+          <!--template #modal-footer="{ testClick, cancel }"-->
+          <div>
+            <b-button size="sm" variant="primary" @click="testClick()">
               Modifier
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
                 <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>
                 <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z"/>
               </svg>
             </b-button>
+          </div>
+          <template #modal-footer="{cancel }">
             <b-button size="sm" variant="dark" @click="cancel()">
-              Annuler
+                Annuler
 
             </b-button>
-            <!-- Button with custom close trigger value -->
-            <!--b-button size="sm" variant="outline-secondary" @click="hide('forget')">
-              Forget it
-            </b-button-->
           </template>
         </b-modal>
         <FullCalendar :options="calendarOptions" />
@@ -139,11 +153,13 @@
     data() {
       return {
         dateCreneau:"",
+        boxTwo:"",
         form:{
                 juryOptions: [],
                 jurySelected:[]
             },
         value: null,
+        idcreneau:"",
         show: false,
         variants: ['primary', 'secondary', 'success', 'warning', 'danger', 'info', 'light', 'dark'],
         headerBgVariant: 'info',
@@ -182,6 +198,7 @@
             },
             //{ title: 'event 2', date: '2021-01-07'}//display: 'background' }
           ],
+          eventColor: '#378006',
           weekends: false, // initial value as you want it or not 
           slotMinTime: "00:00",
           slotMaxTime:"20:30",
@@ -269,15 +286,18 @@
         this.value = ''
       },
       handleEventClick: function(arg){ 
-          // if(this.$store.getters.userInfo.isAdmin){
-          //   alert("test") 
-          // }
+        if(this.$store.getters.userInfo.isAdmin){
+          this.$refs['modal-scoped'].show()
+          this.idcreneau = (arg.event.id)
+          //if (this.boxTwo == true){
+              alert("hello")
+              console.log(this.idcreneau)
+              arg.event.remove()
+          //}
+        }
         this.dateCreneau = arg.event.start
-        this.$refs['modal-scoped'].show()
-        let eventObj =arg.event
-        //alert('Event Name = ' + eventObj.id )
-
-        console.log(arg.event.remove(arg.event.id))
+        
+        //console.log(this.value)
         // axios.delete("http://localhost:3000/api/creneaux/",{date:this.calendarOptions.date, heureDebut:this.calendarOptions.heures, salle:this.salle, idEvent:this.$route.params.id}, {withCredentials: true
         //         }).then(response =>{
                     
@@ -285,6 +305,47 @@
         //         }).catch(function(){
         //             console.log("Erreur de création")
         //         })
+      },
+      showMsgBoxTwo() {
+        this.$bvModal.msgBoxConfirm('Etes-vous sûr de vouloir continuer ?', {
+          title: 'Confirmer',
+          size: 'sm',
+          buttonSize: 'sm',
+          okVariant: 'danger',
+          okTitle: 'OUI',
+          cancelTitle: 'NON',
+          footerClass: 'p-2',
+          hideHeaderClose: false,
+          centered: true
+        })
+          .then(value => {
+            this.boxTwo = value
+            console.log(id.creneau)
+            if (this.boxTwo == true){
+              console.log(id.creneau)
+              axios.delete("http://localhost:3000/api/creneaux/"+this.idcreneau, {withCredentials: true
+                      }).then(response =>{
+                    
+                          this.$router.go()//pour actualiser
+                      }).catch(function(){
+                          console.log("Erreur de création")
+                      })
+
+            }
+            this.$refs['modal-scoped'].hide()
+            this.boxTwo = ''
+          })
+          .catch(err => {
+            // An error occurred
+          })
+          //this.$nextTick(() => {
+          //   if (this.boxTwo == true){
+          //     console.log(this.idcreneau)
+          //     event.remove(this.idcreneau)
+
+          //     //this.boxTwo=""
+          //   }
+          //})
       }
     }, 
     //get prof 
@@ -304,9 +365,24 @@
                   title: result.data[i].salle, 
                   //date: result.data[i].date,
                   start: result.data[i].date.split("T")[0]+"T"+result.data[i].heureDebut+"Z",//result.data[i].date +'T'+ result.data[i].heureDebut+'Z','2021-01-14T12:30:00Z'
-                  eventColor: 'green'}
-                console.log(result.data[0].date.split("T")[0]+"T"+result.data[0].heureDebut+"Z")
+                  }
+
+                //console.log(result.data[0].date.split("T")[0]+"T"+result.data[0].heureDebut+"Z")
                 this.calendarOptions.events.push(creneau)
+                //console.log(creneau.title)
+
+                // let tabtemp = []
+                // let colorevent = ['green','purple','red','blue','yellow','brown']
+                // for (let i=0; i< result.data.length;i++){
+                //   let s = (creneau.title)
+                //   if (!tabtemp.includes(s)){
+                //     tabtemp.push(s)
+                //   }
+                // }
+                // console.log(tabtemp)
+                // for(let c = 0; c<colorevent.length;c++){
+                //   creneau.color = colorevent[c]
+                // }
 
             }
             //console.log(result.data[0].date.split("T")[0]+"T"+result.data[0].heureDebut+"Z"+ " "+result.data[0].salle)
