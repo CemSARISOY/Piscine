@@ -58,7 +58,7 @@ const routes = [
         meta: {requiresAuth: true, requiresAdmin: true}
     },
     {
-        path: '/eventinfo/:id',
+        path: '/event/:id',
         name: 'EventInfo',
         component: () => import('../components/eventInfoForm'),
         /*params: {

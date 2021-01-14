@@ -2,14 +2,15 @@
   <div class="col-md-6">
 
     <b-list-group>
-      <b-list-group-item>Evénement : {{this.form.nomEvent}}</b-list-group-item>
+      <b-list-group-item>Evénement : <a :href="urlEventInfo">{{this.form.nomEvent}}</a></b-list-group-item>
       <b-list-group-item>Nombre de créneaux libres : {{this.form.nombreCrenauxLibres}}</b-list-group-item>
       <b-list-group-item>Durée d'une soutenance : {{parseDuree(this.form.dureeCreneau)}}</b-list-group-item>
       <b-list-group-item>Date de début des soutenances : {{parseDate(this.form.dateDebut)}}</b-list-group-item>
       <b-list-group-item>Date de fin des soutenances {{addparseDate(this.form.dateDebut,this.form.duree)}}</b-list-group-item>
       <b-list-group-item>Date limite de réservation : {{parseDate(this.form.dateLimiteRes)}}</b-list-group-item>
-      <b-list-group-item variant="secondary" href="home">Réserver crénaux</b-list-group-item>
-      <b-list-group-item variant="secondary" href="home">Voir planning</b-list-group-item>
+      <b-list-group-item>Etat de votre réservation : {{status}}</b-list-group-item>
+      <b-list-group-item variant="secondary" router-link :to="urlCreneauxEvent">Réserver crénaux</b-list-group-item>
+      <b-list-group-item variant="secondary" router-link :to="urlPlanningEvent">Voir planning</b-list-group-item>
     </b-list-group>
   </div>
 </template>
@@ -17,8 +18,33 @@
 import axios from "axios";
 
 export default {
+  computed: {
+    urlEventInfo(){
+      return "/event/"+this.form.numEvent
+    },
+    status(){
+      if(this.idGroupe == null){
+        return "En attente"
+      }else{
+        return "Réservé"
+      }
+    },
+    urlCreneauxEvent(){
+      return "/creneaux/"+this.form.numEvent 
+    },
+    urlPlanningEvent(){
+      return "/planning/"+this.form.numEvent 
+    }
+  },
   data() {
     return {
+      idGroupe : null,
+      grpInfo: {
+        tuteurGroupe : "",
+        nomTutEnt :"",
+        prenomTutEnt: "",
+        nomEntreprise : ""
+      },
       form: {
         num: "",
         nomEvent: "",
@@ -56,10 +82,22 @@ export default {
 
         var num = etudiantInfo.numEtudiant;
         this.form.num = etudiantInfo.numEtudiant;
+        axios.get("http://localhost:3000/api/etudiants/"+num+"/groupes", {withCredentials:true}).then( (response) => {
+          this.idGroupe = response.data.idGroupe
+          axios.get("http://localhost:3000/api/groupes/"+this.idGroupe, {withCredentials:true}).then ( (grp) => {
+            this.grpInfo.tuteurGroupe = grp.data.tuteurGroupe
+            this.grpInfo.nomTutEnt = grp.data.nomTutEnt
+            this.grpInfo.prenomTutEnt = grp.data.prenomTutEnt
+            this.grpInfo.nomEntreprise = grp.data.nomEntreprise
+          }).catch( (error) => {
+            console.log(error.response)
+          });
+        }).catch( (error) => {
+          console.log(error.response)
+        })
         axios
           .get(`http://localhost:3000/api/etudiants/${num}/evenements`,{withCredentials:true})
           .then(response => {
-            console.log(response)
             this.form.numEvent = response.data[response.data.length - 1].numEvenement;
             this.form.nomEvent = response.data[response.data.length - 1].nomEvenement;
             this.form.dateDebut = response.data[response.data.length - 1].dateDebut;
@@ -69,7 +107,7 @@ export default {
             this.form.dateFin = response.data[response.data.length - 1].duree + response.data[response.data.length - 1].dateDebut;
             axios
               .get(
-                `http://localhost:3000/api/evenements/${response.data.numEvenement}/creneaux`, {withCredentials:true}
+                `http://localhost:3000/api/evenements/${response.data[response.data.length - 1].numEvenement}/creneaux`, {withCredentials:true}
               )
               .then(response => {
                 for (let i = 0; i < response.data.length; i++) {

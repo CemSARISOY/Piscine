@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <b-container>
+    <b-container class="mt-4">
       <b-card>
         <div class="text-center">
           <h2>Evenements en cours</h2>

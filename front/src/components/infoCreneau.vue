@@ -90,16 +90,32 @@
               )
               if(confirmation){
                 const numEtud = JSON.stringify(this.$store.getters.userInfo.numEtudiant)
-                const numGroup = prompt("Veuillez entrer votre numéro de groupe :")
-                if(typeof(parseInt(numGroup)) == "number"){
-                  axios.put("http://localhost:3000/api/creneaux/"+info.event.id,{
-                    idGroupe:parseInt(numGroup),
-                  }).then((res)=>{
-                    alert(JSON.stringify(res.data))
+                let etuds = []
+                etuds.push(numEtud)
+                const numEtud2 = prompt("Veuillez entrer votre le numéro étudiant de votre camarade 1 :")
+                if(numEtud2) etuds.push(numEtud2)
+                const numEtud3 = prompt("Veuillez entrer votre le numéro étudiant de votre camarade 2 :")
+                const tuteurGroupe = prompt("Veuillez entrer l'id de votre tuteur:")
+                const nomTutEnt = prompt("Veuillez entrer le NOM de votre tuteur entreprise :")
+                const prenomTutEnt = prompt("Veuillez entrer le PRENOM de votre tuteur entreprise :")
+                const nomEntreprise = prompt("Veuillez entrer le nom de votre entreprise")
+                if(numEtud3) etuds.push(numEtud3)
+                  axios.post("http://localhost:3000/api/groupes/", {
+                    tuteurGroupe: tuteurGroupe,
+                    nomTutEnt : nomTutEnt,
+                    prenomTutEnt: prenomTutEnt,
+                    nomEntreprise: nomEntreprise,
+                    etudiants : etuds
+                  }, {withCredentials:true}).then( (response) => {
+                    axios.put("http://localhost:3000/api/creneaux/"+info.event.id,{
+                    idGroupe:response.data.idGroupe,
+                    }).then((res)=>{
+                      alert(JSON.stringify(res.data))
+                    })
+                  }).catch( error => {
+                    console.log(error.response)
                   })
-                }else{
-                  alert("Mauvaise entrée, veuillez réessayer.")
-                }
+                  
               }
             } else {
               alert("Date du créneau :\n" + dateToFormat.getDate()+"/"+(dateToFormat.getMonth()+1)+"/"+dateToFormat.getFullYear()+"\n"+
@@ -126,7 +142,9 @@
                 title: getTitle.data.nomEvenement,
                 date: dateHeure,
               }
-              this.calendarOptions.events.push(creneau)
+              if(!res.data[i].idGroupe){
+                this.calendarOptions.events.push(creneau)
+              }
             }
           }catch(err){
             console.log("erreur + "+err);

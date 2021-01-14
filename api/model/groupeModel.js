@@ -19,13 +19,8 @@ Groupe.create = async (data) => {
     VALUES ($1,$2,$3,$4) RETURNING * `, [data.tuteurGroupe, data.nomTutEnt, data.prenomTutEnt, data.nomEntreprise])
     if(groupe.rowCount == 0) throw "Erreur de creation du groupe"
     
-    for (let i=0; i<data.etudiants.length;i++)
-    {
-        let etudiantsData = {
-            numEtudiant: data.etudiants[i].numEtudiant
-        }
-
-    const estEtudiant = await pool.query(`INSERT INTO "Composer" ("numEtudiant","idGroupe") VALUES ($1, $2) RETURNING *`, [etudiantsData.numEtudiant,groupe.idGroupe])
+    for (let i=0; i<data.etudiants.length;i++){
+    const estEtudiant = await pool.query(`INSERT INTO "Composer" ("numEtudiant","idGroupe") VALUES ($1, $2) RETURNING *`, [data.etudiants[i],groupe.rows[0].idGroupe])
     if(estEtudiant.rowCount == 0) throw "Erreur lors de l'affectation des etudiants"
     }
     await pool.query("COMMIT");    
