@@ -1,6 +1,6 @@
 <template>
   <div class=signup>
-    <b-container>
+    <b-container class="mt-4">
       <b-card>
         <div class="text-center">
           <h2>Votre compte</h2>

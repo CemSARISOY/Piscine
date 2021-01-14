@@ -1,6 +1,6 @@
 <template>
     <div class="login">
-        <b-container>
+        <b-container class="mt-4">
             <b-card>
                 <div class="text-center">
                     <h1>Connexion</h1>

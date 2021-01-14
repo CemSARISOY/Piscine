@@ -1,6 +1,6 @@
 <template>
     <div id="promos">
-        <b-container>
+        <b-container class="mt-4">
             <b-card>
                 <b-tabs content-class="mt-3">
                     <b-tab title="IG3" active>

@@ -1,7 +1,11 @@
 <template>
   <div class=myaccount>
-    <h1>Inscription</h1>
-    <sign-up-form/>
+    <b-container class="mt-4">
+      <b-card>
+        <h1 class="text-center">Inscription</h1>
+        <sign-up-form/>
+      </b-card>
+    </b-container>
   </div>
 </template>
 <script>

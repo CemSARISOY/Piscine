@@ -1,6 +1,6 @@
 <template>
     <div id="promos">
-        <b-container>
+        <b-container class="mt-4">
             <b-card>
                 <b-form inline @submit.prevent="onSubmit" class="float-right">
                     <label class="sr-only" for="nomP">Name</label>
