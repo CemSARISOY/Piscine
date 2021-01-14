@@ -15,7 +15,7 @@ router.post("/login", etudiantCtrl.login);
 router.post("/token", etudiantCtrl.verifyToken);
 router.post("/logout", etudiantCtrl.logout);
 
-router.get("/confirmation/:token", etudiantCtrl.confirmation)
+router.post("/confirmation/:token", etudiantCtrl.confirmation)
 router.delete("/:id", auth.isAuth, etudiantCtrl.deleteEtudiant);
 router.put("/:id", auth.isAuth, etudiantCtrl.updateEtudiant);
 

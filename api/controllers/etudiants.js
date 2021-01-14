@@ -18,18 +18,6 @@ exports.getAllEtudiant = async (req, res) => {
     }
 };
 
-exports.getOneEtudiant = async (req, res) => {
-    try{
-        const etudiant = await Etudiants.select(req.params.id)
-        if(etudiant.rowCount > 0){
-            res.status(200).json(etudiant.rows[0])
-        }else{
-            res.status(404).json({message : "Il n'existe aucun étudiant avec ce numéro"});
-        }
-    }catch(err){
-        res.status(500).json({message : err.message});
-    }
-};
 
 exports.createEtudiant = async (req, res) => {
     try{
@@ -49,7 +37,7 @@ exports.createEtudiant = async (req, res) => {
                 expiresIn : '1d'
             })
 
-            const url = `http://localhost:3000/api/etudiants/confirmation/${emailToken}`;
+            const url = `http://localhost:8080/emailconfirmation/${emailToken}`;
             //envoie mail
                         var transporter = nodemailer.createTransport({
                             service: 'gmail',
@@ -227,11 +215,24 @@ exports.pswd = async (req, res) => {
     }
 }
 
+exports.getOneEtudiant = async (req, res) => {
+    try{
+        const etudiant = await Etudiants.select(req.params.id)
+        if(etudiant.rowCount > 0){
+            res.status(200).json(etudiant.rows[0])
+        }else{
+            res.status(404).json({message : "Il n'existe aucun étudiant avec ce numéro"});
+        }
+    }catch(err){
+        res.status(500).json({message : err.message});
+    }
+};
 
 exports.confirmation = async (req, res) => {
     try{
-        const {user:{id}} = jwt.verify(req.params.token,process.env.RANDOMSECRETTOKEN)
-        const result = await Etudiants.update({confirmedMail:  true}, req.params.id);
+        const token = jwt.verify(req.params.token,process.env.RANDOMSECRETTOKEN);
+        let data = {confirmedMail:  true}
+        const result = await Etudiants.update(data, token.numEtudiant);
         if(result.rowCount > 0){
             res.status(200).json(result.rows[0])
         }else{
@@ -241,3 +242,4 @@ exports.confirmation = async (req, res) => {
         res.status(500).json({message : err.message});
     }
 };
+
