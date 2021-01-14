@@ -15,6 +15,8 @@ CREATE TABLE public."Etudiants"
     "mailEtudiant" VARCHAR(64),
     "mdpEtudiant" VARCHAR(255),
     "promoEtudiant" integer,
+    "confirmedMail" BOOLEAN,
+    
     PRIMARY KEY ("numEtudiant"),
     CONSTRAINT fk_promo FOREIGN KEY ("promoEtudiant")
         REFERENCES public."Promo" ("anneePromo") MATCH SIMPLE

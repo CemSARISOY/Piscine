@@ -5,6 +5,7 @@ import store from '../store'
 import MyAccount from '../views/MyAccount.vue'
 import SignUp from '../views/SignUp.vue'
 import ForgotPassword from '../views/ForgotPassword.vue'
+import EmailConfirmation from '../views/EmailConfirmation.vue'
 
 Vue.use(VueRouter)
 
@@ -85,6 +86,12 @@ const routes = [
         path: '/forgotpassword',
         name: 'ForgotPassword',
         component: ForgotPassword
+    },
+    {
+        path: '/emailconfirmation/:token', 
+        name: 'EmailConfirmation',
+        component: EmailConfirmation
+
     },
     {
         path: '/promos',
