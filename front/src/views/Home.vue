@@ -1,18 +1,30 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <b-container>
+      <b-card>
+        <div class="text-center">
+          <h2>Evenements en cours</h2>
+          <accueil-etu v-if="!isAdmin"/>
+          <accueil-prof v-if="isAdmin"/>
+        </div>
+      </b-card>
+    </b-container>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import { mapState } from 'vuex'
+import accueilEtu from "../components/accueilEtu"
+import accueilProf from "../components/accueilProf"
 
 export default {
   name: 'Home',
   components: {
-    HelloWorld
-  }
+    accueilEtu,
+    accueilProf
+  },
+  computed: {
+      ...mapState(['isAdmin'])
+    }
 }
 </script>

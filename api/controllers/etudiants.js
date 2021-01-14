@@ -60,17 +60,26 @@ exports.deleteEtudiant = async (req, res) => {
 exports.updateEtudiant = async (req, res) => {
     try{
         let data = req.body
-        if(data.hasOwnProperty("mdpEtudiant")){
-            data.mdpEtudiant = await bcrypt.hash(data.mdpEtudiant, 10)
-        }
-        const result = await Etudiants.update(data, req.params.id);
-        if(result.rowCount > 0){
-            res.status(200).json(result.rows[0])
+        let etudiant = await Etudiants.select(req.params.id)
+        if(etudiant.rowCount < 1) res.status(404).json({message: "Etudiant inexistant"})
+
+        const compare = await bcrypt.compare(data.mdpConfirm, etudiant.rows[0].mdpEtudiant)
+        if(!compare) {
+            res.status(401).json({message: "Le mot de passe ne correspond pas"})
         }else{
-            res.status(400).json({message : "Erreur de modification"});
+            if(data.hasOwnProperty("mdpEtudiant")){
+                data.mdpEtudiant = await bcrypt.hash(data.mdpEtudiant, 10)
+            }
+            delete data["mdpConfirm"]
+            const result = await Etudiants.update(data, req.params.id);
+            if(result.rowCount > 0){
+                res.status(200).json(result.rows[0])
+            }else{
+                res.status(400).json({message : "Erreur de modification"});
+            }
         }
     }catch(err){
-        res.status(500).json({message : err.message});
+        res.status(500).json({message : err});
     }
 };
 
