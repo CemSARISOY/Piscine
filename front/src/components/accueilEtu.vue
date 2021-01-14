@@ -1,6 +1,5 @@
 <template>
   <div class="col-md-6">
-    <h4>EVENEMENT</h4>
 
     <b-list-group>
       <b-list-group-item>Evénement : {{this.form.nomEvent}}</b-list-group-item>
@@ -58,18 +57,19 @@ export default {
         var num = etudiantInfo.numEtudiant;
         this.form.num = etudiantInfo.numEtudiant;
         axios
-          .get(`http://localhost:3000/api/etudiants/${num}/evenements`)
+          .get(`http://localhost:3000/api/etudiants/${num}/evenements`,{withCredentials:true})
           .then(response => {
-            this.form.numEvent = response.data.numEvenement;
-            this.form.nomEvent = response.data.nomEvenement;
-            this.form.dateDebut = response.data.dateDebut;
-            this.form.dateLimiteRes = response.data.dateLimiteRes;
-            this.form.dureeCreneau = response.data.dureeCreneau;
-            this.form.duree = response.data.duree;
-            this.form.dateFin = response.data.duree + response.data.dateDebut;
+            console.log(response)
+            this.form.numEvent = response.data[response.data.length - 1].numEvenement;
+            this.form.nomEvent = response.data[response.data.length - 1].nomEvenement;
+            this.form.dateDebut = response.data[response.data.length - 1].dateDebut;
+            this.form.dateLimiteRes = response.data[response.data.length - 1].dateLimiteRes;
+            this.form.dureeCreneau = response.data[response.data.length - 1].dureeCreneau;
+            this.form.duree = response.data[response.data.length - 1].duree;
+            this.form.dateFin = response.data[response.data.length - 1].duree + response.data[response.data.length - 1].dateDebut;
             axios
               .get(
-                `http://localhost:3000/api/evenements/${response.data.numEvenement}/creneaux`
+                `http://localhost:3000/api/evenements/${response.data.numEvenement}/creneaux`, {withCredentials:true}
               )
               .then(response => {
                 for (let i = 0; i < response.data.length; i++) {

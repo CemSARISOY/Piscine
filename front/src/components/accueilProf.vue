@@ -46,12 +46,13 @@ export default {
         this.$store.getters.userInfo.isAdmin
       ) {
         axios
-          .get(`http://localhost:3000/api/evenements`)
+          .get(`http://localhost:3000/api/evenements`, {withCredentials:true})
           .then(response => {
+            console.log(response.data)
             this.event.evenements = response.data;
           })
           .catch(error => {
-            console.log("erreur : ", error);
+            console.log("erreur : ", error.response);
           });
       }
     }
