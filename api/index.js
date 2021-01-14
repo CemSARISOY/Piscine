@@ -31,13 +31,15 @@ const etudiantsRoute = require("./routes/etudiants");
 const evenementsRoute = require("./routes/evenements");
 const professeursRoute = require("./routes/professeurs")
 const creneauxRoute = require("./routes/creneaux")
-const creneauxPromo = require("./routes/promos")
+const promosRoute = require("./routes/promos")
+const groupesRoute = require("./routes/groupes")
 
 app.use("/api/etudiants", etudiantsRoute)
 app.use("/api/evenements", evenementsRoute)
 app.use("/api/professeurs", professeursRoute)
 app.use("/api/creneaux", creneauxRoute)
-app.use("/api/promos", creneauxPromo)
+app.use("/api/promos", promosRoute)
+app.use("/api/groupes", groupesRoute)
 
 
 // Server
