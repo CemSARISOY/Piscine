@@ -15,6 +15,7 @@
     "axios": "^0.21.1",
     "bootstrap-vue": "^2.20.1",
     "core-js": "^3.6.5",
+    "fullcalendar": "^5.5.0",
     "vue": "^2.6.11",
     "vue-cookie": "^1.1.4",
     "vue-router": "^3.2.0",

@@ -24,7 +24,7 @@
 
             
             
-            <b-form-group id="input-group-4" label="Durée d'une soutenance : " label-for="input-duration">
+            <b-form-group id="input-group-4" label="Durée d'une soutenance (minutes) : " label-for="input-duration">
                 <b-form-input
                 id="input-duration"
                 type="text"
@@ -65,7 +65,7 @@
             </b-form-group>
 
 
-        <b-button type="submit" variant="primary">Modifier</b-button>
+        <b-button type="button" v-on:click="modifEvent" variant="primary">Modifier</b-button>
         <b-button type="button" v-on:click="goToPlanning" variant="secondary">Voir planning</b-button>
         <b-button type="button" v-on:click="deleteEvent" variant="danger">Supprimer</b-button>
         </b-form>
@@ -101,42 +101,66 @@
       
       },
       getEventData(){
-          if(this.event.numberReserved=="0" || this.event.numberReserved==undefined/*this.$store.getters.authenticated*/){
+          if(this.$store.getters.authenticated){
             //var etudiantInfo = JSON.parse(this.$store.getters.userInfo)
             var url1 = "http://localhost:3000/api/evenements/"
-            var eventDB = JSON.parse(axios.get(url1.concat("0")))
-            this.event.nameEvent=eventDB.nomEvenement
-            this.event.numberReserved="0"
-            this.event.durationEvent=eventDB.duree
-            this.event.start=eventDB.dateDebut
-            this.event.end="01/01/1999"
-            this.event.lastDate=eventDB.dateLimiteRes
+            url1 = url1.concat(this.$route.params.id)
+            axios.get(url1).then((res) => {
+              var eventDB = res.data
+              this.event.nameEvent=eventDB.nomEvenement
+
+              const url2 = url1.concat("/creneaux")
+              axios.get(url2).then((res) => {
+                this.event.numberReserved=res.data.length
+              });
+
+              this.event.durationEvent=eventDB.dureeCreneau.split(':')[0]+"h"+eventDB.dureeCreneau.split(':')[1]
+              const dateDebut = new Date(eventDB.dateDebut)
+              this.event.start= dateDebut.getFullYear().toString() + '-' + (dateDebut.getMonth() + 1).toString().padStart(2,0) + '-' + dateDebut.getDate().toString().padStart(2,0);
+
+              const dateFin = new Date(dateDebut.setDate(dateDebut.getDate()+eventDB.duree))
+              this.event.end= dateFin.getFullYear().toString() + '-' + (dateFin.getMonth() + 1).toString().padStart(2,0) + '-' + dateFin.getDate().toString().padStart(2,0);
+
+              const lastDate = new Date(eventDB.dateLimiteRes)
+              this.event.lastDate= lastDate.getFullYear().toString() + '-' + (lastDate.getMonth() + 1).toString().padStart(2,0) + '-' + lastDate.getDate().toString().padStart(2,0);
+            });
           }
       },
       modifEvent(){
-        if(/*this.store.getters.authenticated*/this.event.numberReserved=="0" || this.event.numberReserved==undefined){
-            axios.put("http://localhost:3000/api/evenements/".concat("0"),
+        if(this.$store.getters.authenticated){
+          var url1 = "http://localhost:3000/api/evenements/".concat(this.$route.params.id)
+          axios.put(url1,
             {
-            "nomEvenement" : this.event.nameEvent,
-            "duree" :this.event.durationEvent,
-            "dateDebut" :this.event.start,
-            "dateLimiteRes" :this.event.lastDate,
-            "promo" : 2020
+              "nomEvenement" : this.event.nameEvent,
+              "dureeCreneau" :this.event.durationEvent,
+              "duree" : "",
+              "dateDebut" :this.event.start,
+              "dateLimiteRes" :this.event.lastDate,
+              "promo" : 2020
             }
-            )
-            .then(function(response){
+          )
+          .then(function(response){
             console.log(response);
-            }) 
-            .catch(function(error){
+          }) 
+          .catch(function(error){
             console.log(error);
-            })
+          })
         }
       },
       deleteEvent(){
-          alert("delete")
+          if(this.$store.getters.authenticated){
+          var url1 = "http://localhost:3000/api/evenements/".concat(this.$route.params.id)
+          axios.delete(url1)
+          .then(function(response){
+            console.log(response);
+          }) 
+          .catch(function(error){
+            console.log(error);
+          })
+        }
       },
       goToPlanning(){
-          alert("planning")
+          this.$router.push("/planning/"+this.$route.params.id)
       }
     },
     mounted(){

@@ -58,14 +58,28 @@ const routes = [
         meta: {requiresAuth: true, requiresAdmin: true}
     },
     {
-        path: '/eventinfo',
+        path: '/eventinfo/:id',
         name: 'EventInfo',
-        component: () => import('../components/eventInfoForm')
+        component: () => import('../components/eventInfoForm'),
+        /*params: {
+            idEvent: id,
+        }*/
     },
     {
-        path: '/creneaux',
+        path: '/creneaux/:id',
         name: 'DisplayCreneaux',
-        component: () => import('../components/infoCreneau')
+        component: () => import('../components/infoCreneau'),
+    },
+
+    {
+        path: '/signup',
+        name: 'Signup',
+        component: () => import('../components/SignUpForm')
+    },
+    {
+        path: '/myaccount',
+        name: 'MyAccount',
+        component: () => import('../components/MyAccountForm')
     },
     {
         path: '/forgotpassword',
