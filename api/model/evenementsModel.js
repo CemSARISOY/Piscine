@@ -29,16 +29,12 @@ Evenements.create = async (data) => {
                 date: data.creneaux[i].date,
                 heure: data.creneaux[i].heure,
                 salle: data.creneaux[i].salle,
-                jury: data.creneaux[i].jury,
                 idEvent: event.rows[0].numEvenement
             };
             const creneau = await pool.query(`INSERT INTO "Creneau" ("date","heureDebut","salle","idEvent") VALUES($1,$2,$3,$4) RETURNING *`
             , [creneauxData.date, creneauxData.heure, creneauxData.salle, creneauxData.idEvent]);
 
             if(creneau.rowCount == 0) throw "Erreur création du créneau";
-
-            const estJury = await pool.query(`INSERT INTO "Participer" ("idProf","idCreneau") VALUES ($1, $2) RETURNING *`, [creneauxData.jury, creneau.rows[0].idCreneau])
-            if(estJury.rowCount == 0) throw "Erreur affectation du jury";
         }
 
         await pool.query("COMMIT");
@@ -52,7 +48,22 @@ Evenements.create = async (data) => {
 
 // La clé étrangère des créneaux est en cascade, donc supprimer l'event supprimera aussi les créneaux et donc les affectations de jury
 Evenements.delete = async (id) => {
-    return await pool.query(`DELETE FROM "Evenement" WHERE "numEvenement" = ${ id } RETURNING *`);
+    try{
+        await pool.query("BEGIN")
+        
+        const event = await pool.query(`DELETE FROM "Evenement" WHERE "numEvenement" = ${ id } RETURNING *`);
+        await pool.query(`DELETE FROM "Groupe" WHERE "idGroupe" IN 
+            (SELECT gr."idGroupe" FROM "Groupe" as gr JOIN "Composer" as cp ON cp."idGroupe" = gr."idGroupe" 
+                                JOIN "Etudiants" as et ON et."numEtudiant" = cp."numEtudiant"
+                                WHERE et."promoEtudiant" = ${event.rows[0].promo})`)
+
+        await pool.query("COMMIT");
+        return event
+
+    }catch(err){
+        await pool.query("ROLLBACK");
+        throw err;
+    }
 }
 
 

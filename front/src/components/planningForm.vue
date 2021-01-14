@@ -368,6 +368,7 @@
             result = await axios.get("http://localhost:3000/api/evenements/"+this.$route.params.id+"/creneaux", {withCredentials: true
               });
             for(let i=0; i<result.data.length;i++){
+                let creneauDate = new Date(result.data[i].date)
                 let creneau = {
                   id: result.data[i].idCreneau,
                   title: result.data[i].salle, 
