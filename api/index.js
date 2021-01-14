@@ -34,6 +34,7 @@ const creneauxRoute = require("./routes/creneaux")
 const promosRoute = require("./routes/promos")
 const groupesRoute = require("./routes/groupes")
 
+
 app.use("/api/etudiants", etudiantsRoute)
 app.use("/api/evenements", evenementsRoute)
 app.use("/api/professeurs", professeursRoute)
