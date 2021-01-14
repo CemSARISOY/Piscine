@@ -48,7 +48,22 @@ Evenements.create = async (data) => {
 
 // La clé étrangère des créneaux est en cascade, donc supprimer l'event supprimera aussi les créneaux et donc les affectations de jury
 Evenements.delete = async (id) => {
-    return await pool.query(`DELETE FROM "Evenement" WHERE "numEvenement" = ${ id } RETURNING *`);
+    try{
+        await pool.query("BEGIN")
+        
+        const event = await pool.query(`DELETE FROM "Evenement" WHERE "numEvenement" = ${ id } RETURNING *`);
+        await pool.query(`DELETE FROM "Groupe" WHERE "idGroupe" IN 
+            (SELECT gr."idGroupe" FROM "Groupe" as gr JOIN "Composer" as cp ON cp."idGroupe" = gr."idGroupe" 
+                                JOIN "Etudiants" as et ON et."numEtudiant" = cp."numEtudiant"
+                                WHERE et."promoEtudiant" = ${event.rows[0].promo})`)
+
+        await pool.query("COMMIT");
+        return event
+
+    }catch(err){
+        await pool.query("ROLLBACK");
+        throw err;
+    }
 }
 
 
