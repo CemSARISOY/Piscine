@@ -71,6 +71,18 @@ const routes = [
         path: '/forgotpassword',
         name: 'ForgotPassword',
         component: ForgotPassword
+    },
+    {
+        path: '/promos',
+        name : 'ListePromos',
+        component: () => import('../views/Promos.vue'),
+        meta : {requiresAuth: true, requiresAdmin: true}
+    },
+    {
+        path: '/professeurs',
+        name : 'ListeProfs',
+        component: () => import('../views/Profs.vue'),
+        meta : {requiresAuth: true, requiresAdmin: true}
     }
 ]
 
