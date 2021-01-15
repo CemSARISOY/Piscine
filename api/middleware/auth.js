@@ -6,7 +6,6 @@ exports.isAuth = (req, res, next) => {
             let cookies = req.headers.cookie.split('=');
             const decodedToken = jwt.verify(cookies[1], process.env.RANDOMSECRETTOKEN)
             const userId = decodedToken.userId
-            console.log("test")
             if(req.body.userId && req.body.userId !== userId){
                 throw 'Invalid USER ID'
             }else{

@@ -3,33 +3,39 @@
         <b-form @submit.prevent="onSubmit">
             <b-form-group
                 id="input-group-1"
-                label="Numéro étudiant:"
+                label="Numéro étudiant"
                 label-for="input-1"
             >
                 <b-form-input
                 id="input-1"
                 v-model="form.numEtu"
                 type="text"
+                autocomplete="username"
                 required
-                placeholder="Numéro étudiant"
                 ></b-form-input>
             </b-form-group>
 
-            <b-form-group id="input-group-2" label="Mot de passe:" label-for="input-2">
+            <b-form-group id="input-group-2" label="Mot de passe" label-for="input-2">
                 <b-form-input
                 id="input-2"
                 type="password"
                 v-model="form.password"
+                autocomplete="current-password"
                 required
-                placeholder="Mot de passe"
                 ></b-form-input>
+                  <a id="mdpOublie" href="/forgotpassword" > Mot de passe oublié ?</a>
             </b-form-group>
+      
 
-
-        <b-button type="submit" variant="primary">Se connecter</b-button>
-        <p>
-          Pas encore inscrit ? <a href="/signup"> Cliquez ici </a>
-        </p>
+        <b-row align-v="center" class="text-center">
+          <b-col>
+            <a href="/signup"> Créer un compte </a><br>
+          </b-col>
+          <b-col>
+            <b-button type="submit" variant="primary">Se connecter</b-button>
+          </b-col>
+        </b-row>
+        
         </b-form>
 
     </div>
@@ -69,7 +75,10 @@ export default {
 
 <style scoped>
     .form{
-        width:50%;
+        width:70%;
         margin:auto
+    }
+    #mdpOublie{
+        font-size: 0.75rem;
     }
 </style>
