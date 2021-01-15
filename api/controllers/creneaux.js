@@ -70,8 +70,8 @@ exports.updateCreneaux = async (req, res) => {
 
 exports.getJurys = async (req, res) => {
     try{
-        let data = req.body;
-        const result = await Creneaux.selectJurys(data, req.params.idCreneau);
+        //let data = req.body;
+        const result = await Creneaux.selectJurys(req.params.idCreneau);
         if(result.rowCount > 0){
             res.status(200).json(result.rows)
         }else{
@@ -99,13 +99,13 @@ exports.setJurys = async (req, res) => {
     try{
         const data = req.body.jurys
         const result = await Creneaux.setJurys(req.params.idCreneau, data)
-        if(result.rowCount > 0){
-            res.status(201).json(result.rows)
+        if(result.length > 0){
+            res.status(201).json(result)
         }else{
             res.status(400).json({message : "Erreur d'affectation de jury"})
         }
     }catch(err){
-        res.status(500).json({message : err.message});
+        res.status(500).json({message : err});
     }
 
 }
