@@ -70,8 +70,8 @@ exports.updateCreneaux = async (req, res) => {
 
 exports.getJurys = async (req, res) => {
     try{
-        let data = req.body;
-        const result = await Creneaux.selectJurys(data, req.params.idCreneau);
+        //let data = req.body;
+        const result = await Creneaux.selectJurys(req.params.idCreneau);
         if(result.rowCount > 0){
             res.status(200).json(result.rows)
         }else{

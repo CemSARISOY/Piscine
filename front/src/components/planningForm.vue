@@ -58,26 +58,19 @@
               </b-form-input>
             </b-form-group>
             <label for="promo-selector">Sélectionner le(s) professeur(s)</label>
-            <!--b-form-group
-              label="Nom jury(s)"
-              label-for="jury-input"
-              invalid-feedback="Un jury est requis !"
-              :state="juryState"
-            -->
               <b-form-select 
                 v-model="form.jurySelected" 
                 :options="form.juryOptions" 
                 multiple :select-size="4"
               >
               </b-form-select>
-            <!--/b-form-group-->
           </form>
         </b-modal>
         <b-modal 
           ref="modal-scoped"
           title="Voulez-vous vraiment supprimer ce creneau ?"
         >
-          <p>creneau selectionné : {{ String(datecreneau) }} à {{ String(heurecreneau) }}  + {{ String(boxTwo) }}</p>
+          <p>creneau selectionné : {{ String(datecreneau) }} à {{ String(heurecreneau) }}</p>
           <div>
             <b-button @click="showMsgBoxTwo" variant="danger">Supprimer 
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
@@ -180,7 +173,7 @@
           ],
           eventColor: '#378006',
           weekends: false, // initial value as you want it or not 
-          slotMinTime: "00:00",
+          slotMinTime: "08:00",
           slotMaxTime:"20:30",
           selectable: true,//initial value for selecting or not 
           locale: initialLocaleCode,
@@ -235,7 +228,6 @@
                 }).catch(function(){
                     console.log("Erreur de modification")
                 })
-                console.log(this.form.juryOptions.text) 
           }
           else{
             console.log(this.calendarOptions.date)
@@ -243,7 +235,8 @@
                   }).then(response =>{
                       axios.post("http://localhost:3000/api/creneaux/"+response.data.idCreneau+"/jurys",{jurys:this.form.jurySelected}, {withCredentials: true
                         }).then(response =>{
-                            //this.$router.go()//pour actualiser
+                            this.$router.go()//pour actualiser
+                            //console.log(this.form.jurySelected)
                         }).catch(function(error){
                             console.log(error.response)
                         })
@@ -290,8 +283,8 @@
           this.datecreneau = (arg.event.start.toLocaleDateString())
           this.heurecreneau = (arg.event.start.toLocaleTimeString())
           //if (this.boxTwo == true){
-              console.log(this.idcreneau)
-              arg.event.remove()
+              //console.log(this.idcreneau)
+              //arg.event.remove()
           //}
           
         }
@@ -359,6 +352,7 @@
             console.log("r")
             result = await axios.get("http://localhost:3000/api/evenements/"+this.$route.params.id+"/creneaux", {withCredentials: true
               });
+            let tabtemp = []
             for(let i=0; i<result.data.length;i++){
                 let h = result.data[i].heureDebut.split(":")[0]
                 let d = Number((result.data[i].date.split("T")[0]).split("-")[2])
@@ -370,30 +364,31 @@
                 if (d<10){
                   d = "0"+d
                 }
-
+                let profbyCreneau = await axios.get("http://localhost:3000/api/creneaux/"+result.data[i].idCreneau+"/jurys",{jurys:this.form.jurySelected}, {withCredentials: true
+                  });
                 let creneau = {
                   id: result.data[i].idCreneau,
                   title: result.data[i].salle, 
                   //date: result.data[i].date,08:00:00
                   start: (result.data[i].date.split("T")[0]).split("-")[0]+"-"+(result.data[i].date.split("T")[0]).split("-")[1]+"-"+d+"T"+h+":"+result.data[i].heureDebut.split(":")[1]+":"+result.data[i].heureDebut.split(":")[2]+"Z",
+                  color:"#ff3300"
                   }
                 this.calendarOptions.events.push(creneau)
-                console.log(creneau.start)
+                for(let j=0; j<profbyCreneau.data.length;j++){
+                  creneau.title += " "+ profbyCreneau.data[j].nomProf + " " +profbyCreneau.data[j].prenomProf
+                  console.log(creneau)
+                }
+                let colorevent = ['#0066ff','#ff3399','#ff6600','#669900','#cc6600','#9900cc','#006600','#006666','#cc00ff','#990033','#002b80']
+                  creneau.color = colorevent[i]
 
-                // let tabtemp = []
-                // let colorevent = ['green','purple','red','blue','yellow','brown']
-                // for (let i=0; i< result.data.length;i++){
-                //   let s = (creneau.title)
-                //   if (!tabtemp.includes(s)){
-                //     tabtemp.push(s)
-                //   }
-                // }
-                // console.log(tabtemp)
-                // for(let c = 0; c<colorevent.length;c++){
-                //   creneau.color = colorevent[c]
-                // }
-
+                let s = creneau.title.split(" ")[0] 
+                  if (!tabtemp.includes(s)){
+                    tabtemp.push(s)
+                  }
+                // if (creneau.title.split(" ")[0] == tabtemp[0])
+                //   creneau.color = colorevent[i]
             }
+            console.log(tabtemp)
             //console.log(result.data[0].date.split("T")[0]+"T"+result.data[0].heureDebut+"Z"+ " "+result.data[0].salle)
         }catch(err){
             console.log(err)
