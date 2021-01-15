@@ -164,11 +164,11 @@
           eventClick: this.handleEventClick,
           events: [
             //"EVENTS"
-            { title: 'event 1 \n' +'Prof: Mr Berry' + 'Salle : TD015', 
-            start: '2021-01-14T12:30:00Z',
-            //end:
-            display: 'background',
-            },
+            // { title: 'event 1 \n' +'Prof: Mr Berry' + 'Salle : TD015', 
+            // start: '2021-01-14T12:30:00Z',
+            // //end:
+            // display: 'background',
+            // },
             //{ title: 'event 2', date: '2021-01-07'}//display: 'background' }
           ],
           eventColor: '#378006',
