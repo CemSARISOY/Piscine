@@ -37,7 +37,7 @@ exports.createEtudiant = async (req, res) => {
                 expiresIn : '1d'
             })
 
-            const url = `http://localhost:8080/emailconfirmation/${emailToken}`;
+            const url = `https://projet-piscine-g3.herokuapp.com//emailconfirmation/${emailToken}`;
             //envoie mail
                         var transporter = nodemailer.createTransport({
                             service: 'gmail',
