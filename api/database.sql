@@ -5,7 +5,7 @@ CREATE TABLE public."Promo"
 );
 
 ALTER TABLE public."Promo"
-    OWNER to postgres;
+    OWNER to iowgoyzybtmeyo;
 
 CREATE TABLE public."Etudiants"
 (
@@ -26,7 +26,7 @@ CREATE TABLE public."Etudiants"
 );
 
 ALTER TABLE public."Etudiants"
-    OWNER to postgres;
+    OWNER to iowgoyzybtmeyo;
 	
 CREATE TABLE public."Professeurs"
 (
@@ -37,7 +37,7 @@ CREATE TABLE public."Professeurs"
 );
 
 ALTER TABLE public."Professeurs"
-    OWNER to postgres;
+    OWNER to iowgoyzybtmeyo;
 	
 CREATE TABLE public."Groupe"
 (
@@ -55,7 +55,7 @@ CREATE TABLE public."Groupe"
 );
 
 ALTER TABLE public."Groupe"
-    OWNER to postgres;
+    OWNER to iowgoyzybtmeyo;
 	
 CREATE TABLE public."Composer"
 (
@@ -75,7 +75,7 @@ CREATE TABLE public."Composer"
 );
 
 ALTER TABLE public."Composer"
-    OWNER to postgres;
+    OWNER to iowgoyzybtmeyo;
 	
 CREATE TABLE public."Evenement"
 (
@@ -95,7 +95,7 @@ CREATE TABLE public."Evenement"
 );
 
 ALTER TABLE public."Evenement"
-    OWNER to postgres;
+    OWNER to iowgoyzybtmeyo;
 	
 CREATE TABLE public."Creneau"
 (
@@ -119,7 +119,7 @@ CREATE TABLE public."Creneau"
 );
 
 ALTER TABLE public."Creneau"
-    OWNER to postgres;
+    OWNER to iowgoyzybtmeyo;
 	
 CREATE TABLE public."Participer"
 (
@@ -139,7 +139,7 @@ CREATE TABLE public."Participer"
 );
 
 ALTER TABLE public."Participer"
-    OWNER to postgres;
+    OWNER to iowgoyzybtmeyo;
 
 INSERT INTO public."Promo" ("anneePromo") VALUES (2020),(2019),(2018);
 
