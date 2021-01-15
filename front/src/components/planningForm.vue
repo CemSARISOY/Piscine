@@ -163,14 +163,9 @@
           dateClick: this.testClick,//dateClick,
           eventClick: this.handleEventClick,
           events: [
-            //"EVENTS"
-            // { title: 'event 1 \n' +'Prof: Mr Berry' + 'Salle : TD015', 
-            // start: '2021-01-14T12:30:00Z',
-            // //end:
-            // display: 'background',
-            // },
-            //{ title: 'event 2', date: '2021-01-07'}//display: 'background' }
           ],
+          //eventsObj: {},
+          //eventRender:"eventRender",
           eventColor: '#378006',
           weekends: false, // initial value as you want it or not 
           slotMinTime: "08:00",
@@ -339,7 +334,28 @@
           //     //this.boxTwo=""
           //   }
           //})
-      }
+      },
+      // eventRender(info){
+
+      //           //create our component instance
+      //           const event = new EventClass({
+      //               propsData: {
+      //                   event: info.event
+      //               }
+      //           })
+      //           event.$on('edit', this.edit)
+
+      //           event.$on('delete', this.delete)
+
+      //           event.$mount();
+
+      //           this.eventsObj[event._uid] = event;
+
+      //           //set data-vue="{id}"
+      //           //append our compiled component to .fc-event
+      //           info.el.setAttribute('data-vue-id', event._uid);
+      //           info.el.appendChild(event.$el)
+      // }
     }, 
     //get prof 
     async mounted(){

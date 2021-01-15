@@ -1,6 +1,8 @@
 <template>
   <div class=planning>
-    <h1> {{nomEvent}}</h1>
+    <center>
+      <h1> {{nomEvent}}</h1>
+    </center>
     <planning-form />
   </div>
 </template>
