@@ -1,0 +1,23 @@
+{
+  "name": "piscine",
+  "version": "1.0.0",
+  "description": "- cd api - npm install - ajouter les informations de la base de données dans le fichier .env",
+  "main": "index.js",
+  "dependencies": {
+    "concurrently": "^5.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CemSARISOY/Piscine.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CemSARISOY/Piscine/issues"
+  },
+  "homepage": "https://github.com/CemSARISOY/Piscine#readme"
+}
