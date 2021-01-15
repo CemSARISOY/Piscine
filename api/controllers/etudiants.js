@@ -37,32 +37,33 @@ exports.createEtudiant = async (req, res) => {
                 expiresIn : '1d'
             })
 
-            const url = `https://projet-piscine-g3.herokuapp.com//emailconfirmation/${emailToken}`;
+            const url = `https://projet-piscine-g3.herokuapp.com/emailconfirmation/${emailToken}`;
             //envoie mail
-                        var transporter = nodemailer.createTransport({
-                            service: 'gmail',
-                            auth: {
-                              user: process.env.MailThatSend,
-                              pass: process.env.PasswordToSend
-                            }
-                          });
-                          
-                          var mailOptions = {
-                            from: process.env.MailThatSend,
-                            to: req.body.mailEtudiant,
-                            subject: 'Confirmation du mail',
-                            text: 'Activez votre compte via ce lien :' + url +' . Vous avez un délai de 1 jour pour confirmer votre compte'
-                          };
-                          
-                          transporter.sendMail(mailOptions, function(error, info){
-                            if (error) {
-                              console.log(error);
-                            } else {
-                              console.log('Email sent: ' + info.response);
-                            }
-                          });
+            var transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: process.env.MailThatSend,
+                    pass: process.env.PasswordToSend
+                }
+                });
+                
+                var mailOptions = {
+                from: process.env.MailThatSend,
+                to: req.body.mailEtudiant,
+                subject: 'Confirmation du mail',
+                text: 'Activez votre compte via ce lien :' + url +' . Vous avez un délai de 1 jour pour confirmer votre compte'
+                };
+                
+                transporter.sendMail(mailOptions, function(error, info){
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log('Email sent: ' + info.response);
+                }
+                res.status(201).json(result.rows[0])
 
-            res.status(201).json(result.rows[0])
+                });
+
         }else{
             res.status(400).json({message : "Erreur de création"});
         }
