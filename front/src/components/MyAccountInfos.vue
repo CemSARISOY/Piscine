@@ -55,7 +55,7 @@
         if(this.$store.getters.authenticated){
 
             var etudiantInfo = this.$store.getters.userInfo
-            axios.get("http://localhost:3000/api/etudiants/"+etudiantInfo.numEtudiant, {withCredentials:true})
+            axios.get("https://projet-piscine-g3.herokuapp.com/api/etudiants/"+etudiantInfo.numEtudiant, {withCredentials:true})
             .then((response)=>{
                 this.numEtu = response.data.numEtudiant
                 this.prenom = response.data.prenomEtudiant

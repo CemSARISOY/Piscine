@@ -55,7 +55,7 @@ export default {
         }
     },
     mounted(){
-        axios.get("http://localhost:3000/api/professeurs", {withCredentials:true})
+        axios.get("https://projet-piscine-g3.herokuapp.com/api/professeurs", {withCredentials:true})
         .then( (response) => {
             for(let i = 0; i<response.data.length;i++){
                 console.log(response.Data)
@@ -67,7 +67,7 @@ export default {
         suppression(id){
             let result = confirm("Voulez vous vraiment supprimer l'étudiant de numéro : "+id+" ?")
             if(result){
-                axios.delete("http://localhost:3000/api/professeurs/"+id, {withCredentials:true}).then( () => {
+                axios.delete("https://projet-piscine-g3.herokuapp.com/api/professeurs/"+id, {withCredentials:true}).then( () => {
                     this.$router.go();
                 }).catch( (error) => {
                     this.makeToast(error.response.data.message)
@@ -85,7 +85,7 @@ export default {
             return this.profs.length
         },
         onSubmit(){
-            axios.post("http://localhost:3000/api/professeurs", {nomProf: this.nvNom, prenomProf: this.nvPrenom}, {withCredentials:true})
+            axios.post("https://projet-piscine-g3.herokuapp.com/api/professeurs", {nomProf: this.nvNom, prenomProf: this.nvPrenom}, {withCredentials:true})
             .then( () => {
                 this.$router.go();
             })

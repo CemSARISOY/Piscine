@@ -106,7 +106,7 @@
       getEventData(){
           if(this.$store.getters.authenticated){
             //var etudiantInfo = JSON.parse(this.$store.getters.userInfo)
-            var url1 = "http://localhost:3000/api/evenements/"
+            var url1 = "https://projet-piscine-g3.herokuapp.com/api/evenements/"
             url1 = url1.concat(this.$route.params.id)
             axios.get(url1).then((res) => {
               var eventDB = res.data
@@ -131,7 +131,7 @@
       },
       modifEvent(){
         if(this.$store.getters.authenticated){
-          var url1 = "http://localhost:3000/api/evenements/".concat(this.$route.params.id)
+          var url1 = "https://projet-piscine-g3.herokuapp.com/api/evenements/".concat(this.$route.params.id)
           axios.put(url1,
             {
               "nomEvenement" : this.event.nameEvent,
@@ -152,7 +152,7 @@
       },
       deleteEvent(){
           if(this.$store.getters.authenticated){
-          var url1 = "http://localhost:3000/api/evenements/".concat(this.$route.params.id)
+          var url1 = "https://projet-piscine-g3.herokuapp.com/api/evenements/".concat(this.$route.params.id)
           axios.delete(url1)
           .then(function(response){
             console.log(response);

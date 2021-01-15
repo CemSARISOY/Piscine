@@ -15,7 +15,7 @@ export default {
     },
     mounted() {
         if(this.connected){
-            axios.post("http://localhost:3000/api/etudiants/logout", {}, {withCredentials:true})
+            axios.post("https://projet-piscine-g3.herokuapp.com/api/etudiants/logout", {}, {withCredentials:true})
             .then( () => {
                 store.dispatch("disconnect")
             });

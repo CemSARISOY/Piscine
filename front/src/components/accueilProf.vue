@@ -49,7 +49,7 @@ export default {
         this.$store.getters.userInfo.isAdmin
       ) {
         axios
-          .get(`http://localhost:3000/api/evenements`, {withCredentials:true})
+          .get(`https://projet-piscine-g3.herokuapp.com/api/evenements`, {withCredentials:true})
           .then(response => {
             console.log(response.data)
             this.event.evenements = response.data;

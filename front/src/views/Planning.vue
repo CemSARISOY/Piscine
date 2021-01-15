@@ -16,7 +16,7 @@ export default {
   },
   async mounted(){
         try{
-            const result = await axios.get("http://localhost:3000/api/evenements/"+this.$route.params.id, {withCredentials: true
+            const result = await axios.get("https://projet-piscine-g3.herokuapp.com/api/evenements/"+this.$route.params.id, {withCredentials: true
               });
                 this.nomEvent = result.data.nomEvenement
         }catch(err){

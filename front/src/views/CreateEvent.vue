@@ -139,7 +139,7 @@ export default {
     },
     methods: {
         onSubmit(){
-            axios.get("http://localhost:3000/api/evenements", {withCredentials:true}).then ( (response) => {
+            axios.get("https://projet-piscine-g3.herokuapp.com/api/evenements", {withCredentials:true}).then ( (response) => {
                 let canCreate = true
                 for(let i=0; i<response.data.length ; i++){
                     if(response.data[0].promo == this.form.promo){
@@ -147,7 +147,7 @@ export default {
                     }
                 }
                 if(canCreate){
-                    axios.post("http://localhost:3000/api/evenements", {
+                    axios.post("https://projet-piscine-g3.herokuapp.com/api/evenements", {
                         promo: this.form.promo,
                         nomEvenement: this.form.nomEvenement,
                         dateDebut: new Date(this.form.date).toLocaleDateString(),

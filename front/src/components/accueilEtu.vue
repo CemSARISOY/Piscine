@@ -92,9 +92,9 @@ export default {
 
         var num = etudiantInfo.numEtudiant;
         this.form.num = etudiantInfo.numEtudiant;
-        axios.get("http://localhost:3000/api/etudiants/"+num+"/groupes", {withCredentials:true}).then( (response) => {
+        axios.get("https://projet-piscine-g3.herokuapp.com/api/etudiants/"+num+"/groupes", {withCredentials:true}).then( (response) => {
           this.idGroupe = response.data.idGroupe
-          axios.get("http://localhost:3000/api/groupes/"+this.idGroupe, {withCredentials:true}).then ( (grp) => {
+          axios.get("https://projet-piscine-g3.herokuapp.com/api/groupes/"+this.idGroupe, {withCredentials:true}).then ( (grp) => {
             this.grpInfo.tuteurGroupe = grp.data.tuteurGroupe
             this.grpInfo.nomTutEnt = grp.data.nomTutEnt
             this.grpInfo.prenomTutEnt = grp.data.prenomTutEnt
@@ -106,7 +106,7 @@ export default {
           console.log(error.response)
         })
         axios
-          .get(`http://localhost:3000/api/etudiants/${num}/evenements`,{withCredentials:true})
+          .get(`https://projet-piscine-g3.herokuapp.com/api/etudiants/${num}/evenements`,{withCredentials:true})
           .then(response => {
             this.form.numEvent = response.data[response.data.length - 1].numEvenement;
             this.form.nomEvent = response.data[response.data.length - 1].nomEvenement;
@@ -117,7 +117,7 @@ export default {
             this.form.dateFin = response.data[response.data.length - 1].duree + response.data[response.data.length - 1].dateDebut;
             axios
               .get(
-                `http://localhost:3000/api/evenements/${response.data[response.data.length - 1].numEvenement}/creneaux`, {withCredentials:true}
+                `https://projet-piscine-g3.herokuapp.com/api/evenements/${response.data[response.data.length - 1].numEvenement}/creneaux`, {withCredentials:true}
               )
               .then(response => {
                 for (let i = 0; i < response.data.length; i++) {

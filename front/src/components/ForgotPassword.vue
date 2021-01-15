@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     onSubmit() {
-      axios.post("http://localhost:3000/api/etudiants/pswd", {
+      axios.post("https://projet-piscine-g3.herokuapp.com/api/etudiants/pswd", {
         numEtudiant: this.form.numEtu,
         mailEtudiant: this.form.email})
         .then( result => {

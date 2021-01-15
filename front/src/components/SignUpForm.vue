@@ -138,7 +138,7 @@
       creerCompte(){
       if(this.handlePassword()){
         
-        axios.post("http://localhost:3000/api/etudiants/",
+        axios.post("https://projet-piscine-g3.herokuapp.com/api/etudiants/",
         {
           "numEtudiant" : this.form.numEtu,
           "nomEtudiant" :this.form.nom,

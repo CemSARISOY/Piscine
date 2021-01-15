@@ -80,19 +80,19 @@ export default {
         }
     },
     mounted(){
-        axios.get("http://localhost:3000/api/promos/2020/etudiants", {withCredentials:true})
+        axios.get("https://projet-piscine-g3.herokuapp.com/api/promos/2020/etudiants", {withCredentials:true})
         .then( (response) => {
             for(let i = 0; i<response.data.length;i++){
                 this.IG3.push({numEtudiant : response.data[i].numEtudiant, nomEtudiant : response.data[i].nomEtudiant, prenomEtudiant : response.data[i].prenomEtudiant})
             }
         });
-        axios.get("http://localhost:3000/api/promos/2019/etudiants", {withCredentials:true})
+        axios.get("https://projet-piscine-g3.herokuapp.com/api/promos/2019/etudiants", {withCredentials:true})
         .then( (response) => {
             for(let i = 0; i<response.data.length;i++){
                 this.IG4.push({numEtudiant : response.data[i].numEtudiant, nomEtudiant : response.data[i].nomEtudiant, prenomEtudiant : response.data[i].prenomEtudiant})
             }
         });
-        axios.get("http://localhost:3000/api/promos/2018/etudiants", {withCredentials:true})
+        axios.get("https://projet-piscine-g3.herokuapp.com/api/promos/2018/etudiants", {withCredentials:true})
         .then( (response) => {
             for(let i = 0; i<response.data.length;i++){
                 this.IG5.push({numEtudiant : response.data[i].numEtudiant, nomEtudiant : response.data[i].nomEtudiant, prenomEtudiant : response.data[i].prenomEtudiant})
@@ -103,7 +103,7 @@ export default {
         suppression(id){
             let result = confirm("Voulez vous vraiment supprimer l'étudiant de numéro : "+id+" ?")
             if(result){
-                axios.delete("http://localhost:3000/api/etudiants/"+id, {withCredentials:true}).then( () => {
+                axios.delete("https://projet-piscine-g3.herokuapp.com/api/etudiants/"+id, {withCredentials:true}).then( () => {
                     this.$router.go();
                 }).catch( (error) => {
                     this.makeToast(error.response.data.message)

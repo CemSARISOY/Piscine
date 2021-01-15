@@ -54,11 +54,11 @@
           /*if(this.$store.getters.authenticated){
             //var etudiantInfo = JSON.parse(this.$store.getters.userInfo)
             try{
-              var url1 = "http://localhost:3000/api/creneaux/"
+              var url1 = "https://projet-piscine-g3.herokuapp.com/api/creneaux/"
               axios.get(url1).then((res) => {
               for(let i=0; i<res.data.length;i++){
                 let creneau={}
-                await axios.get("http://localhost:3000/api/evenements/"+res.data[i].idEvent).then((resultat)=>{
+                await axios.get("https://projet-piscine-g3.herokuapp.com/api/evenements/"+res.data[i].idEvent).then((resultat)=>{
                   creneau={
                     id:res.data[i].idCreneau,
                     heure:res.data[i].heureDebut,
@@ -78,7 +78,7 @@
       },
       modifCreneau(info){
         if(this.$store.getters.authenticated){
-          const url1 = "http://localhost:3000/api/creneaux/"+info.event.id
+          const url1 = "https://projet-piscine-g3.herokuapp.com/api/creneaux/"+info.event.id
           axios.get(url1).then((res)=>{
             let dateToFormat = new Date(res.data.date)
             if(res.data.idGroupe==null){
@@ -100,14 +100,14 @@
                 const prenomTutEnt = prompt("Veuillez entrer le PRENOM de votre tuteur entreprise :")
                 const nomEntreprise = prompt("Veuillez entrer le nom de votre entreprise")
                 if(numEtud3) etuds.push(numEtud3)
-                  axios.post("http://localhost:3000/api/groupes/", {
+                  axios.post("https://projet-piscine-g3.herokuapp.com/api/groupes/", {
                     tuteurGroupe: tuteurGroupe,
                     nomTutEnt : nomTutEnt,
                     prenomTutEnt: prenomTutEnt,
                     nomEntreprise: nomEntreprise,
                     etudiants : etuds
                   }, {withCredentials:true}).then( (response) => {
-                    axios.put("http://localhost:3000/api/creneaux/"+info.event.id,{
+                    axios.put("https://projet-piscine-g3.herokuapp.com/api/creneaux/"+info.event.id,{
                     idGroupe:response.data.idGroupe,
                     }).then((res)=>{
                       alert(JSON.stringify(res.data))
@@ -132,10 +132,10 @@
         if(this.$store.getters.authenticated){
           //var etudiantInfo = JSON.parse(this.$store.getters.userInfo)
           try{
-            const url1 = "http://localhost:3000/api/evenements/"+this.$route.params.id+"/creneaux/"
+            const url1 = "https://projet-piscine-g3.herokuapp.com/api/evenements/"+this.$route.params.id+"/creneaux/"
             let res = await axios.get(url1)
             for(let i=0; i<res.data.length;i++){
-              let getTitle = await axios.get("http://localhost:3000/api/evenements/"+this.$route.params.id)
+              let getTitle = await axios.get("https://projet-piscine-g3.herokuapp.com/api/evenements/"+this.$route.params.id)
               let dateHeure = new Date(res.data[i].date).setHours(res.data[i].heureDebut.split(':')[0], res.data[i].heureDebut.split(':')[1], res.data[i].heureDebut.split(':')[2])
               let creneau={
                 id:res.data[i].idCreneau,

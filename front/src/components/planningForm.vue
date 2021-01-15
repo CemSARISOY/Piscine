@@ -217,7 +217,7 @@
           if (this.boolModif){
             console.log(this.idcreneau)
             console.log(this.calendarOptions.heures)
-            axios.put("http://localhost:3000/api/creneaux/"+this.idcreneau ,{heureDebut:this.calendarOptions.heures, salle:this.salle}, {withCredentials: true
+            axios.put("https://projet-piscine-g3.herokuapp.com/api/creneaux/"+this.idcreneau ,{heureDebut:this.calendarOptions.heures, salle:this.salle}, {withCredentials: true
                 }).then(response =>{
                     this.$router.go()//pour actualiser
                 }).catch(function(){
@@ -226,9 +226,9 @@
           }
           else{
             console.log(this.calendarOptions.date)
-            axios.post("http://localhost:3000/api/creneaux",{date:this.calendarOptions.date, heureDebut:this.calendarOptions.heures, salle:this.salle, idEvent:this.$route.params.id}, {withCredentials: true
+            axios.post("https://projet-piscine-g3.herokuapp.com/api/creneaux",{date:this.calendarOptions.date, heureDebut:this.calendarOptions.heures, salle:this.salle, idEvent:this.$route.params.id}, {withCredentials: true
                   }).then(response =>{
-                      axios.post("http://localhost:3000/api/creneaux/"+response.data.idCreneau+"/jurys",{jurys:this.form.jurySelected}, {withCredentials: true
+                      axios.post("https://projet-piscine-g3.herokuapp.com/api/creneaux/"+response.data.idCreneau+"/jurys",{jurys:this.form.jurySelected}, {withCredentials: true
                         }).then(response =>{
                             this.$router.go()//pour actualiser
                             //console.log(this.form.jurySelected)
@@ -286,7 +286,7 @@
         this.dateCreneau = arg.event.start
         
         //console.log(this.value)
-        // axios.delete("http://localhost:3000/api/creneaux/",{date:this.calendarOptions.date, heureDebut:this.calendarOptions.heures, salle:this.salle, idEvent:this.$route.params.id}, {withCredentials: true
+        // axios.delete("https://projet-piscine-g3.herokuapp.com/api/creneaux/",{date:this.calendarOptions.date, heureDebut:this.calendarOptions.heures, salle:this.salle, idEvent:this.$route.params.id}, {withCredentials: true
         //         }).then(response =>{
                     
         //             this.$router.go()//pour actualiser
@@ -312,7 +312,7 @@
             if (this.boxTwo == true){
               this.$bvModal.hide('modal-scoped')
               console.log(this.idcreneau)
-              axios.delete("http://localhost:3000/api/creneaux/"+this.idcreneau, {withCredentials: true
+              axios.delete("https://projet-piscine-g3.herokuapp.com/api/creneaux/"+this.idcreneau, {withCredentials: true
                       }).then(response =>{
                     
                           this.$router.go()//pour actualiser
@@ -360,13 +360,13 @@
     //get prof 
     async mounted(){
         try{
-            let result = await axios.get("http://localhost:3000/api/professeurs", {withCredentials: true})
+            let result = await axios.get("https://projet-piscine-g3.herokuapp.com/api/professeurs", {withCredentials: true})
             for(let i=0; i<result.data.length;i++){
                 let option = {value: result.data[i].idProf, text: result.data[i].nomProf + " " + result.data[i].prenomProf}
                 this.form.juryOptions.push(option)
             }
             console.log("r")
-            result = await axios.get("http://localhost:3000/api/evenements/"+this.$route.params.id+"/creneaux", {withCredentials: true
+            result = await axios.get("https://projet-piscine-g3.herokuapp.com/api/evenements/"+this.$route.params.id+"/creneaux", {withCredentials: true
               });
             let tabtemp = []
             for(let i=0; i<result.data.length;i++){
@@ -380,7 +380,7 @@
                 if (d<10){
                   d = "0"+d
                 }
-                let profbyCreneau = await axios.get("http://localhost:3000/api/creneaux/"+result.data[i].idCreneau+"/jurys",{jurys:this.form.jurySelected}, {withCredentials: true
+                let profbyCreneau = await axios.get("https://projet-piscine-g3.herokuapp.com/api/creneaux/"+result.data[i].idCreneau+"/jurys",{jurys:this.form.jurySelected}, {withCredentials: true
                   });
                 let creneau = {
                   id: result.data[i].idCreneau,

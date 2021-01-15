@@ -14,7 +14,7 @@ export default {
   },
   methods: {
     confirmMail() {
-      axios.post(`http://localhost:3000/api/etudiants/confirmation/${this.$route.params.token}`)
+      axios.post(`https://projet-piscine-g3.herokuapp.com/api/etudiants/confirmation/${this.$route.params.token}`)
         .then( result => {
           console.log(result.data.success)
           this.$router.push("/")

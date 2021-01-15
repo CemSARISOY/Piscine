@@ -107,7 +107,7 @@
         if(this.$store.getters.authenticated){
 
             var etudiantInfo = this.$store.getters.userInfo
-            axios.get("http://localhost:3000/api/etudiants/"+etudiantInfo.numEtudiant, {withCredentials:true})
+            axios.get("https://projet-piscine-g3.herokuapp.com/api/etudiants/"+etudiantInfo.numEtudiant, {withCredentials:true})
             .then((response)=>{
               console.log(response.data)
                 this.form.numEtu = response.data.numEtudiant
@@ -137,7 +137,7 @@
       
       modifCompte(){
         if(this.$store.getters.authenticated){
-          axios.put("http://localhost:3000/api/etudiants/"+this.form.numEtu,
+          axios.put("https://projet-piscine-g3.herokuapp.com/api/etudiants/"+this.form.numEtu,
           {
             "nomEtudiant" :this.form.nom,
             "prenomEtudiant" :this.form.prenom,

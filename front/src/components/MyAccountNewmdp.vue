@@ -98,7 +98,7 @@
       modifCompte(){
         if(this.$store.getters.authenticated){
             var etudiantInfo = this.$store.getters.userInfo
-          axios.put("http://localhost:3000/api/etudiants/"+etudiantInfo.numEtudiant,
+          axios.put("https://projet-piscine-g3.herokuapp.com/api/etudiants/"+etudiantInfo.numEtudiant,
           {
             "mdpEtudiant" :this.nvMdp,
             "mdpConfirm" : this.confirmMdp
