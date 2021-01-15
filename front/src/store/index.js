@@ -38,7 +38,7 @@ export default new Vuex.Store({
     actions: {
         verifyToken(context){
             return new Promise( (resolve) => {
-                axios.post("https://localhost:3000/api/etudiants/token", {},{withCredentials:true})
+                axios.post("https://projet-piscine-g3.herokuapp.com:3000/api/etudiants/token", {},{withCredentials:true})
                 .then( result => {
                     if(result.data.success){
                         context.commit("CONNECT", result.data.success)
