@@ -11,7 +11,7 @@ const path = require("path")
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '../front/build')))
+app.use(express.static(path.join(__dirname, '../front/dist')))
 
 const corsSettings= {
     origin:true,
