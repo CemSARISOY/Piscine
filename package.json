@@ -1,6 +1,9 @@
 {
   "name": "piscine",
   "version": "1.0.0",
+  "engines":{
+    "node": "12.x"
+  },
   "description": "- cd api - npm install - ajouter les informations de la base de données dans le fichier .env",
   "main": "index.js",
   "dependencies": {
