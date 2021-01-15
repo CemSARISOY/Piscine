@@ -46,7 +46,7 @@ app.use("/api/promos", promosRoute)
 app.use("/api/groupes", groupesRoute)
 
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname + '/../front/build/index.html'))
+    res.sendFile(path.join(__dirname + '/../front/dist/index.html'))
 })
 // Server
 const port = process.env.PORT || 3000
