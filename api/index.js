@@ -6,10 +6,12 @@ const session = require("express-session")
 const cookieParser = require("cookie-parser")
 require('dotenv/config');
 const app = express();
+const path = require("path")
 
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());
+app.use(express.static(path.join(__dirname, '../front/build')))
 
 const corsSettings= {
     origin:true,
@@ -24,6 +26,7 @@ app.use( (req, res, next) => {
     res.setHeader("Access-Control-Allow-Credentials", true);
     next();
 })
+
 
 
 // Import routes
@@ -42,7 +45,9 @@ app.use("/api/creneaux", creneauxRoute)
 app.use("/api/promos", promosRoute)
 app.use("/api/groupes", groupesRoute)
 
-
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname + '/../front/build/index.html'))
+})
 // Server
 const port = process.env.PORT || 3000
 app.listen(port, () => {
