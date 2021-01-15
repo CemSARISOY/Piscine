@@ -13,7 +13,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cd api && npm install &&npm run start",
-    "heroku-postbuild":"cd front && ./script.sh"
+    "heroku-postbuild":"cd front && npm install —only=dev && npm install && npm run build"
   },
   "repository": {
     "type": "git",
